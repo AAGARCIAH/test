@@ -1,0 +1,137 @@
+﻿
+
+.notice_box_red {
+    background-color: #DB3056;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+    padding: 10px 15px 10px 40px;
+    width: 100%;
+    border-radius: 35px;
+    color: #FFF;
+    position: relative;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+    animation: pulsebg 2s infinite;
+    box-shadow: 1px 1px 5px #DB3056;
+    margin: 20px auto;
+    width: 400px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+    .notice_box_red a:after {
+        content: "";
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 30;
+    }
+
+    .notice_box_red h4 {
+        font-size: 1.3rem;
+        margin: 10px 0;
+    }
+
+    .notice_box_red svg {
+        width: 5em;
+        height: auto;
+        position: absolute;
+        top: -20px;
+        left: -20px;
+    }
+
+        .notice_box_red svg path:nth-child(1) {
+            fill: #851D41;
+        }
+
+        .notice_box_red svg path:nth-child(2), .notice_box_red svg circle {
+            fill: #FFF;
+        }
+
+@keyframes pulsebg {
+    0% {
+        transform: scale(1.0, 1.0);
+        -moz-box-shadow: 0 0 0 0 inherit;
+        box-shadow: 0 0 0 0 inherit;
+    }
+
+    10% {
+        transform: scale(1.1, 1.1);
+    }
+
+    15% {
+        transform: scale(1.0, 1.0);
+    }
+
+    70% {
+        -moz-box-shadow: 0 0 0 15px rgba(0,0,0, 0);
+        box-shadow: 0 0 0 15px rgba(0,0,0, 0);
+    }
+
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(0,0,0, 0);
+        box-shadow: 0 0 0 0 rgba(0,0,0, 0);
+    }
+}
+
+
+.circle-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin: 10px;
+}
+
+.icon {
+    position: absolute;
+    color: #fff;
+    font-size: 55px;
+    top: 55px;
+    left: 55px;
+    transform: translate(-50%, -50%);
+}
+
+.circle {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    padding: 2.5px;
+    background-clip: content-box;
+    animation: spin 10s linear infinite;
+}
+
+.circle-wrapper:active .circle {
+    animation: spin 2s linear infinite;
+}
+
+.success {
+    background-color: #4BB543;
+    border: 2.5px dashed #4BB543;
+}
+
+.error {
+    background-color: #CA0B00;
+    border: 2.5px dashed #CA0B00;
+}
+
+.warning {
+    background-color: #F0D500;
+    border: 2.5px dashed #F0D500;
+}
+
+ spin {
+    
+        transform: rotateZ(360deg);
+    }
+
+
+.page-wrapper {
+    height: 100vh;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

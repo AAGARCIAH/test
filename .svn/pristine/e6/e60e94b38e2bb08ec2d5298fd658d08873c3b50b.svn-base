@@ -1,0 +1,1837 @@
+﻿@model PentaFinances.ViewModels.AgregarProveedoresVm
+
+<script type="text/javascript">
+    var proveedora = ["idProveedorGnrlA", "DescripcionA", "TiempoEntregaA"];
+    var proveedorb = ["idProveedorGnrlB", "DescripcionB", "TiempoEntregaB"];
+    var proveedorc = ["idProveedorGnrlC", "DescripcionC", "TiempoEntregaC"];
+
+    //var proveedorb = ["ProveedorB", "AsignadoB", "DescripcionB", "PrecioB", "TipoMonedaB", "IvaB"
+    //    , "TiempoEntregaB", "PermiteCreditoB", "TiempoCreditoB", "DocumentoCotizacionB"];
+
+    //var proveedorc = ["ProveedorC", "AsignadoC", "DescripcionC", "PrecioC", "TipoMonedaC", "IvaC"
+    //    , "TiempoEntregaC", "PermiteCreditoC", "TiempoCreditoC", "DocumentoCotizacionC"];
+
+    var msjerror = ["Campaña", "Departamento", "Usuario Final", "Email de Usuario Final", "Detalle de Solicitud", "Unidad", "Objetivo de Solicitud", "Impacto"];
+    $(document).ready(function() {
+        //START DOCUMENT
+        var estadoid = '@ViewBag.EstadoId';
+        //-------------------------------------------------------------------
+
+        //--------------------------------ANTICIPO---------------------------
+        $("#PorcentajeAnticipoA").attr("readonly", true);
+        $("#PorcentajeAnticipoB").attr("readonly", true);
+        $("#PorcentajeAnticipoC").attr("readonly", true);
+
+
+        if ($("#PorcentajeAnticipoA").val() != 0) {
+            $("#AnticipoA").prop('checked', true);
+        }
+        if ($("#PorcentajeAnticipoB").val() != 0) {
+            $("#AnticipoB").prop('checked', true);
+        }
+        if ($("#PorcentajeAnticipoC").val() != 0) {
+            $("#AnticipoC").prop('checked', true);
+        }
+
+        //-------------------------------------------------------------------
+        //VALIDAR SI EL SUBTOTAL EN MONEDA MXN DEL PROVEEDOR A ESTA ASIGNADO
+        $("#rdpamxm").change(function () {
+            if (this.checked && $("#AsignadoA").is(':checked')) {
+
+                var precioa = $("#PrecioA").val();
+
+                if (precioa > 10000) {
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "block");
+                    } else {
+                        $("#aprobar").css("display", "block");
+                        $("#solicitarapr").css("display", "none");
+                    }
+            }
+        });
+
+        //VALIDAR SI EL SUBTOTAL EN MONEDA USD DEL PROVEEDOR A ESTA ASIGNADO
+        $("#rdpausd").change(function () {
+            if (this.checked && $("#AsignadoA").is(':checked')) {
+                var precioa = $("#PrecioA").val();
+                if (precioa > 480) {
+                    $("#aprobar").css("display", "none");
+                    $("#solicitarapr").css("display", "block");
+                } else {
+                    $("#aprobar").css("display", "block");
+                    $("#solicitarapr").css("display", "none");
+                }
+
+            }
+        });
+
+        //VALIDAR SI EL SUBTOTAL EN MONEDA MXN DEL PROVEEDOR B ESTA ASIGNADO
+        $("#rdpbmxm").change(function () {
+            if (this.checked && $("#AsignadoB").is(':checked')) {
+
+                var preciob = $("#PrecioA").val();
+
+                if (preciob > 10000) {
+                    $("#aprobar").css("display", "none");
+                    $("#solicitarapr").css("display", "block");
+                } else {
+                    $("#aprobar").css("display", "block");
+                    $("#solicitarapr").css("display", "none");
+                }
+            }
+        });
+
+        //VALIDAR SI EL SUBTOTAL EN MONEDA USD DEL PROVEEDOR B ESTA ASIGNADO
+        $("#rdpbusd").change(function () {
+            if (this.checked && $("#AsignadoB").is(':checked')) {
+                var preciob = $("#PrecioA").val();
+                if (preciob > 480) {
+                    $("#aprobar").css("display", "none");
+                    $("#solicitarapr").css("display", "block");
+                } else {
+                    $("#aprobar").css("display", "block");
+                    $("#solicitarapr").css("display", "none");
+                }
+
+            }
+        });
+
+        //VALIDAR SI EL SUBTOTAL EN MONEDA MXN DEL PROVEEDOR C ESTA ASIGNADO
+        $("#rdpcmxm").change(function () {
+            if (this.checked && $("#AsignadoC").is(':checked')) {
+
+                var precioc = $("#PrecioA").val();
+
+                if (precioc > 10000) {
+                    $("#aprobar").css("display", "none");
+                    $("#solicitarapr").css("display", "block");
+                } else {
+                    $("#aprobar").css("display", "block");
+                    $("#solicitarapr").css("display", "none");
+                }
+            }
+        });
+
+        //VALIDAR SI EL SUBTOTAL EN MONEDA USD DEL PROVEEDOR C ESTA ASIGNADO
+        $("#rdpcusd").change(function () {
+            if (this.checked && $("#AsignadoC").is(':checked')) {
+                var precioc = $("#PrecioA").val();
+                if (precioc > 480) {
+                    $("#aprobar").css("display", "none");
+                    $("#solicitarapr").css("display", "block");
+                } else {
+                    $("#aprobar").css("display", "block");
+                    $("#solicitarapr").css("display", "none");
+                }
+
+            }
+        });
+
+        if ($("#AsignadoA").is(':checked')) {
+
+            var precioai = $("#PrecioA").val();
+            if (precioai > 10000) {
+                $("#aprobar").css("display", "none");
+                $("#solicitarapr").css("display", "block");
+            }
+        }
+
+        if ($("#AsignadoB").is(':checked')) {
+
+            var preciobi =  $("#PrecioB").val();
+            if (preciobi > 10000) {
+                $("#aprobar").css("display", "none");
+                $("#solicitarapr").css("display", "block");
+            }
+        }
+
+        if ($("#AsignadoC").is(':checked')) {
+
+            var precioci = $("#PrecioC").val();
+            if (precioci > 10000) {
+                $("#aprobar").css("display", "none");
+                $("#solicitarapr").css("display", "block");
+            }
+        }
+
+
+        if ($("#PermiteCreditoA").is(':checked')) {
+            $("#TiempoCreditoA").removeAttr("disabled");
+        } else {
+            $("#TiempoCreditoA").attr("disabled","disabled");
+        }
+
+        if ($("#PermiteCreditoB").is(':checked')) {
+            $("#TiempoCreditoB").removeAttr("disabled");
+        } else {
+            $("#TiempoCreditoB").attr("disabled", "disabled");
+        }
+
+        if ($("#PermiteCreditoC").is(':checked')) {
+            $("#TiempoCreditoC").removeAttr("disabled");
+        } else {
+            $("#TiempoCreditoC").attr("disabled", "disabled");
+        }
+
+        //--------------------------------------ANTICIPO PROVEEDOR----------------------------------------------------
+        $("#AnticipoA").change(function () {
+            if ($("#AnticipoA").is(':checked')) {
+                $("#PorcentajeAnticipoA").removeAttr("readonly");
+            } else {
+                $("#PorcentajeAnticipoA").attr("readonly", true);
+            }
+        });
+        //---------------------
+        $("#AnticipoB").change(function () {
+            if ($("#AnticipoB").is(':checked')) {
+                $("#PorcentajeAnticipoB").removeAttr("readonly");
+            } else {
+                $("#PorcentajeAnticipoB").attr("readonly", true);
+            }
+        });
+        //---------------------
+        $("#AnticipoC").change(function () {
+            if ($("#AnticipoC").is(':checked')) {
+                $("#PorcentajeAnticipoC").removeAttr("readonly");
+            } else {
+                $("#PorcentajeAnticipoC").attr("readonly", true);
+            }
+        });
+         //---------------------
+        $("#PorcentajeAnticipoA").on("blur", function () {
+            if (parseInt($("#PorcentajeAnticipoA").val()) > 100) {
+            alert("El porcentaje no debe exceder el 100%");
+                $("#PorcentajeAnticipoA").val("");
+            }
+        });
+         //---------------------
+        $("#PorcentajeAnticipoB").on("blur", function () {
+            if (parseInt($("#PorcentajeAnticipoB").val()) > 100) {
+                alert("El porcentaje no debe exceder el 100%");
+                $("#PorcentajeAnticipoB").val("");
+            }
+        });
+        $("#PorcentajeAnticipoC").on("blur", function () {
+            if (parseInt($("#PorcentajeAnticipoC").val()) > 100) {
+                alert("El porcentaje no debe exceder el 100%");
+                $("#PorcentajeAnticipoC").val("");
+            }
+        });
+        //--------------------------------------------------------------------------------------------------------------
+        //$("#btnasigna").removeAttr("onclick");
+
+        $("#AsignadoA").change(function() {
+            if (this.checked) {
+                $("#AsignadoB").removeAttr('checked');
+                $("#AsignadoC").removeAttr('checked');
+
+                var tipomoneda = $('input[name=TipoMonedaA]:checked').val();
+                //alert(tipomoneda);
+
+                var precioa = $("#PrecioA").val();
+
+                if (tipomoneda === "MXN") {
+                    if (precioa > 10000) {
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "block");
+                    } else {
+                        $("#aprobar").css("display", "block");
+                        $("#solicitarapr").css("display", "none");
+                    }
+                }
+
+                if (tipomoneda === "USD") {
+                    if (precioa > 480) {
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "block");
+                    } else {
+                        $("#aprobar").css("display", "block");
+                        $("#solicitarapr").css("display", "none");
+                    }
+                }
+                //var precioa = $("#PrecioA").val();
+
+            }
+        });
+
+        $("#AsignadoB").change(function() {
+            if (this.checked) {
+                $("#AsignadoA").removeAttr('checked');
+                $("#AsignadoC").removeAttr('checked');
+
+                var tipomoneda = $('input[name=TipoMonedaB]:checked').val();
+                //alert(tipomoneda);
+
+                var preciob = $("#PrecioB").val();
+
+                if (tipomoneda === "MXN") {
+                    if (preciob > 10000) {
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "block");
+                    } else {
+                        $("#aprobar").css("display", "block");
+                        $("#solicitarapr").css("display", "none");
+                    }
+                }
+
+                if (tipomoneda === "USD") {
+                    if (preciob > 480) {
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "block");
+                    } else {
+                        $("#aprobar").css("display", "block");
+                        $("#solicitarapr").css("display", "none");
+                    }
+                }
+
+            }
+        });
+
+        $("#AsignadoC").change(function() {
+            if (this.checked) {
+                $("#AsignadoB").removeAttr('checked');
+                $("#AsignadoA").removeAttr('checked');
+
+                var tipomoneda = $('input[name=TipoMonedaC]:checked').val();
+                //alert(tipomoneda);
+
+                var precioc = $("#PrecioC").val();
+                //alert(precioc);
+                if (tipomoneda === "MXN") {
+                    if (precioc > 10000) {
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "block");
+                    } else {
+                        $("#aprobar").css("display", "block");
+                        $("#solicitarapr").css("display", "none");
+                    }
+                }
+
+                if (tipomoneda === "USD") {
+                    if (precioc > 480) {
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "block");
+                    } else {
+                        $("#aprobar").css("display", "block");
+                        $("#solicitarapr").css("display", "none");
+                    }
+                }
+            }
+        });
+
+        $("#PermiteCreditoA").change(function () {
+            if (this.checked) {
+                $("#TiempoCreditoA").removeAttr("disabled");
+
+            } else {
+                $("#TiempoCreditoA").val("0");
+                $("#TiempoCreditoA").attr("disabled","disabled");
+            }
+        });
+
+        $("#PermiteCreditoB").change(function () {
+            if (this.checked) {
+                $("#TiempoCreditoB").removeAttr("disabled");
+
+            } else {
+                $("#TiempoCreditoB").val("0");
+                $("#TiempoCreditoB").attr("disabled", "disabled");
+            }
+        });
+
+        $("#PermiteCreditoC").change(function () {
+            if (this.checked) {
+                $("#TiempoCreditoC").removeAttr("disabled");
+
+            } else {
+                $("#TiempoCreditoC").val("0");
+                $("#TiempoCreditoC").attr("disabled", "disabled");
+            }
+        });
+        //---------------------------------------------------------
+        $("#btn_Add").click(function () {
+
+            $('#modalAddProveedor').modal('show');
+        });
+        //---------------------------------------------------------
+        $("#btn_addProveedor").click(function () {
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveCatProveedor", "Compras")',
+            dataType: 'json',
+            data: {
+                nomEmpresa: $("#Empresa").val(),
+                nomProveedor: $("#Proveedor").val(),
+                nomPeriocidad: $("#Periodicidad").val()
+            },
+            success: function (result) {
+                window.location.reload();
+            }
+        });
+        });
+
+    }); //END DOCUMENT
+
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    function ValidarProvA() {
+
+        for (var i = 0; i < proveedora.length; i++) {
+            if ($("#" + proveedora[i]).val().length > 0) {
+                return 1;
+            }
+       }
+
+        return 0;
+
+    }
+
+    function ValidarProvB() {
+        for (var i = 0; i < proveedorb.length; i++) {
+            if ($("#" + proveedorb[i]).val().length > 0) {
+                return 2;
+            }
+        }
+
+        return 0;
+
+    }
+
+    function ValidarProvC() {
+        for (var i = 0; i < proveedorc.length; i++) {
+            if ($("#" + proveedorc[i]).val().length > 0) {
+                return 3;
+            }
+        }
+
+        return 0;
+
+    }
+
+
+    function GuardarProveedores() {
+
+        var msjenviado = 0;
+
+        var validarA = 0;
+        var validarB = 0;
+        var validarC = 0;
+
+        var infoprovA = 0;
+        var infoprovB = 0;
+        var infoprovC = 0;
+
+        var prova = ValidarProvA();
+        var provb = ValidarProvB();
+        var provc = ValidarProvC();
+
+        var proveedoresaevaluar;
+
+        if (prova > 0) {
+            validarA = 1;
+        }
+
+        if (provb > 0) {
+            validarB = 1;
+        }
+
+        if (provc > 0) {
+            validarC = 1;
+        }
+
+        if (validarA===0 && validarB===0 && validarC===0) {
+            alert("Es necesario EDITAR al menos un Proveedor");
+        }
+
+        //VALIDACIÓN DE INFORMACIÓN PROVEEDOR A
+        if (validarA === 1) {
+            //QUITAR BORDES DE LOS TEXTBOX
+            $("#ProveedorA").css("border", "none");
+            $("#DescripcionA").css("border", "none");
+            $("#PrecioA").css("border", "none");
+            //$("#IvaA").css("border", "none");
+            $("#TiempoEntregaA").css("border", "none");
+            $("#TiempoCreditoA").css("border", "none");
+
+
+            if ($("#ProveedorA").val() === "") {
+                $("#ProveedorA").css("border-color", "red");
+                $("#ProveedorA").focus();
+                alert("El Nombre del Proveedor A es Obligatorio");
+                msjenviado = 1;
+            } else {
+                if ($("#DescripcionA").val() === "") {
+                    $("#DescripcionA").css("border-color", "red");
+                    $("#DescripcionA").focus();
+                    alert("La Descripción del Proveedor A es Obligatorio");
+                    msjenviado = 1;
+                } else {
+                    var pricea = $("#PrecioA").val();
+                    if (Number(pricea) === 0) {
+                        $("#PrecioA").css("border-color", "red");
+                        $("#PrecioA").focus();
+                        alert("El Precio del Proveedor A es debe ser mayor a 0");
+                        msjenviado = 1;
+                    } else {
+                        //alert();
+                        //if ($("#TipoMonedaA").val()==="") {
+                        if ($("#rdpamxm").is(":not(':checked')") && $("#rdpausd").is(":not(':checked')")) {
+                            $("#rdpamxm").focus();
+                            alert("Debe seleccionar un Tipo de Moneda para el Proveedor A");
+                            msjenviado = 1;
+                        } else {
+                            if ($("#TiempoEntregaA").val() === "") {
+                                $("#TiempoEntregaA").css("border-color", "red");
+                                $("#TiempoEntregaA").focus();
+                                alert("El campo de Tiempo de Entrega del Proveedor A es Obligatorio");
+                                msjenviado = 1;
+                            //var ivapa = $("#IvaA").val();
+                            //if (Number(ivapa) > 100) {
+                            //    $("#IvaA").css("border-color", "red");
+                            //    $("#IvaA").focus();
+                            //    alert("El Porcentaje de IVA debe ser entre 0 y 100");
+                            //    msjenviado = 1;
+                            } else {
+                                if ($("#PermiteCreditoA").prop("checked")) {
+                                    var tmpcreda = $("#TiempoCreditoA").val();
+                                    if ($("#TiempoCreditoA").val() !== "" && Number(tmpcreda) !== 0) {
+                                        infoprovA = 1;
+                                    } else {
+                                        if ($("#TiempoCreditoA").val() === "") {
+                                            $("#TiempoCreditoA").css("border-color", "red");
+                                            $("#TiempoCreditoA").focus();
+                                            alert("Indicar Tiempo de Crédito para el Proveedor A");
+                                            msjenviado = 1;
+                                        }
+                                        if (Number(tmpcreda) === 0) {
+                                            $("#TiempoCreditoA").css("border-color", "red");
+                                            $("#TiempoCreditoA").focus();
+                                            alert("El Tiempo de Crédito para el Proveedor A tiene que ser mayor a 0");
+                                            msjenviado = 1;
+                                        }
+                                    }
+
+
+                                } else {
+                                    infoprovA = 1;
+                                }
+                                //if ($("#TiempoEntregaA").val() === "") {
+                                //    $("#TiempoEntregaA").css("border-color", "red");
+                                //    $("#TiempoEntregaA").focus();
+                                //    alert("El campo de Tiempo de Entrega del Proveedor A es Obligatorio");
+                                //    msjenviado = 1;
+                                } //else {
+                                    //if ($("#PermiteCreditoA").prop("checked")) {
+                                    //    var tmpcreda = $("#TiempoCreditoA").val();
+                                    //    if ($("#TiempoCreditoA").val() !== "" && Number(tmpcreda) !== 0) {
+                                    //        infoprovA = 1;
+                                    //    } else {
+                                    //        if ($("#TiempoCreditoA").val() === "") {
+                                    //            $("#TiempoCreditoA").css("border-color", "red");
+                                    //            $("#TiempoCreditoA").focus();
+                                    //            alert("Indicar Tiempo de Crédito para el Proveedor A");
+                                    //            msjenviado = 1;
+                                    //        }
+                                    //        if (Number(tmpcreda) === 0) {
+                                    //            $("#TiempoCreditoA").css("border-color", "red");
+                                    //            $("#TiempoCreditoA").focus();
+                                    //            alert("El Tiempo de Crédito para el Proveedor A tiene que ser mayor a 0");
+                                    //            msjenviado = 1;
+                                    //        }
+                                    //    }
+
+
+                                    //} else {
+                                    //    infoprovA = 1;
+                                    //}
+
+                               //}
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+
+        //VALIDACIÓN DE INFORMACIÓN PROVEEDOR B
+        if (validarB === 1) {
+            //QUITAR BORDES DE LOS TEXTBOX
+            $("#ProveedorB").css("border", "none");
+            $("#DescripcionB").css("border", "none");
+            $("#PrecioB").css("border", "none");
+            $("#IvaB").css("border", "none");
+            $("#TiempoEntregaB").css("border", "none");
+            $("#TiempoCreditoB").css("border", "none");
+
+            if ($("#ProveedorB").val() === "") {
+                if (msjenviado === 0) {
+                    $("#ProveedorB").css("border-color", "red");
+                    $("#ProveedorB").focus();
+                    alert("El Nombre del Proveedor B es Obligatorio");
+                    msjenviado = 1;
+                }
+
+            } else {
+                if ($("#DescripcionB").val() === "") {
+                    if (msjenviado === 0) {
+                        $("#DescripcionB").css("border-color", "red");
+                        $("#DescripcionB").focus();
+                        alert("La Descripción del Proveedor B es Obligatorio");
+                        msjenviado = 1;
+                    }
+
+                } else {
+                    var priceb = $("#PrecioB").val();
+                    if (Number(priceb) === 0) {
+                        if (msjenviado === 0) {
+                            $("#PrecioB").css("border-color", "red");
+                            $("#PrecioB").focus();
+                            alert("El Precio del Proveedor B es debe ser mayor a 0");
+                            msjenviado = 1;
+                        }
+                   } else {
+
+                        if ($("#rdpbmxm").is(":not(':checked')") && $("#rdpbusd").is(":not(':checked')")) {
+                            if (msjenviado === 0) {
+                                alert("Debe seleccionar un Tipo de Moneda para el Proveedor B");
+                                msjenviado = 1;
+                            }
+
+                        } else {
+                           if ($("#TiempoEntregaB").val() === "") {
+                                if (msjenviado === 0) {
+                                    $("#TiempoEntregaB").css("border-color", "red");
+                                    $("#TiempoEntregaB").focus();
+                                    alert("El campo de Tiempo de Entrega del Proveedor B es Obligatorio");
+                                    msjenviado = 1;
+                                }
+
+                           }
+                           //var ivapb = $("#IvaB").val();
+                            //if (Number(ivapb) > 100) {
+                            //    if (msjenviado === 0) {
+                            //        $("#IvaB").css("border-color", "red");
+                            //        $("#IvaB").focus();
+                            //        alert("El Porcentaje de IVA del Proveedor B debe ser entre 0 y 100");
+                            //        msjenviado = 1;
+                            //    }
+
+                        //}
+                            else {
+                                if ($("#PermiteCreditoB").prop("checked")) {
+                                    var tmpcredb = $("#TiempoCreditoB").val();
+                                    if ($("#TiempoCreditoB").val() !== "" && Number(tmpcredb) !== 0) {
+                                        infoprovB = 1;
+                                    } else {
+                                        if ($("#TiempoCreditoB").val() === "") {
+                                            if (msjenviado === 0) {
+                                                $("#TiempoCreditoB").css("border-color", "red");
+                                                $("#TiempoCreditoB").focus();
+                                                alert("Indicar Tiempo de Crédito para el Proveedor B");
+                                                msjenviado = 1;
+                                            }
+                                        }
+                                        if (Number(tmpcredb) === 0) {
+                                            if (msjenviado === 0) {
+                                                $("#TiempoCreditoB").css("border-color", "red");
+                                                $("#TiempoCreditoB").focus();
+                                                alert("El Tiempo de Crédito para el Proveedor B tiene que ser mayor a 0");
+                                                msjenviado = 1;
+                                            }
+                                        }
+                                    }
+
+                                } else {
+                                    infoprovB = 1;
+                                }
+                                //if ($("#TiempoEntregaB").val() === "") {
+                                //    if (msjenviado === 0) {
+                                //        $("#TiempoEntregaB").css("border-color", "red");
+                                //        $("#TiempoEntregaB").focus();
+                                //        alert("El campo de Tiempo de Entrega del Proveedor B es Obligatorio");
+                                //        msjenviado = 1;
+                                //    }
+
+                                //}
+                                //else {
+                                //    if ($("#PermiteCreditoB").prop("checked")) {
+                                //        var tmpcredb = $("#TiempoCreditoB").val();
+                                //        if ($("#TiempoCreditoB").val() !== "" && Number(tmpcredb) !== 0) {
+                                //            infoprovB = 1;
+                                //        } else {
+                                //            if ($("#TiempoCreditoB").val() === "") {
+                                //                if (msjenviado === 0) {
+                                //                $("#TiempoCreditoB").css("border-color", "red");
+                                //                $("#TiempoCreditoB").focus();
+                                //                alert("Indicar Tiempo de Crédito para el Proveedor B");
+                                //                msjenviado = 1;
+                                //                    }
+                                //            }
+                                //            if (Number(tmpcredb) === 0) {
+                                //                if (msjenviado === 0) {
+                                //                $("#TiempoCreditoB").css("border-color", "red");
+                                //                $("#TiempoCreditoB").focus();
+                                //                alert("El Tiempo de Crédito para el Proveedor B tiene que ser mayor a 0");
+                                //                msjenviado = 1;
+                                //                    }
+                                //            }
+                                //        }
+
+                                //    } else {
+                                //        infoprovB = 1;
+                                //    }
+
+                                //}
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+
+        //VALIDACIÓN DE INFORMACIÓN PROVEEDOR C
+        if (validarC === 1) {
+            //QUITAR BORDES DE LOS TEXTBOX
+            $("#ProveedorC").css("border", "none");
+            $("#DescripcionC").css("border", "none");
+            $("#PrecioC").css("border", "none");
+            $("#IvaC").css("border", "none");
+            $("#TiempoEntregaC").css("border", "none");
+            $("#TiempoCreditoC").css("border", "none");
+
+            if ($("#ProveedorC").val() === "") {
+                if (msjenviado === 0) {
+                    $("#ProveedorC").css("border-color", "red");
+                    $("#ProveedorC").focus();
+                    alert("El Nombre del Proveedor C es Obligatorio");
+                    msjenviado = 1;
+                }
+            } else {
+                if ($("#DescripcionC").val() === "") {
+                    if (msjenviado === 0) {
+                        $("#DescripcionC").css("border-color", "red");
+                        $("#DescripcionC").focus();
+                        alert("La Descripción del Proveedor C es Obligatorio");
+                        msjenviado = 1;
+                    }
+                } else {
+                    var pricec = $("#PrecioC").val();
+                    if (Number(pricec) === 0) {
+                        if (msjenviado === 0) {
+                            $("#PrecioC").css("border-color", "red");
+                            $("#PrecioC").focus();
+                            alert("El Precio del Proveedor C es debe ser mayor a 0");
+                            msjenviado = 1;
+                        }
+                    } else {
+
+                        if ($("#rdpcmxm").is(":not(':checked')") && $("#rdpcusd").is(":not(':checked')")) {
+                            if (msjenviado === 0) {
+                                alert("Debe seleccionar un Tipo de Moneda para el Proveedor C");
+                                msjenviado = 1;
+                            }
+                        } else {
+                            if ($("#TiempoEntregaC").val() === "") {
+                                if (msjenviado === 0) {
+                                    $("#TiempoEntregaC").css("border-color", "red");
+                                    $("#TiempoEntregaC").focus();
+                                    alert("El campo de Tiempo de Entrega del Proveedor C es Obligatorio");
+                                    msjenviado = 1;
+                                }
+                            }
+                            //var ivapc = $("#IvaC").val();
+                            //if (Number(ivapc) > 100) {
+                            //    if (msjenviado === 0) {
+                            //        $("#IvaC").css("border-color", "red");
+                            //        $("#IvaC").focus();
+                            //        alert("El Porcentaje de IVA del Proveedor C debe ser entre 0 y 100");
+                            //        msjenviado = 1;
+                            //    }
+                        //}
+                            else {
+                                if ($("#PermiteCreditoC").prop("checked")) {
+                                    var tmpcredc = $("#TiempoCreditoC").val();
+                                    if ($("#TiempoCreditoC").val() !== "" && Number(tmpcredc) !== 0) {
+                                        infoprovC = 1;
+                                    } else {
+                                        if ($("#TiempoCreditoC").val() === "") {
+                                            if (msjenviado === 0) {
+                                                $("#TiempoCreditoC").css("border-color", "red");
+                                                $("#TiempoCreditoC").focus();
+                                                alert("Indicar Tiempo de Crédito para el Proveedor C");
+                                                msjenviado = 1;
+                                            }
+                                        }
+                                        if (Number(tmpcredc) === 0) {
+                                            if (msjenviado === 0) {
+                                                $("#TiempoCreditoC").css("border-color", "red");
+                                                $("#TiempoCreditoC").focus();
+                                                alert("El Tiempo de Crédito para el Proveedor C tiene que ser mayor a 0");
+                                                msjenviado = 1;
+                                            }
+                                        }
+                                    }
+
+                                } else {
+                                    infoprovC = 1;
+                                }
+                                //if ($("#TiempoEntregaC").val() === "") {
+                                //    if (msjenviado === 0) {
+                                //        $("#TiempoEntregaC").css("border-color", "red");
+                                //        $("#TiempoEntregaC").focus();
+                                //        alert("El campo de Tiempo de Entrega del Proveedor C es Obligatorio");
+                                //        msjenviado = 1;
+                                //    }
+                                //}
+                                //else {
+                                //    if ($("#PermiteCreditoC").prop("checked")) {
+                                //        var tmpcredc = $("#TiempoCreditoC").val();
+                                //        if ($("#TiempoCreditoC").val() !== "" && Number(tmpcredc) !== 0) {
+                                //            infoprovC = 1;
+                                //        } else {
+                                //            if ($("#TiempoCreditoC").val() === "") {
+                                //                if (msjenviado === 0) {
+                                //                $("#TiempoCreditoC").css("border-color", "red");
+                                //                $("#TiempoCreditoC").focus();
+                                //                alert("Indicar Tiempo de Crédito para el Proveedor C");
+                                //                msjenviado = 1;
+                                //                    }
+                                //            }
+                                //            if (Number(tmpcredc) === 0) {
+                                //                if (msjenviado === 0) {
+                                //                $("#TiempoCreditoC").css("border-color", "red");
+                                //                $("#TiempoCreditoC").focus();
+                                //                alert("El Tiempo de Crédito para el Proveedor C tiene que ser mayor a 0");
+                                //                msjenviado = 1;
+                                //                    }
+                                //            }
+                                //        }
+
+                                //    } else {
+                                //        infoprovC = 1;
+                                //    }
+
+                                //}
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+
+
+        proveedoresaevaluar = validarA + validarB + validarC;
+        //alert(proveedoresaevaluar);
+
+        if (proveedoresaevaluar === 3) {
+            if (infoprovA === 1 && infoprovB === 1 && infoprovC === 1) {
+                if ($("#AsignadoA").prop("checked") ||
+                    $("#AsignadoB").prop("checked") ||
+                    $("#AsignadoC").prop("checked")) {
+                    //alert("Insertar registro");
+                    $("#Gifload").css("display", "block");
+                    $("#aprobar").css("display", "none");
+                    $("#solicitarapr").css("display", "none");
+                    SaveProveedores();
+                } else {
+                    $("#AsignadoA").focus();
+                    alert("Es Obligatorio Asignar un Proveedor");
+                }
+            } else {
+                //alert("Nada");
+            }
+        }
+
+        if (proveedoresaevaluar === 2) {
+            if ((validarA + validarB) === 2) {
+                if (infoprovA === 1 && infoprovB === 1) {
+                    if ($("#AsignadoA").prop("checked") ||
+                        $("#AsignadoB").prop("checked")) {
+                        //alert("Insertar registro");
+                        $("#Gifload").css("display", "block");
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "none");
+                        SaveProveedores();
+                    } else {
+                        $("#AsignadoA").focus();
+                        alert("Es Obligatorio Asignar un Proveedor");
+                    }
+                } else {
+                    //alert("NAda");
+                }
+            }
+
+            if ((validarA + validarC) === 2) {
+                if (infoprovA === 1 && infoprovC === 1) {
+                    if ($("#AsignadoA").prop("checked") ||
+                        $("#AsignadoC").prop("checked")) {
+                        //alert("Insertar registro");
+                        $("#Gifload").css("display", "block");
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "none");
+                        SaveProveedores();
+                    } else {
+                        $("#AsignadoA").focus();
+                        alert("Es Obligatorio Asignar un Proveedor");
+                    }
+                } else {
+                    //alert("Nada");
+                }
+            }
+
+            if ((validarB + validarC) === 2) {
+                if (infoprovB === 1 && infoprovC === 1) {
+                    if ($("#AsignadoB").prop("checked") ||
+                        $("#AsignadoC").prop("checked")) {
+                        //alert("Insertar registro");
+                        $("#Gifload").css("display", "block");
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "none");
+                        SaveProveedores();
+                    } else {
+                        $("#AsignadoA").focus();
+                        alert("Es Obligatorio Asignar un Proveedor");
+                    }
+                } else {
+                    //alert("Nada");
+                }
+            }
+        }
+
+
+        if (proveedoresaevaluar === 1) {
+            if (validarA === 1) {
+                if (infoprovA === 1) {
+                    if ($("#AsignadoA").prop("checked")) {
+                        //alert("Insertar Registro");
+                        $("#Gifload").css("display", "block");
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "none");
+                        SaveProveedores();
+                    } else {
+                        $("#AsignadoA").focus();
+                        alert("Es Obligatorio Asignar un Proveedor");
+                    }
+                } else {
+                    //alert("Nada");
+                }
+            }
+
+            if (validarB === 1) {
+                if (infoprovB === 1) {
+                    if ($("#AsignadoB").prop("checked")) {
+                        //alert("Insertar Registro");
+                        $("#Gifload").css("display", "block");
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "none");
+                        SaveProveedores();
+                    } else {
+                        $("#AsignadoA").focus();
+                        alert("Es Obligatorio Asignar un Proveedor");
+                    }
+                } else {
+                    //alert("Nada");
+                }
+            }
+
+            if (validarC === 1) {
+                if (infoprovC === 1) {
+                    if ($("#AsignadoC").prop("checked")) {
+                        //alert("Insertar Registro");
+                        $("#Gifload").css("display", "block");
+                        $("#aprobar").css("display", "none");
+                        $("#solicitarapr").css("display", "none");
+                        SaveProveedores();
+                    } else {
+                        $("#AsignadoA").focus();
+                        alert("Es Obligatorio Asignar un Proveedor");
+                    }
+                } else {
+                    //alert("Nada");
+                }
+            }
+        }
+
+
+
+        /*var formProveedores = $("#formProveedores");
+
+        $.ajax({
+            url: '../Compras/SaveProveedores',
+            type: "POST",
+            data: formProveedores.serialize(),
+            success: function (res) {
+
+                alert("Guardado con Éxito");
+                $("#aprobar").css("display", "none");
+                $("#solicitarapr").css("display", "none");
+                $("#cerrar").css("display", "block");
+
+                $("#alertaok").css("display", "block");
+                $("#alertaok").fadeOut(2000);
+                //$("#modalMovi").modal('toggle');
+
+
+            },
+            error: function (err) {
+                alert(err);
+
+            }
+        });*/
+
+
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function SaveProveedores() {
+        var formProveedores = $("#formProveedores");
+
+        $.ajax({
+            url: '../Compras/SaveProveedores',
+            type: "POST",
+            data: formProveedores.serialize(),
+            success: function (res) {
+
+                alert("Guardado con Éxito");
+                $("#Gifload").css("display", "none");
+                $("#aprobar").css("display", "none");
+                $("#solicitarapr").css("display", "none");
+                $("#cerrar").css("display", "block");
+
+                $("#alertaok").css("display", "block");
+                $("#alertaok").fadeOut(2000);
+                //$("#modalMovi").modal('toggle');
+
+
+            },
+            error: function (err) {
+                alert(err);
+
+            }
+        });
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function validanum(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros
+        patron = /[0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // JUST NUMBERS AND  POINT
+    var nav4 = window.Event ? true : false;
+    function valida(evt) {
+        // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
+        var key = nav4 ? evt.which : evt.keyCode;
+        return (key <= 13 || (key >= 48 && key <= 57) || key === 46);
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function UpCotizacion(tipo) {
+        $("#resultadoCarga").text("");
+        $("#Gif" + tipo).css("display", "block");
+
+        if (window.FormData !== undefined) {
+            var fileUpload = $("#file" + tipo).get(0);
+            var files = fileUpload.files;
+            if (files.length === 0) {
+                alert("Debe Seleccionar un Archivo");
+                return;
+            }
+            var $btn = $(this);
+            $btn.button('loading');
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+
+            }
+            fileData.append("Folio", $("#Folio").val());
+            fileData.append("Tipo", tipo);
+            $.ajax({
+                url: '@Url.Action("UpCotizacion","Docs")',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (res) {
+                    if (res === 'Error') {
+                        alert("El archivo cargado es invalido");
+                        $btn.button('reset');
+                        return;
+                    }
+                    $("#Gif" + tipo).css("display", "none");
+                    $("#Ok" + tipo).css("display", "block");
+                    $("#DocumentoCotizacion" + tipo).val(res);
+
+
+                },
+                error: function (err) {
+                    //$btn.button('reset');
+                    alert(err.statusText);
+                }
+            }).complete(function () {
+                console.log("Complete");
+                $btn.button('reset');
+            });;
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ShowCotizacion(tipo) {
+        var folio = $("#Folio").val();
+
+        $.ajax({
+            url: "@Url.Action("GetCotizacion","Docs")",
+            type: "POST",
+            data: {
+                folio: folio,
+                tipo: tipo
+            },
+            success: function (data) {
+                if (data === 'Error') {
+                    $("#errorTxt").text('Archivo no encontrado, contacte con su administrador');
+
+                } else {
+
+                    window.open(data, 'popup_window', 'status=1,width=700,height=500,scrollbars=1');
+                    //$("#modViewEvidencia").modal("show");
+                }
+
+            }
+        });
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    //function GuardaProveedorAsignado() {
+    //    var form = $("#formAsgProveedor");
+
+    //    $.ajax({
+    //        url: '../Compras/GuardaAsignacionProveedor',
+    //        type: "POST",
+    //        data: form.serialize(),
+    //        success: function(res) {
+    //            alert("Exito");
+
+    //            //$("#okvalidamovi").css("display", "block");
+    //            //$("#okvalidamovi").fadeOut(2000);
+    //            //$("#modalMovi").modal('toggle');
+
+
+    //        },
+    //        error: function(err) {
+    //            alert(err);
+
+    //        }
+    //    });
+    //}
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function validaAut(tipo) {
+        var p = $("#Precio" + tipo).val();
+        if (p > 10000) {
+            $("#aprobar").css("display", "none");
+            $("#solicitarapr").css("display", "block");
+        } else {
+            $("#aprobar").css("display", "block");
+            $("#solicitarapr").css("display", "none");
+        }
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+   function downloadComprobante() {
+       var folio = $("#Folio").val();
+        $.ajax({
+            url: "@Url.Action("GetComprobante", "Docs")",
+            type: "POST",
+            data: {
+                folio: folio
+            },
+            success: function (data) {
+                if (data === 'Error') {
+                    $("#errorTxt").text('Archivo no encontrado, contacte con su administrador');
+
+                } else {
+
+                    window.open(data, 'popup_window', 'status=1,width=700,height=500,scrollbars=1');
+                    //$("#modViewEvidencia").modal("show");
+                }
+
+            }
+        });
+    }
+    function ActualizarProv() {
+        $("#Actualizar").val(1);
+        SaveProveedores();
+    }
+</script>
+
+<style type="text/css">
+    hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 1em 0;
+        padding: 0;
+       }
+</style>
+
+@*<link href="~/Content/CSS/CargaDocumentos.css" rel="stylesheet" />*@
+
+<div class="container-fluid">
+    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formProveedores" }))
+    {
+        @Html.HiddenFor(m => m.Folio, new { id = "Folio" })
+        @Html.HiddenFor(m => m.IdProveedorA)
+        @Html.HiddenFor(m => m.IdProveedorB)
+        @Html.HiddenFor(m => m.IdProveedorC)
+        @Html.HiddenFor(m => m.Actualizar)
+
+        <div class="row small">
+            <div class="form-group col-md-12">
+                @*<label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new { style = "display: inline-block" })
+                    <br/>
+                    <br/>*@
+
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 5%;"><b>Folio</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 10%;">@Html.DisplayFor(m => m.Folio)</td>
+                        <td style="text-align: right; width: 8%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">@Html.DisplayFor(m => m.Solicitante)</td>
+                        <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+                        <td style="text-align: right; width: 5%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 10%;">@ViewBag.Campana</td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;">@Html.DisplayFor(m => m.UsuarioFinal)</td>
+                        <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;">@Html.DisplayFor(m => m.EmailUsuarioFinal)</td>
+                        <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;">@ViewBag.Depto</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row small">
+            <div class="form-group col-md-12">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="text-align: center; width: 7%;"><b>Tipo de solicitud:</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 5%;"> @Html.DisplayFor(m => m.Tiposolicitud)</td>
+
+                        <td style="text-align: right; width: 10%;"><b>Detalle de la Solicitud</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 20%;"> @Html.DisplayFor(m => m.DetalledeSolicitud)</td>
+                    </tr>
+                </table>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-info" onclick="downloadComprobante();">
+                        Comprobante de Pago
+                    </button>
+                </div>
+                <hr />
+            </div>
+        </div>
+
+        if (ViewBag.Recurrente == "SI")
+        {
+            <div class="row small">
+                <div class="form-group col-md-12">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: left; width: 100%;"><h4>Solicitud Recurrente <small>Se aprobará en automático</small></h4></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        }
+        @*Proveedor A*@
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Proveedor A</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 45%;">
+                            @Html.DropDownListFor(m => m.idProveedorGnrlA, new SelectList(ViewBag.CatProveedores, "Id", "Nombre"), "SELECCIONE",
+                           new { @class = "form-control", @style = "max-width:100% !important;" })
+                            @Html.DisplayFor(m => m.ProveedorA, new { @class = "form-control" })
+                            @*@Html.TextBoxFor(m => m.ProveedorA, new { @class = "form-control" })*@
+                        </td>
+                        <td style="position: relative; top: -20px; width: 7%; text-align:center">
+                            <button type="button" id="btn_Add" class="btn" style="background-color: transparent !important; box-shadow: none; border: none; ">
+                                +
+                            </button>
+                        </td>
+                        <td style="text-align: right; width: 10%;"><b>Asignado</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.CheckBoxFor(m => m.AsignadoA
+                            , new
+                                 {
+                                     style = "width: 70%; display: inline-block;",
+                                @class = "form-control input-sm"
+                                 })
+                        </td>
+                        @*<td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.Asigna
+                            doA, (SelectList) @ViewBag.ListaSiNo,"SELECCIONE"
+                            , new {id = "asignadoA", style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})</td>*@
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Descripción</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.DescripcionA
+                                , new { @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.PrecioA
+                                , new { style = "width: 50%; display: inline-block", @class = "form-control", onkeypress = "return valida(event)" })
+                            <label style="display: inline-block;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>MXN</b> @Html.RadioButtonFor(m => m.TipoMonedaA, "MXN"
+                               , new { id = "rdpamxm", style = "display: inline-block;" })
+                            </label>
+                            <label style="display: inline-block;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>USD</b> @Html.RadioButtonFor(m => m.TipoMonedaA, "USD"
+                               , new { id = "rdpausd", style = "display: inline-block;" })
+                            </label>
+                        </td>
+                        <td style="text-align: right;"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 20%;">
+                            @Html.TextBoxFor(m => m.IvaA
+                                , new { style = "width: 20%;", @class = "form-control", onkeypress = "" })
+                            &nbsp;
+                            @Html.RadioButtonFor(m => m.IncluyeIva, 1) Excento de I.V.A
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Tiempo de Entrega (Días)</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.TiempoEntregaA
+                                , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;">
+                            <b>Crédito</b>&nbsp;&nbsp;<br />
+                            <b>¿Anticipo?</b>&nbsp;&nbsp;<br />
+
+                        </td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.CheckBoxFor(m => m.PermiteCreditoA
+                                , new { style = "width: 50%;" })<br />
+                            @Html.CheckBoxFor(m => m.AnticipoA
+                                , new { style = "width: 50%;" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;">
+                            <b>Tiempo Crédito (Días)</b>&nbsp;&nbsp;<br /><br />
+                            <b>Anticipo (%)</b>
+                        </td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.TiempoCreditoA
+                                , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                            @Html.TextBoxFor(m => m.PorcentajeAnticipoA
+                                     , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 25%;"><b>Comentario: </b>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.TextAreaFor(m => m.ComentarioAnticipoA
+                                                         , new { style = "width: 50%;", @class = "form-control" })
+                        </td>
+                    </tr>
+                    @Html.HiddenFor(m => m.DocumentoCotizacionA, new { id = "DocumentoCotizacionA" })
+                    @if (!string.IsNullOrEmpty(@Model.DocumentoCotizacionA))
+                    {
+                        <tr>
+                            <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                            <td style="text-align: left; width: 25%;">
+                                <div class="row">
+                                    <div class="col-xs-9">
+                                        <button type="button" class="btn btn-info" onclick="ShowCotizacion('A');">Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                            <td style="text-align: left; width: 25%;">
+                                <div class="row">
+                                    <div class="col-xs-8">
+
+                                        <input type="file" id="fileA" accept="application/pdf,application" />
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input id="btnUploadA" value="Cargar" type="button" class=" btn btn-primary" style="width: 100%;" onclick="UpCotizacion('A');" />
+                                    </div>
+                                    <div id="GifA" class="col-xs-1" style="display: none;">
+                                        <img src="~/Content/Images/div_load.gif" style="width: 25px; height: 20px;" />
+                                    </div>
+                                    <div id="OkA" class="col-xs-1" style="display: none;">
+                                        <i style="font-size: 20px" class="glyphicon glyphicon-ok"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+        <hr />
+
+        @*Proveedor B*@
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Proveedor B</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 45%;">
+                            @Html.DropDownListFor(m => m.idProveedorGnrlB, new SelectList(ViewBag.CatProveedores, "Nombre", "Nombre"), "SELECCIONE", new { @class = "form-control", @style = "width:100% !important;" })
+
+                            @*@Html.TextBoxFor(m => m.ProveedorB
+                                , new { @class = "form-control" })*@
+                        </td>
+                        <td style="text-align: right; width: 10%;"><b>Asignado</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.CheckBoxFor(m => m.AsignadoB
+                            , new { style = "width: 70%; display: inline-block;", @class = "form-control input-sm" })
+                        </td>
+                        @*<td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.AsignadoB, (SelectList) @ViewBag.ListaSiNo,"SELECCIONE"
+                            , new {id = "asignadoB", style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})</td>*@
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Descripción</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.DescripcionB
+        , new { @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.PrecioB
+                                , new { style = "width: 50%; display: inline-block", @class = "form-control", onkeypress = "return valida(event)" })
+                            <label style="display: inline-block;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>MXN</b> @Html.RadioButtonFor(m => m.TipoMonedaB, "MXN"
+, new { id = "rdpbmxm", style = "display: inline-block;" })
+                            </label>
+                            <label style="display: inline-block;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>USD</b> @Html.RadioButtonFor(m => m.TipoMonedaB, "USD"
+, new { id = "rdpbusd", style = "display: inline-block;" })
+                            </label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.IvaB
+                                , new { style = "width: 20%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                            @Html.RadioButtonFor(m => m.IncluyeIvaB, 1) No incluye I.V.A
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Tiempo de Entrega (Días)</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.TiempoEntregaB
+                                , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;">
+                            <b>Crédito</b>&nbsp;&nbsp;<br />
+                            <b>¿Anticipo?</b>&nbsp;&nbsp;<br />
+                        </td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.CheckBoxFor(m => m.PermiteCreditoB
+                                , new { style = "width: 50%;" })
+                            <br />
+                            @Html.CheckBoxFor(m => m.AnticipoB
+                                , new { style = "width: 50%;" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;">
+                            <b>Tiempo Crédito (Días)</b>&nbsp;&nbsp;<br /><br />
+                            <b>Anticipo (%)</b>
+                        </td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.TiempoCreditoB
+                                , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                            @Html.TextBoxFor(m => m.PorcentajeAnticipoB
+                                        , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 25%;"><b>Comentario: </b>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.TextAreaFor(m => m.ComentarioAnticipoB
+                                                         , new { style = "width: 50%;", @class = "form-control" })
+                        </td>
+                    </tr>
+                    @Html.HiddenFor(m => m.DocumentoCotizacionB, new { id = "DocumentoCotizacionB" })
+                    @if (!string.IsNullOrEmpty(@Model.DocumentoCotizacionB))
+                    {
+                        <tr>
+                            <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                            <td style="text-align: left; width: 25%;">
+                                <div class="row">
+                                    <div class="col-xs-9">
+                                        <button type="button" class="btn btn-info" onclick="ShowCotizacion('B');">Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                            <td style="text-align: left; width: 25%;">
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <input type="file" id="fileB" accept="application/pdf,application" />
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input id="btnUploadB" value="Cargar" type="button" class=" btn btn-primary" style="width: 100%;" onclick="UpCotizacion('B');" />
+                                    </div>
+                                    <div id="GifB" class="col-xs-1" style="display: none;">
+                                        <img src="~/Content/Images/div_load.gif" style="width: 25px; height: 20px;" />
+                                    </div>
+                                    <div id="OkB" class="col-xs-1" style="display: none;">
+                                        <i style="font-size: 20px" class="glyphicon glyphicon-ok"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+        @*Proveedor C*@
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Proveedor C</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 45%;">
+                            @Html.DropDownListFor(m => m.idProveedorGnrlC, new SelectList(ViewBag.CatProveedores, "Id", "Nombre"), "SELECCIONE", new { @class = "form-control", @style = "width:100% !important;" })
+                            @*@Html.TextBoxFor(m => m.ProveedorC
+                                , new { @class = "form-control" })*@
+                        </td>
+                        <td style="text-align: right; width: 10%;"><b>Asignado</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.CheckBoxFor(m => m.AsignadoC
+                            , new { style = "width: 70%; display: inline-block;", @class = "form-control input-sm" })
+                        </td>
+                        @*<td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.AsignadoB, (SelectList) @ViewBag.ListaSiNo,"SELECCIONE"
+                            , new {id = "asignadoC", style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})</td>*@
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Descripción</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.DescripcionC
+                                , new { @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.PrecioC
+                                , new { style = "width: 50%; display: inline-block", @class = "form-control", onkeypress = "return valida(event)" })
+                            <label style="display: inline-block;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>MXN</b> @Html.RadioButtonFor(m => m.TipoMonedaC, "MXN"
+, new { id = "rdpcmxm", style = "display: inline-block;" })
+                            </label>
+                            <label style="display: inline-block;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<b>USD</b> @Html.RadioButtonFor(m => m.TipoMonedaC, "USD"
+, new { id = "rdpcusd", style = "display: inline-block;" })
+                            </label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.IvaC
+                                , new { style = "width: 20%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                            @Html.RadioButtonFor(m => m.IncluyeIvaC, 1) No incluye I.V.A
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Tiempo de Entrega (Días)</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.TiempoEntregaC
+                                , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;">
+                            <b>Crédito</b>&nbsp;&nbsp;<br />
+                            <b>¿Anticipo?</b>&nbsp;&nbsp;<br />
+                        </td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.CheckBoxFor(m => m.PermiteCreditoC
+                                , new { style = "width: 50%;" })<br />
+                            @Html.CheckBoxFor(m => m.AnticipoC
+                                , new { style = "width: 50%;" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;">
+                            <b>Tiempo Crédito (Días)</b>&nbsp;&nbsp;<br />
+                            <b>Anticipo (%)</b>
+                        </td>
+                        <td style="text-align: left; width: 25%;">
+                            @Html.TextBoxFor(m => m.TiempoCreditoC
+                                , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+                            @Html.TextBoxFor(m => m.PorcentajeAnticipoC
+                                         , new { style = "width: 50%;", @class = "form-control", onkeypress = "return validanum(event)" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 25%;"><b>Comentario: </b>&nbsp;&nbsp;</td>
+                        <td>
+                            @Html.TextAreaFor(m => m.ComentarioAnticipoC
+                                                         , new { style = "width: 50%;", @class = "form-control" })
+                        </td>
+                    </tr>
+                    @Html.HiddenFor(m => m.DocumentoCotizacionC, new { id = "DocumentoCotizacionC" })
+                    @if (!string.IsNullOrEmpty(@Model.DocumentoCotizacionC))
+                    {
+                        <tr>
+                            <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                            <td style="text-align: left; width: 25%;">
+                                <div class="row">
+                                    <div class="col-xs-9">
+                                        <button type="button" class="btn btn-info" onclick="ShowCotizacion('C');">Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                            <td style="text-align: left; width: 25%;">
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <input type="file" id="fileC" accept="application/pdf,application" />
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input id="btnUploadC" value="Cargar" type="button" class=" btn btn-primary" style="width: 100%;" onclick="UpCotizacion('C');" />
+                                    </div>
+                                    <div id="GifC" class="col-xs-1" style="display: none;">
+                                        <img src="~/Content/Images/div_load.gif" style="width: 25px; height: 20px;" />
+                                    </div>
+                                    <div id="OkC" class="col-xs-1" style="display: none;">
+                                        <i style="font-size: 20px" class="glyphicon glyphicon-ok"></i>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+
+                </table>
+            </div>
+        </div>
+
+        <hr />
+        @*Observaciones*@
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 15%;"><b>Observaciones</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 30%;">
+                            @Html.TextAreaFor(m => m.Observaciones
+                                , new { @class = "form-control input-sm" })
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        if (@ViewBag.ProveedorAprobado == 1)
+        {
+            <div id="div_Actualizar" class="row small">
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: center">
+                                <br />
+                                <button type="button" class="btn btn-success" style="width: 40%" id="btn_Actualizar" onclick="ActualizarProv();">
+                                    <b>Actualizar</b><i class="glyphicon glyphicon-chevron-right"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="aprobar" class="row small">
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: center">
+                                <br />
+                                <button type="button" class="btn btn-success" style="width: 40%" onclick="GuardarProveedores();">
+                                    <b>Guardar</b><i class="glyphicon glyphicon-chevron-right"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="solicitarapr" class="row small" style="display: none">
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: center">
+                                <br />
+                                <button type="button" class="btn btn-primary" style="width: 40%" onclick="GuardarProveedores();">
+                                    <b>Solicitar Aprobación</b><i class="glyphicon glyphicon-chevron-right"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        }
+        <div id="cerrar" class="row small" style="display: none;">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: center">
+                            <br />
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 40%">Cerrar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="Gifload" class="row small" style="display: none;">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: center"><img src="~/Content/Images/procesando.gif" style="width: 100px; height: 80px;" /></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <hr />
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalAddProveedor">
+            <div class="modal-dialog" role="document" style="margin-left:35%;width: 30%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Agregar proveedores</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table style="width:100%;">
+                            <tr>
+                                <td>Empresa</td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.Empresa, new { @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Proveedor</td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.Proveedor, new { @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Periodicidad</td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.Periodicidad, new { @class = "form-control" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="btn_addProveedor">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,574 @@
+﻿@model IEnumerable<PentaFinances.ViewModels.ConsultaSolicitudesVm>
+
+@{
+    /**/
+
+    ViewBag.Title = "EditarProveedores";
+}
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function() {
+        //START DOCUMENT
+
+        $("#tabla").DataTable({
+            "bSort": false,
+            "bFilter": true,
+
+            language: {
+                "search": "Buscar",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Registros",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Registros",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+
+        $('input').addClass("form-control");
+        $('input').addClass("input-sm");
+        $('input').css("width", "70%");
+        $('input').css("display", "inline-block");
+
+        $('select').addClass("form-control");
+        $('select').addClass("input-sm");
+        $('select').css("width", "36%");
+        $('select').css("display", "inline-block");
+
+        $("#myModalAgregaProveedores").on('hidden.bs.modal', function () {
+            window.location.reload();
+        });
+
+        $("#myModalFormaPago").on('hidden.bs.modal', function () {
+            window.location.reload();
+        });
+
+        //$("#myModalFormaPagoAgregada").on('hidden.bs.modal', function () {
+        //    window.location.reload();
+        //});
+
+        //$("#myModalAprobadaGerencia").on('hidden.bs.modal', function () {
+        //    window.location.reload();
+        //});
+
+        $("#myModalCancelarFolio").on('hidden.bs.modal', function () {
+            window.location.reload();
+        });
+
+        $("#myModalCompletar").on('hidden.bs.modal', function () {
+            window.location.reload();
+        });
+
+    }); //END DOCUMENT
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    function FinalizarCompra(folio) {
+        $("#myModalAgregaProveedores").modal();
+        $("#DivAgregaProveedores").load('@Url.Action("_AgregarProveedores", "Compras")',
+            { folio: folio });
+    }
+
+    function FormaPago(folio) {
+        $("#myModalFormaPago").modal();
+        $("#DivFormaPago").load('@Url.Action("_FormaPagoCompra", "Compras")',
+            { folio: folio });
+    }
+
+    function FormaPagoAgregada(folio) {
+        $("#myModalFormaPagoAgregada").modal();
+        $("#DivFormaPagoAgregada").load('@Url.Action("_FormaPagoCompraAgregada", "Compras")',
+            { folio: folio });
+    }
+
+    function CompraAprobada(folio) {
+        @*$("#myModalAprobadaGerencia").modal();
+        $("#DivAprobadaGerencia").load('@Url.Action("_SolicitudAprobadaGerencia", "Compras")',
+            { folio: folio });*@
+
+        $("#myModalAgregaProveedores").modal();
+        $("#DivAgregaProveedores").load('@Url.Action("_AgregarProveedores", "Compras")',
+            { folio: folio });
+    }
+
+    function CancelarFolio(folio) {
+        $("#myModalCancelarFolio").modal();
+        $("#DivCancelarFolio").load('@Url.Action("_CancelarFolio", "Compras")',
+            { folio: folio });
+    }
+
+    function EditarBancos() {
+        $("#myModalEditarBancos").modal();
+        $("#DivEditarBancos").load('@Url.Action("_EditarBancos", "Compras")');
+    }
+
+    function SendEmail(folio) {
+        debugger;
+        //$("#myModalEmail").modal();
+        //$("#DivEmail").load('@Url.Action("_SendEmail", "Compras");
+        if (folio != "") {
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("_SendEmail", "Compras")',
+            dataType: 'json',
+            data: {
+                idfolio: folio
+            },
+                success: function (result) {
+
+                    if (result == true) {
+
+                        alert("");
+                    }else{
+                        alert("Ha ocurrido un error, intenta mas tarde o ponte en contacto con el equipo de Desarrollo");
+                    }
+            }
+        });
+    }
+    }
+
+    function CompletarSolicitud(folio) {
+
+        $("#id_folio_complete").val(folio);
+
+        $("#okcomplete").css("display", "none");
+        $("#failcomplete").css("display", "none");
+        $("#btn_complete").css("display", "block");
+
+        $("#myModalCompletar").modal();
+        $("#hd_completar").text("La solicitud de Compra con Folio: " + folio+ " se completará");
+    }
+
+    function CompletarFolio() {
+
+        $("#okcomplete").css("display", "none");
+        $("#failcomplete").css("display", "none");
+
+        var foliocomplete = $("#id_folio_complete").val();
+
+        if (foliocomplete != "") {
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CompleteFolio", "Compras")',
+            dataType: 'json',
+            data: {
+                idfolio: foliocomplete
+            },
+                success: function (result) {
+
+                    if (result == "True") {
+
+                        $("#okcomplete").css("display", "block");
+                        $("#btn_complete").css("display", "none");
+
+                    }
+                    if (result == "False") {
+
+                        $("#failcomplete").css("display", "block");
+                    }
+            }
+        });
+        }
+
+        //alert("FINALIZAR/COMPLETAR FOLIO: " + foliocomplete);
+    }
+
+    function OpenEncuesta(folio) {
+        window.open("EncuestaSat?Folio=" + folio, "Ventana3", "resizable,scrollbars,width=990,height=800,left=40")
+    }
+    function downloadComprobante(folio) {
+
+        $.ajax({
+            url: "@Url.Action("GetComprobante", "Docs")",
+            type: "POST",
+            data: {
+                folio: folio
+            },
+            success: function (data) {
+                if (data === 'Error') {
+                    $("#errorTxt").text('Archivo no encontrado, contacte con su administrador');
+
+                } else {
+
+                    window.open(data, 'popup_window', 'status=1,width=700,height=500,scrollbars=1');
+                    //$("#modViewEvidencia").modal("show");
+                }
+
+            }
+        });
+    }
+</script>
+<link href="~/Content/CSS/CargaDocumentos.css" rel="stylesheet" />
+<link href="~/Content/CSS/Tablas.css" rel="stylesheet" />
+
+
+<div class="container-fluid login-box" style="margin-top: 60px;">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="titulo">ADMINISTRAR SOLICITUDES DE COMPRA</h2>
+        </div>
+        <div class="col-md-12" style="display: none">
+            <div class="col-md-3 col-md-offset-6">
+                <div class="btn-group btn-group-sm">
+                    <button type="button" style="width: 100%;" class="btn btn-primary" onclick="EditarBancos();">
+                        <b>BANCOS</b>
+                        <span class="glyphicon glyphicon-usd"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div class="form-group col-md-12">
+
+        <table id="tabla" class="table table-condensed table-striped table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Folio</th>
+                    <th style="text-align: center;">Solicitante</th>
+                    <th style="text-align: center;">Campaña</th>
+                    <th style="text-align: center;">Departamento</th>
+                    <th style="text-align: center;">Detalle de Solicitud</th>
+                    <th style="text-align: center;">Estado Solicitud</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+
+                @foreach (var solicitud in Model)
+                {
+                    @*<tr onclick="FinalizarCompra(@solicitud.Folio)">*@
+                    <tr>
+                        <td style="text-align: center;">@solicitud.Folio</td>
+                        <td style="text-align: center;">@solicitud.Solicitante</td>
+                        <td style="text-align: center;">@solicitud.Campana</td>
+                        <td style="text-align: center;">@solicitud.Departamento</td>
+                        <td style="text-align: center;">@solicitud.DetalledeSolicitud</td>
+                        <td style="text-align: center;">@solicitud.EstadoSolicitud</td>
+                        <td style="text-align: center; width: 12%;">
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-info" onclick="downloadComprobante(@solicitud.Folio);">
+                                    <span class="glyphicon glyphicon-file"></span>
+                                </button>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-danger" style="background-color: #FA8072; border: 0px solid #FA8072; " onclick="OpenEncuesta(@solicitud.Folio);">
+                                    <span class="glyphicon glyphicon-th-list"></span>
+                                </button>
+                            </div>
+                            @if (solicitud.semaforo == "semaforo-verde")
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-succes" style="background-color:green" disabled>
+                                        <span class="glyphicon glyphicon-time" style="color:white;"></span>
+                                    </button>
+                                </div>
+                            }
+                            @if (solicitud.semaforo == "semaforo-amarillo")
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-succes" style="background-color:yellow" disabled>
+                                        <span class="glyphicon glyphicon-time" style="color:black;"></span>
+                                    </button>
+                                </div>
+                            }
+                            @if (solicitud.semaforo == "semaforo-rojo")
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-succes" style="background-color:red" disabled>
+                                        <span class="glyphicon glyphicon-time" style="color:white;"></span>
+                                    </button>
+                                </div>
+                            }
+
+                            @if (@solicitud.EstadoSolicitudId == 9 || @solicitud.EstadoSolicitudId == 10 || @solicitud.EstadoSolicitudId == 11 || @solicitud.EstadoSolicitudId == 12 || @solicitud.EstadoSolicitudId == 13 || @solicitud.EstadoSolicitudId == 14 || @solicitud.EstadoSolicitudId == 15 || @solicitud.EstadoSolicitudId == 16 || @solicitud.EstadoSolicitudId == 6)
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-success" onclick="CompraAprobada(@solicitud.Folio);">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                    </button>
+                                </div>
+                            }
+                            @if (@solicitud.EstadoSolicitudId == 1)
+                            {<div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-success" onclick="FinalizarCompra(@solicitud.Folio);">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                    </button>
+                                </div>
+
+
+
+                            }
+
+                            @if (solicitud.EstadoSolicitudId == 1 || solicitud.EstadoSolicitudId == 24 || solicitud.EstadoSolicitudId == 9
+                                || solicitud.EstadoSolicitudId == 10 || solicitud.EstadoSolicitudId == 11 || solicitud.EstadoSolicitudId == 12)
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-warning" onclick="SendEmail(@solicitud.Folio);" title="Reenviar correo">
+                                        <span class="glyphicon glyphicon-envelope"></span>
+                                    </button>
+                                </div>
+
+                            }
+
+                            @if (@solicitud.EstadoSolicitudId == 13 || @solicitud.EstadoSolicitudId == 14 || @solicitud.EstadoSolicitudId == 15 || @solicitud.EstadoSolicitudId == 16)
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-info" onclick="FormaPago(@solicitud.Folio);">
+                                        <span class="glyphicon glyphicon-credit-card"></span>
+                                    </button>
+                                </div>
+                            }
+
+                            @if (@solicitud.EstadoSolicitudId == 6)
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-info" onclick="FormaPagoAgregada(@solicitud.Folio);">
+                                        <span class="glyphicon glyphicon-credit-card"></span>
+                                    </button>
+                                </div>
+                            }
+
+                            @*@if (@solicitud.EstadoSolicitudId != 13 && @solicitud.EstadoSolicitudId != 14 && @solicitud.EstadoSolicitudId != 15
+                                && @solicitud.EstadoSolicitudId != 16 && @solicitud.EstadoSolicitudId != 6 && @solicitud.EstadoSolicitudId != 6)
+                                {*@
+                            @if (@solicitud.EstadoSolicitudId != 21)
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-danger" onclick="CancelarFolio(@solicitud.Folio);" title="Cancelar ticket">
+                                        <span class="glyphicon glyphicon-remove-sign"></span>
+                                    </button>
+                                </div>
+                            }
+
+                            <!--BOTON COMPLETAR SOLICITUD-->
+                            @if (solicitud.EstadoSolicitudId != 7)
+                            {
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-primary" onclick="CompletarSolicitud(@solicitud.Folio);" title="Finalizar">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                </div>
+                            }
+
+                            <!--FIN BOTON COMPLETAR SOLICITUD-->
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Modal Editar Proveedores -->
+<div class="modal fade" id="myModalAgregaProveedores" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>EDITAR PROVEEDORES</h3>
+                <div id="alertaok" class="alert alert-success" style="display: none;">
+                    <strong>REGISTRO GUARDADO CORRECTAMENTE!</strong> PROVEEDORES EDITADOS
+                </div>
+            </div>
+            <div id="DivAgregaProveedores" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Asignar Forma de Pago -->
+<div class="modal fade" id="myModalFormaPago" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>FORMA DE PAGO</h4>
+            </div>
+            <div id="DivFormaPago" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Asignar Forma de Pago Agregada-->
+<div class="modal fade" id="myModalFormaPagoAgregada" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Detalles Forma de Pago</h4>
+            </div>
+            <div id="DivFormaPagoAgregada" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Aprobacion Gerencia -->
+<div class="modal fade" id="myModalAprobadaGerencia" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Detalles de Proveedores Solicitud</h4>
+            </div>
+
+
+            <div id="DivAprobadaGerencia" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Cancelacion de Folio -->
+<div class="modal fade" id="myModalCancelarFolio" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Cancelar Solicitud</h4>
+            </div>
+            <div id="DivCancelarFolio" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Editar Bancos -->
+<div class="modal fade" id="myModalEditarBancos" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Bancos</h3>
+            </div>
+            <div id="DivEditarBancos" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Finalizar/Completar -->
+<div class="modal fade" id="myModalCompletar" role="dialog">
+    <div class="modal-dialog" style="width: 60%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center;">
+                        <h4><strong>Completar Solicitud</strong></h4>
+                    </div>
+                </div>
+            </div>
+            <div id="DivCompletar" class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 id="hd_completar"></h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="display: none;">
+                            <input id="id_folio_complete" type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="text-align: center;">
+                        <div id="okcomplete" style="display: none;"><h4 style="color: green;"><strong>Folio Finalizado</strong></h4></div>
+                        <div id="failcomplete" style="display: none;"><h4 style="color: red;"><strong>Error al Finalizar Folio</strong></h4></div>
+                    </div>
+                    <div class="col-md-4">
+                        <button id="btn_complete" type="button" class="btn btn-success pull-right" onclick="CompletarFolio();"><strong>Finalizar</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Editar Bancos -->
+<div class="modal fade" id="myModalEmail" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Email</h3>
+            </div>
+            <div id="DivEmail" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>

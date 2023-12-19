@@ -1,0 +1,149 @@
+﻿@model IEnumerable<PentaFinances.ViewModels.ConsultaSolicitudesVm>
+@{
+    ViewBag.Title = "ConsultarSolicitudesCompras";
+}
+<link href="~/Content/CSS/Tablas.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function() {
+        //START DOCUMENT
+
+        $("#tabla").DataTable({
+            "bSort": false,
+            "bFilter": true,
+
+            language: {
+                "search": "Buscar",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Registros",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Registros",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+
+        $('input').addClass("form-control");
+        $('input').addClass("input-sm");
+        $('input').css("width", "70%");
+        $('input').css("display", "inline-block");
+
+        $('select').addClass("form-control");
+        $('select').addClass("input-sm");
+        $('select').css("width", "36%");
+        $('select').css("display", "inline-block");
+
+        $("#myModalAsignaProveedores").on('hidden.bs.modal',
+            function() {
+                window.location.reload();
+            });
+
+    }); //END DOCUMENT
+
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function FinalizaFolio(finfolio) {
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveFinalizaFolio", "Compras")',
+            dataType: 'json',
+            data: {
+                folio: finfolio
+            },
+            success: function (result) {
+                window.location.reload();
+            }
+        });
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function DetallesFolio(folio) {
+        $("#myModalDetallesFolios").modal();
+        $("#DivDetallesFolios").load('@Url.Action("_ConsultaDetalleFolio", "Compras")',
+            { folio: folio });
+    }
+
+</script>
+
+<style type="text/css">
+    .centrar {
+        text-align: center;
+    }
+</style>
+
+<div class="container-fluid" style="margin-top: 60px;">
+
+    <div class="form-group col-md-12">
+        <table id="tabla" class="table table-condensed table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="centrar">Folio</th>
+                    <th class="centrar">Solicitante</th>
+                    <th class="centrar">Campaña</th>
+                    <th class="centrar">Departamento</th>
+                    <th class="centrar">Detalle de Solicitud</th>
+                    <th class="centrar">Estado Solicitud</th>
+                    <th class="centrar">Fecha Registro</th>
+                    <th class="centrar"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var solicitud in Model)
+                {
+                    <tr>
+                        <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)">@solicitud.Folio</td>
+                        <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)">@solicitud.Solicitante</td>
+                        <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)">@solicitud.Campana</td>
+                        <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)">@solicitud.Departamento</td>
+                        <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)">@solicitud.DetalledeSolicitud</td>
+                        <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)">@solicitud.EstadoSolicitud</td>
+                        <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)">@solicitud.FechaRegistro</td>
+                        @if (@solicitud.EstadoSolicitudId == 6 && (@ViewBag.User == "mgonzalez" || @ViewBag.User == "MBARRIOS" || @ViewBag.User == "RPADILLA"))
+                        {
+                            <td class="centrar"><button class="btn btn-info" onclick="FinalizaFolio(@solicitud.Folio);"><b>Finalizar</b></button></td>
+                        }
+                        else
+                        {
+                            <td class="centrar" onclick="DetallesFolio(@solicitud.Folio)"></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Modal Detalles de Folio-->
+<div class="modal fade" id="myModalDetallesFolios" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Detalles del Folio</h4>
+            </div>
+            <div id="DivDetallesFolios" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>

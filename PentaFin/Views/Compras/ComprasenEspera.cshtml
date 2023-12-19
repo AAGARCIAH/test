@@ -1,0 +1,129 @@
+﻿@model IEnumerable<PentaFinances.Models.ComprasRealizadasDetalles>
+
+@{
+    ViewBag.Title = "ComprasenEspera";
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //START DOCUMENT
+
+        $("#tabla").DataTable({
+            "bSort": false,
+            "bFilter": true,
+
+            language: {
+                "search": "Buscar",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Registros",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Registros",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+
+        $('input').addClass("form-control");
+        $('input').addClass("input-sm");
+        $('input').css("width", "70%");
+        $('input').css("display", "inline-block");
+
+        $('select').addClass("form-control");
+        $('select').addClass("input-sm");
+        $('select').css("width", "36%");
+        $('select').css("display", "inline-block");
+
+    }); //END DOCUMENT
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    @*    function SeguimientoSolicitudes(folio) {
+        $("#myModal").modal();
+        $("#DivSeguimientoSolicitud").load('@Url.Action("_SeguimientoSolicitudes", "Compras")',
+            { folio: folio });
+    }
+
+    function AgregarProveedores(folio) {
+        $("#myModalAgregaProveedores").modal();
+        $("#DivAgregaProveedores").load('@Url.Action("_AgregarProveedores", "Compras")',
+            { folio: folio });
+    }*@
+
+    function FinalizarCompra(folio) {
+        $("#myModalFinalizaCompra").modal();
+        $("#DivFinalizaCompra").load('@Url.Action("_FinalizarCompra", "Compras")',
+            { folio: folio });
+    }
+</script>
+
+
+<div class="container-fluid" style="margin-top: 60px;">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Compras en Espera</h4>
+        </div>
+    </div>
+    <hr/>
+    
+    <div class="form-group col-md-10 col-md-offset-1">    
+        <table id="tabla" class="table table-condensed table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Folio</th>
+                <th>Solicitante</th>
+                <th>Email Solicitante</th>
+                <th>Campaña</th>
+                <th>Departamento</th>
+                <th>Detalle de Solicitud</th>
+            </tr>
+            </thead>
+
+            <tbody>
+    
+            @foreach (var solicitud in Model)
+            {
+                <tr onclick="FinalizarCompra(@solicitud.Folio)">
+                    <td>@solicitud.Folio</td>
+                    <td>@solicitud.Solicitante</td>
+                    <td>@solicitud.EmailSolicitante</td>
+                    <td>@solicitud.Campana</td>
+                    <td>@solicitud.Departamento</td>
+                    <td>@solicitud.DetalledeSolicitud</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+<!-- Modal Asignar Forma de Pago -->
+<div class="modal fade" id="myModalFinalizaCompra" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="padding:35px 50px;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Finalizar Compra</h4>
+            </div>
+            <div  id="DivFinalizaCompra" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+      
+    </div>
+</div>

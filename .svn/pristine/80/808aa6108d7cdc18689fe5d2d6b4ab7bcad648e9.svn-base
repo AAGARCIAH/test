@@ -1,0 +1,205 @@
+﻿@model List<PentaFinances.ViewModels.SeguimientoSolicitudesDetallesVm>
+
+@{
+    ViewBag.Title = "ListadoSolicitudes";
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //START DOCUMENT
+
+        $("#tabla").DataTable({
+            "bSort": true,
+            "bFilter": true,
+
+            language: {
+                "search": "Buscar",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Registros",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Registros",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+
+        $('input').addClass("form-control");
+        $('input').addClass("input-sm");
+        $('input').css("width", "70%");
+        $('input').css("display", "inline-block");
+
+        $('select').addClass("form-control");
+        $('select').addClass("input-sm");
+        $('select').css("width", "36%");
+        $('select').css("display", "inline-block");
+
+        //$.ajax({
+        //    url: '../Compras/ObtenerSolicitudesCompras',
+        //    type: "POST",
+        //    //data: formRisk.serialize(),
+        //    success: function (res) {
+
+        //        },
+        //    error: function (err) {
+        //        alert(err);
+
+        //    }
+        //});
+
+        $("#myModal").on('hidden.bs.modal', function () {
+            window.location.reload();
+        });
+
+
+    }); //END DOCUMENT
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    function SeguimientoSolicitudes(folio) {
+        $("#myModal").modal();
+        $("#DivSeguimientoSolicitud").load('@Url.Action("_SeguimientoSolicitudes", "Compras")',
+            { folio: folio });
+    }
+
+    function AgregarProveedores(folio) {
+        $("#myModalAgregaProveedores").modal();
+        $("#DivAgregaProveedores").load('@Url.Action("_AgregarProveedores", "Compras")',
+            { folio: folio });
+    }
+</script>
+
+<style type="text/css">
+    .encabezado {
+        text-align: center;
+    }
+</style>
+
+<div class="container-fluid" style="margin-top: 60px;">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Solicitudes Pendientes de Validar</h4>
+        </div>
+    </div>
+    <hr/>
+    
+    <div class="form-group col-md-10 col-md-offset-1">    
+        <table id="tabla" class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th class="encabezado">Folio</th>
+                <th class="encabezado">Solicitante</th>
+                @*<th>Email Solicitante</th>*@
+                <th class="encabezado">Campaña</th>
+                <th class="encabezado">Departamento</th>
+                <th class="encabezado">Detalle de Solicitud</th>
+                <th class="encabezado">Estatus</th>
+                <th class="encabezado"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+    
+            @foreach (var solicitud in Model)
+            {
+                <tr>
+                    <td  class="encabezado">@solicitud.Folio</td>
+                    <td class="encabezado">@solicitud.Solicitante</td>
+                    @*<td>@solicitud.EmailSolicitante</td>*@
+                    <td class="encabezado">@solicitud.Campana</td>
+                    <td class="encabezado">@solicitud.Departamento</td>
+                    <td class="encabezado">@solicitud.DetalledeSolicitud</td>
+                    <td class="encabezado">@solicitud.EstadoSolicitudId</td>
+                    <td class="encabezado">
+                        <div class="btn-group btn-group-xs">
+                            <button type="button" class="btn btn-success" onclick="SeguimientoSolicitudes(@solicitud.Folio);">
+                                <span class="glyphicon glyphicon-check"></span>
+                            </button>
+                            @*<button type="button" class="btn btn-info" onclick="AgregarProveedores(@solicitud.Folio);">
+                                <span class="glyphicon glyphicon-check"></span>
+                            </button>*@
+                            @*<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                                <span class="glyphicon glyphicon-check"></span>
+                            </button>*@
+                            @*<button type="button" class="btn btn-primary">Sony</button>*@
+                        </div>
+                        @*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>*@
+                    </td>
+                </tr>
+            }
+
+           @* <tr>
+                <td>10238</td>
+                <td>Solicitante</td>
+                <td>eduardo@pingpong.com</td>
+                <td>ATandT</td>
+                <td>Desarrollo</td>
+                <td>14.10.2013</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>10238</td>
+                <td>Solicitante</td>
+                <td>eduardo@pingpong.com</td>
+                <td>MOVISTAR</td>
+                <td>Desarrollo</td>
+                <td>14.10.2013</td>
+                <td></td>
+            </tr>*@
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+<!-- Modal Seguimiento Solicitudes -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Seguimiento de Solicitud</h4>
+            </div>
+            <div  id="DivSeguimientoSolicitud" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+      
+    </div>
+</div> 
+
+<!-- Modal Agregar Proveedores -->
+<div class="modal fade" id="myModalAgregaProveedores" role="dialog">
+    <div class="modal-dialog" style="width: 80%">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Agregar Proveedores</h4>
+            </div>
+            <div  id="DivAgregaProveedores" class="modal-body">
+                @*Html.Action("_SeguimientoSolicitudes","Compras")*@
+            </div>
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>*@
+            </div>
+        </div>
+      
+    </div>
+</div> 

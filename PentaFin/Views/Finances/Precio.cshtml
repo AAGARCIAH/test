@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Precio";
+}
+
+<style type="text/css">
+    .celda {
+        height: 25px;
+        font-size: 10px;
+        width: 100%;
+    }
+    .incelda {
+        width: 120px;
+        height: 45px;
+    }
+    .descrip {
+        border-bottom: 1px solid #424242;
+        width: 150px;
+        height: 45px;
+        margin-top: 1px;
+    }
+
+    .innerCelda {
+        padding: 1px;
+    }
+    input[type=text] {
+        padding: 0px;
+    }
+    .contenedor {
+        width: 95%;
+        margin-left: 2.5%;
+        max-height: 650px;
+        overflow-y: auto;
+        border-bottom: 2px solid #424242;
+        border-left: 2px solid #424242;
+        font-size: 12px;margin-top: 35px;
+    }
+    .menuBtn {
+        border-radius: 0px;
+        color: white;
+        border: 0px;
+        background-color: #035398;
+        background-color: rgba(3, 83, 152, 0.9);
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#precios").click(function () {
+            $("#preciosgrales").css("display", "block");
+            $("#preciosgrales").css("border-bottom", "2px solid #035398");
+            
+           @* var url= '@Url.Action("_IngresosGenerales", "Finances")';
+            document.getElementById('iframefactura').src = url*@
+        });
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        
+        //END DOCUMENT READY
+    });
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function setIngresos() {
+        
+        $("#preciosForm").submit();
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</script>
+
+<div style="margin-top: 45px;">
+    <div style="width: 100%; float: left;">
+        <div>
+           <div class="col-md-12" style="background-color: #035398; ">
+                <div class="col-md-3">
+                    <button type="button" id="precios" class="btn btn-default btn-block menuBtn">Precios</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="preciosgrales" style="display: block;">
+               @using (Html.BeginForm("Precio", "Finances", FormMethod.Post, new { target = "preciosForm" }))
+                {
+                     @Html.Action("_Precios", "Finances")
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,371 @@
+﻿@model PentaFinances.ViewModels.AgregarProveedoresVm
+@{
+    ViewBag.Title = "AvisoRechazoSolicitud";
+    Layout = "~/Views/Shared/_LayoutExt.cshtml";
+}
+
+<style type="text/css">
+
+     body { background-color: white ;} /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+    
+    .bordes {
+        /*border-top: solid;*/
+        border-bottom: solid;
+        border-left: solid;
+        border-right: solid;
+        border-bottom-color: #d02718;
+        border-left-color: #d02718;
+        border-right-color: #d02718;
+
+        background-color: #f3f3f3;
+    }
+
+    .bordetop {
+        border-top: solid; 
+        border-top-color: #d02718;
+    }
+
+</style>
+
+<script type="text/javascript">
+
+    function GuardaMotivoRechazoDirector() {
+
+        var motivo = $("#MotivoRechazo").val();
+        var idsol = '@Model.Folio';
+        if (idsol != "") {
+            if (motivo !== "") {
+                $("#MotivoRechazo").css("border-color", "#ccc");
+                $("#MotivoRechazo").css("border-color", "#ccc");
+                $("#MotivoRechazo").css("border-color", "initial");
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GuardaMotivoRechazo", "Compras")',
+                dataType: 'json',
+                data: {
+                    folio: idsol,
+                    nivelrechazo: 0,
+                    motivorechazo: motivo
+                },
+                success: function (result) {
+
+                    if (result == "True") {
+                        $("#btnrechaza").css("display", "none");
+                        $("input[type=text], textarea").attr('disabled', 'disabled');
+                        alert("Rechazo de Solicitud Concluido");
+                    } else { }
+                }
+            });
+
+        } else {
+            $("#MotivoRechazo").css("border-color", "red");
+            $("#MotivoRechazo").focus();
+            alert("Es Obligatorio colocar Motivo de Rechazo");
+            return;
+        }
+    }
+        
+    }
+
+</script>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            <h3 style="color: #d02718;"><strong>Solicitud Cancelada</strong></h3>
+        </div>
+    </div>
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "formAsgProveedor" }))
+{
+    @Html.HiddenFor(m => m.Folio, new { id = "Folio" })
+    @Html.HiddenFor(m => m.IdProveedorA)
+    @Html.HiddenFor(m => m.IdProveedorB)
+    @Html.HiddenFor(m => m.IdProveedorC)
+    @Html.HiddenFor(m => m.PrecioA)
+    @Html.HiddenFor(m => m.PrecioB)
+    @Html.HiddenFor(m => m.PrecioC)
+    @Html.HiddenFor(m => m.AsignadoA)
+    @Html.HiddenFor(m => m.AsignadoB)
+    @Html.HiddenFor(m => m.AsignadoC)
+
+    <div class="row small bordes bordetop" style="margin-top: 10px;">
+        <div class="col-md-12">
+            @*<label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new { style = "display: inline-block" })
+            <br/>
+            <br/>*@
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 5%;"><b>Folio</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 10%;">@Html.DisplayFor(m => m.Folio)</td>
+                    <td style="text-align: right; width: 8%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 22%;">@Html.DisplayFor(m => m.Solicitante)</td>
+                    <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+                    <td style="text-align: right; width: 5%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 10%;">@ViewBag.Campana</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: right;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@ViewBag.Depto</td>
+                    @*<td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.UsuarioFinal)</td>
+                    <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.EmailUsuarioFinal)</td>
+                    <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@ViewBag.Depto</td>*@
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row small bordes">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Detalle de la Solicitud</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.DetalledeSolicitud)</td>
+                    <td style="text-align: right; width: 10%;"></td>
+                    <td style="text-align: left; width: 23%;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+@*Proveedor A*@
+    if(Model.AsignadoA == true){
+    <div class="row small bordes">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Proveedor A</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.ProveedorA)</td>
+                    <td style="text-align: right; width: 10%;"><b>Asignado</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.CheckBoxFor(m => m.AsignadoA
+                                                                  , new { style = "width: 70%; display: inline-block;", @class = "form-control input-sm", disabled = true })</td>
+                    @*<td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.AsignadoA, (SelectList) @ViewBag.ListaSiNo,"SELECCIONE"
+                                                                  , new {id = "asignadoA", style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})</td>*@
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Descripción</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.DescripcionA)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.PrecioA)&nbsp;&nbsp;
+                        <b>@Html.DisplayFor(m => m.TipoMonedaA)</b></td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.IvaA)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Tiempo de Entrega</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.TiempoEntregaA)</td>
+                </tr>
+                
+                @if (string.IsNullOrEmpty(@Model.DocumentoCotizacionA))
+                {
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Documento de Cotización</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">N/A</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td style="text-align: right; width: 20%;"></td>
+                        <td style="text-align: left; width: 25%;">
+                            <button type="button" class="btn btn-info" onclick="ShowCotizacion('A');">Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i></button>
+                        </td>
+                    </tr>
+                }
+                @*<tr>
+                    <td style="text-align: right; width: 20%;"></td>
+                    <td style="text-align: left; width: 25%;">
+                        <button type="button" class="btn btn-info" onclick="ShowCotizacion('A');">Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i></button>
+                    </td>
+                </tr>*@
+            </table>
+        </div>
+    </div>
+    }
+
+@*Proveedor B*@
+    if(Model.AsignadoB == true){
+    <div class="row small bordes">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Proveedor B</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.ProveedorB)</td>
+                    <td style="text-align: right; width: 10%;"><b>Asignado</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.CheckBoxFor(m => m.AsignadoB
+                                                                  , new { style = "width: 70%; display: inline-block;", @class = "form-control input-sm", disabled = true })</td>
+                    @*<td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.AsignadoB, (SelectList) @ViewBag.ListaSiNo,"SELECCIONE"
+                                                                  , new {id = "asignadoB", style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})</td>*@
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Descripción</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.DescripcionB)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.PrecioB)&nbsp;&nbsp;
+                        <b>@Html.DisplayFor(m => m.TipoMonedaB)</b></td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.IvaB)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Tiempo de Entrega</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.TiempoEntregaB)</td>
+                </tr>
+
+                @if (string.IsNullOrEmpty(@Model.DocumentoCotizacionB))
+                {
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Documento de Cotización</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">N/A</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td style="text-align: right; width: 20%;"></td>
+                        <td style="text-align: left; width: 25%;">
+                            <button type="button" class="btn btn-info" onclick="ShowCotizacion('B');">Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i></button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+
+@*Proveedor C*@
+    if (Model.AsignadoC == true)
+    {
+    <div class="row small bordes">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Proveedor C</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.ProveedorC)</td>
+                    <td style="text-align: right; width: 10%;"><b>Asignado</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.CheckBoxFor(m => m.AsignadoC
+                                                                  , new { style = "width: 70%; display: inline-block;", @class = "form-control input-sm", disabled = true })</td>
+                    @*<td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.AsignadoB, (SelectList) @ViewBag.ListaSiNo,"SELECCIONE"
+                                                                  , new {id = "asignadoC", style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})</td>*@
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Descripción</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.DescripcionC)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.IvaC)&nbsp;&nbsp;
+                        <b>@Html.DisplayFor(m => m.TipoMonedaC)</b>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.PrecioC)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Tiempo de Entrega</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.TiempoEntregaC)</td>
+                </tr>
+
+                @if (string.IsNullOrEmpty(@Model.DocumentoCotizacionC))
+                {
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Documento de Cotización</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">N/A</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td style="text-align: right; width: 20%;"></td>
+                        <td style="text-align: left; width: 25%;">
+                            <button type="button" class="btn btn-info" onclick="ShowCotizacion('C');">Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i></button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+
+@*Motivo Rechazo*@
+    <div id="motivo" class="row small bordes" style="display: block;">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><br/><b>Motivo de Rechazo</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 30%;"><br/> @Html.TextAreaFor(m => m.MotivoRechazo
+                                                                   , new { @class = "form-control input-sm" })</td>
+                    <td style="width: 10%;"></td>
+                    <td>
+                        <button id="btnrechaza" type="button" class="btn btn-danger" style="width: 100%" onclick="GuardaMotivoRechazoDirector();">
+                            <b>Confirmar Motivo Rechazo</b>&nbsp;
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+   @*Botones de Aprobar y Rechazar*@
+    
+    @*<div id="botonesar" class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 30%"></td>
+                    <td style="text-align: center">
+                        <br/>
+                        <button id="btnasigna" type="button" class="btn btn-success" style="width: 80%" onclick="GuardaProveedorAsignado(1);">
+                            <b>Aprobar</b>&nbsp;<i class="glyphicon glyphicon-ok"></i>
+                        </button>
+                    </td>
+                    <td style="text-align: center">
+                        <br/>
+                        <button id="btnmotivo" type="button" class="btn btn-danger" style="width: 80%">
+                            <b>Rechazar</b>&nbsp;<i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <hr/>*@
+}
+</div>

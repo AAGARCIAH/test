@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="margin-top: 60px;">
+    <div class="col-md-10 col-md-offset-1" style="text-align: center;">
+        <h2>Solicitud Enviada Con Éxito</h2>
+    </div>
+    @if(ViewBag.Folio != "") { 
+    <div class="col-md-10 col-md-offset-1" style="text-align: center;">
+        <h3><strong>Folio: @ViewBag.Folio</strong></h3>
+    </div>
+    }
+</div>
+

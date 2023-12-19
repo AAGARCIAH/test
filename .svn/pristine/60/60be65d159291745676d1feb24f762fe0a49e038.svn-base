@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+<style type="text/css">
+    .Boxes {
+        border: 0px;
+        border-bottom: 1px solid gray;
+        width: 100%;
+        font-size: 25px;
+        text-align: center;
+    }
+    textarea:focus, input:focus {
+        outline: none;
+    }
+</style>
+<script type="text/javascript">
+    function login() {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetInicio", "App")',
+            dataType: 'json',
+            data: {
+                user: $("#txt_user").val(),
+                pass: $("#txt_pass").val()
+            },
+            success: function(result) {
+                if (result === "error") {
+                    $("#div_error").css("display", "block");
+                    setTimeout(LoginFail, 2000);
+                } else {
+                    window.location = '@Url.Action("Home","App")';
+                }
+            },
+            error: function(ex) {
+                $("#div_error").css("display", "block");
+                setTimeout(LoginFail, 2000);
+            }
+        });
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    //close the logout bar
+    $("#loger").css("display", "none");
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function LoginFail() {
+        $("#div_error").css("display", "none");
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+</script>
+<div class="container-fluid text-right" id="ultra_head" style="width: 800px;">
+    <div style="height: 95px;">
+        
+    </div>
+</div>
+<div class="container">
+    <div class="row" style="text-align: center;">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="row">
+                <img src="~/Content/Images/logopenta.png"  style="width: 280px; height: 150px; margin-top: 20px;"/>
+            </div>
+            <div class="row">
+                <label style="font-size: 10px;">PentaFinances V.1.0</label>
+            </div>
+            <div class="row">
+                <h2>Inicio de sesión</h2>
+            </div>
+            <div class="row">
+                <h4>Usuario</h4>
+                <div style="width: 80%; margin-left: 10%;">
+                    <input id="txt_user" type="text" class="Boxes"/>
+                </div>
+            </div>
+            <div class="row">
+                <h4>Contraseña</h4>
+               <div style="width: 80%; margin-left: 10%;">
+                    <input type="password" id="txt_pass" class="Boxes"/>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 40px;">
+                <div style="width: 80%; margin-left: 10%;">
+                    <button type="button" style="border-radius: 0px;"
+                            class="btn btn-success btn-block" onclick="login();"><h4>Entrar</h4></button>
+                </div>
+            </div>
+            <div class="row">
+                <div id="div_error" class="col-md-12" style="background-color: #f44336;width: 80%; margin-left: 10%; display: none;">
+                    <div style="color: white;">
+                        <div style="text-align: center;">
+                            <h4>¡Usuario y/o contraseña erroneos!.</h4>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,662 @@
+﻿@model PentaFinances.ViewModels.FormaPagoVm
+
+<script type="text/javascript">
+    var validarcampos = ["FormaPagoId", "RazonSocial", "BancoId", "Cuenta", "Clabe", "NumRecibo"];
+    var msjerror = ["Foma de Pago", "Razón Social", "Banco", "Cuenta", "CLABE", "Número de Recibo"];
+
+    $(document).ready(function() {
+        //START DOCUMENT
+
+        $("#Credito").change(function () {
+            var credito = $("#Credito").val();
+
+            if (credito === "0") {
+                $("#Tiempo").val("");
+                $("#Tiempo").attr("disabled", "disabled");
+            }
+
+            if (credito === "true") {
+                $("#Tiempo").removeAttr("disabled");
+            }
+        });
+
+        $("#BancoId").change(function() {
+            var bankid = $("#BancoId").val();
+            //alert(bankid);
+
+            if (Number(bankid) === 6) {
+                $("#lbl_bank").css("display", "block");
+                $("#nom_bank").css("display", "block");
+                $("#btn_bank").css("display", "block");
+                $("#nom_bank").focus();
+                $("#FormaPagoId").attr("disabled", "disabled");
+                $("#RazonSocial").attr("disabled", "disabled");
+                $("#Cuenta").attr("disabled", "disabled");
+                $("#Clabe").attr("disabled", "disabled");
+                $("#FolioFactura").attr("disabled", "disabled");
+                $("#NumRecibo").attr("disabled", "disabled");
+                $("#btnguardar").attr("disabled", "disabled");
+
+
+            } else {
+                $("#lbl_bank").css("display", "none");
+                $("#nom_bank").css("display", "none");
+                $("#btn_bank").css("display", "none");
+                $("#FormaPagoId").removeAttr("disabled");
+                $("#RazonSocial").removeAttr("disabled");
+                $("#Cuenta").removeAttr("disabled");
+                $("#Clabe").removeAttr("disabled");
+                $("#FolioFactura").removeAttr("disabled");
+                $("#NumRecibo").removeAttr("disabled");
+                $("#btnguardar").removeAttr("disabled");
+            }
+        });
+
+        $("#btn_bank").click(function () {
+            if ($("#nom_bank").val().length === 0) {
+                $("#nom_bank").css("border-color", "red");
+                $("#nom_bank").focus();
+                alert("Es necesario definir el nombre del banco");
+                return;
+
+            } else {
+
+                $("#nom_bank").css("border", "none");
+                var nombrebank = $("#nom_bank").val();
+                $.ajax({
+                    url: '../Compras/SaveNuevoBanco',
+                    type: "POST",
+                    data: { banco: nombrebank },
+                    success: function (res) {
+                        alert("Banco Guardado Correctamente");
+                        var folio = '@Model.Folio';
+                        //alert(folio);
+                        $('#myModalFormaPago').fadeOut("slow", function () {
+                            $(this).modal('hide');
+                        }).fadeIn("slow", function () {
+                           $(this).modal('show');
+                        });
+
+                        @*var url = '@Url.Action("_FormaPagoCompra", "Compras", new { id = "__id__"})';
+                        window.location.href = url.replace('__id__', folio);*@
+
+                        //$("#btnformapago").css("display", "none");
+                        //$("#okvalidamovi").css("display", "block");
+                        //$("#okvalidamovi").fadeOut(2000);
+                        //$("#modalMovi").modal('toggle');
+
+
+                    },
+                    error: function (err) {
+                        alert(err);
+
+                    }
+                });
+            }
+
+        });
+    }); //END DOCUMENT
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function GuardaFormaPago() {
+        //VALIDAR CAMPOS
+        var banco=0;
+        for (var i = 0; i < validarcampos.length; i++) {
+            if ($("#" + validarcampos[i]).val().length === 0) {
+                $("#" + validarcampos[i]).css("border-color", "red");
+                $("#" + validarcampos[i]).focus();
+                alert("El Campo " + msjerror[i] + " es Obligatorio");
+                return;
+
+            } else {
+
+                //$("#" + validarcampos[i]).css("border-color", "#ccc");
+                //$("#" + validarcampos[i]).css("border-color", "initial");
+                $("#" + validarcampos[i]).css("border", "none");
+            }
+
+        }
+
+        $("#Gifload").css("display", "block");
+        $("#btnformapago").css("display", "none");
+
+            var formpago = $("#formPago");
+
+            $.ajax({
+                url: '../Compras/SaveFormaPago',
+                type: "POST",
+                data: formpago.serialize(),
+                success: function (res) {
+                    alert("Forma de Pago Guardada Correctamente");
+                            $("#Gifload").css("display", "none");
+                            $("#btnformapago").css("display", "none");
+                    //$("#okvalidamovi").css("display", "block");
+                    //$("#okvalidamovi").fadeOut(2000);
+                    //$("#modalMovi").modal('toggle');
+
+
+                },
+                error: function (err) {
+                    alert(err);
+
+                }
+            });
+
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function UpForma(n) {
+        //debugger;
+
+        var Gif = "#Gif_" + n;
+        var Ok = "#Ok_" + n;
+        var btnUpload = "#btnUpload_" + n;
+        $("#resultadoCarga").text("");
+        $(Gif).css("display", "block");
+        var file = "#file_" + n;
+        if (window.FormData !== undefined) {
+            var fileUpload = $(file).get(0);
+            var files = fileUpload.files;
+            if (files.length === 0) {
+                alert("Debe Seleccionar un Archivo");
+                return;
+            }
+            var $btn = $(this);
+            $btn.button('loading');
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+
+            }
+            fileData.append("Folio", $("#Folio").val());
+            $.ajax({
+                url: '@Url.Action("UpFormaPago","Docs")',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (res) {
+                    if (res == 'Error') {
+                        alert("El archivo cargado es invalido");
+                        $btn.button('reset');
+                        return;
+                    } else {
+                        $("#AddFile").css("display", "block");
+                        $(Gif).css("display", "none");
+                        $(Ok).css("display", "block");
+                        $(btnUpload).attr('disabled', 'disabled');
+                        $(file).attr('disabled', 'disabled');
+                        $("#FolioFactura").val(res);
+                    }
+
+                },
+                error: function (err) {
+                    //$btn.button('reset');
+                    alert(err.statusText);
+                }
+            }).complete(function () {
+                console.log("Complete");
+                $btn.button('reset');
+            });;
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ShowForma(n) {
+        debugger;
+        //var folio = $("#Folio").val();
+        var folio = n;
+
+        $.ajax({
+            url: "@Url.Action("GetForma","Docs")",
+            type: "POST",
+            data: {
+                folio: folio
+            },
+            success: function (data) {
+                if (data === 'Error') {
+                    $("#errorTxt").text('Archivo no encontrado, contacte con su administrador');
+
+                } else {
+
+                    window.open(data, 'popup_window', 'status=1,width=700,height=500,scrollbars=1');
+                    //$("#modViewEvidencia").modal("show");
+                }
+
+            }
+        });
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function Add()
+    {
+        //debugger;
+        $("#AddFile").css("display", "none");
+        var tmp = $('#NewValue').val();
+        var NewReg = Number(tmp) + 1;
+        $('#NewValue').val(NewReg);
+        //debugger;
+        $('#ExtraElement').append("<div class='row'><br/>"
+            +"<div class= 'col-xs-8' >"
+            + "<input type='file' id='file_" + NewReg+"' accept='application/pdf,application' />"
+            + "</div >"
+            +"<div class='col-xs-3'>"
+            + "<input id='btnUpload_" + NewReg + "' value='Cargar' type='button'  class=' btn btn-default' style='width:100%;' onclick='UpForma(" + NewReg +");' />"
+            +"</div>"
+            + "<div id='Gif_" + NewReg + "' class='col-xs-1' style='display: none;'>"
+            + "<img src='../Content/Images/div_load.gif' style='width: 25px; height: 20px;' />"
+            +"</div>"
+            + "<div id='Ok_" + NewReg + "' class='col-xs-1' style='display: none;'>"
+            +      "<i style='font-size: 20px' class='glyphicon glyphicon-ok'></i>"
+            + "</div>"
+            + "</div >"
+            + "</div>");
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function DelForma(n) {
+        var id = n;
+
+        var r = confirm("¿Estas seguro de eliminar el archivo?");
+        if (r == true) {
+                    $.ajax({
+            url: "@Url.Action("DelForma","Docs")",
+            type: "POST",
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if (data === 'Error') {
+                    $("#errorTxt").text('Archivo no encontrado, contacte con su administrador');
+
+                } else {
+                    alert("El fue archivo eliminado")
+                    refresh();
+                    //$("#modViewEvidencia").modal("show");
+                }
+
+            }
+        });
+        } else {
+            return;
+        }
+
+
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function refresh() {
+        window.setTimeout(function () {
+            location.reload();
+        }, 1200);
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</script>
+
+
+<div class="container-fluid">
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "formPago" }))
+{
+    @Html.HiddenFor(m=>m.Folio, new {id="Folio"})
+    @Html.HiddenFor(m=>m.ProveedorAsignadoId)
+    
+        <div class="row small">
+        <div class="form-group col-md-12">
+            @*<label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new { style = "display: inline-block" })
+            <br/>
+            <br/>*@
+    <table style="width: 100%;">
+        <tr>
+            <td style="text-align: right; width: 5%;"><b>Folio</b>&nbsp;&nbsp;</td>
+            <td style="text-align: left; width: 10%;">@Html.DisplayFor(m => m.Folio)</td>
+            <td style="text-align: right; width: 8%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+            <td style="text-align: left; width: 22%;">@Html.DisplayFor(m => m.Solicitante)</td>
+            <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+            <td style="text-align: left; width: 25%;">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+            <td style="text-align: right; width: 5%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+            <td style="text-align: left; width: 10%;">@ViewBag.Campana</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+            <td style="text-align: left;">@Html.DisplayFor(m => m.UsuarioFinal)</td>
+            <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+            <td style="text-align: left;">@Html.DisplayFor(m => m.EmailUsuarioFinal)</td>
+            <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+            <td style="text-align: left;">@ViewBag.Depto</td>
+        </tr>
+    </table>
+</div>
+</div>
+
+<div class="row small">
+    <div class="form-group col-md-12">
+        <table style="width: 100%;">
+            <tr>
+                <td style="text-align: right; width: 14%;"><b>Detalle de la Solicitud</b>&nbsp;&nbsp;</td>
+                <td style="text-align: left; width: 86%;"> @Html.DisplayFor(m => m.DetalledeSolicitud)</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><b>Proveedor Asignado</b>&nbsp;&nbsp;</td>
+                <td style="text-align: left;"> @Html.DisplayFor(m => m.ProveedorAsignado)</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                <td style="text-align: left;"> @ViewBag.Subtotal&nbsp;&nbsp;&nbsp;
+                    <b>@ViewBag.TipoMoneda</b>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                <td style="text-align: left;"> @ViewBag.Iva</td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><b>Crédito</b>&nbsp;&nbsp;</td>
+                @if (@Model.PermiteCredito==true)
+                {
+                    <td style="text-align: left;"> Sí</td>
+                }
+                else
+                {
+                    <td style="text-align: left;"> No</td>
+                }
+            </tr>
+            <tr>
+                <td style="text-align: right;"><b>Tiempo (Días)</b>&nbsp;&nbsp;</td>
+                <td style="text-align: left;">@Html.DisplayFor(m => m.TiempoCredito)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+    @*
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new {style = "display: inline-block"})
+            <br/>
+            <br/>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 10%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.Solicitante)</td>
+                    <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+                    <td style="text-align: right; width: 10%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.Campana)</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.Departamento)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.UsuarioFinal)</td>
+                    <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.EmailUsuarioFinal)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>*@
+
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+               @* <tr>
+                    <td style="text-align: right; width: 20%;"><b>Detalle de la Solicitud</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.DetalledeSolicitud)</td>
+                    <td style="text-align: right; width: 10%;"></td>
+                    <td style="text-align: left; width: 23%;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>*@
+                @*<tr>
+                    <td style="text-align: right;"><b>Proveedor Asignado</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"> @Html.DisplayFor(m => m.ProveedorAsignado)</td>
+                    <td style="text-align: right;"></td>
+                    <td style="text-align: left;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>*@
+            </table>
+        </div>
+    </div>
+
+    @*Detalles de Pago*@
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Forma de Pago</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 40%;">@Html.DropDownListFor(m => m.FormaPagoId, (SelectList)@ViewBag.ListaFormaPago, "SELECCIONE"
+                                                                  , new { style = "width: 70%; display: inline-block;", @class = "form-control input-sm" })</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"></td>
+                    <td style="text-align: left; width: 25%;"></td>
+                    <td style="text-align: right; width: 10%;"></td>
+                    <td style="text-align: left; width: 25%;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><br/><b>Razón Social</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"><br/>@Html.TextBoxFor(m => m.RazonSocial
+                                                                       , new { @class = "form-control input-sm" })</td>
+                </tr>
+
+                @*<tr>
+                    <td style="text-align: right;"><b>Crédito</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DropDownListFor(m => m.Credito, (SelectList) @ViewBag.ListaSiNo, "SELECCIONE"
+                                                      , new {style = "width: 100%; display: inline-block;", @class = "form-control input-sm"})</td>
+                    <td style="text-align: right;"><b>Tiempo</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"> @Html.TextBoxFor(m => m.Tiempo
+                                                       , new {@class = "form-control input-sm"})</td>
+                </tr>*@
+
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Banco</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.BancoId, (SelectList)@ViewBag.ListaBancos, "SELECCIONE"
+                                                                  , new { style = "width: 100%; display: inline-block;", @class = "form-control input-sm" })</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><br /><label id="lbl_bank" style="display: none"><b>Nombre del Banco</b></label>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"><input id="nom_bank" type="text" class="form-control input-sm" style="width: 100%; display: none;"/></td>
+                    <td style="text-align: center; width: 25%;"><button id="btn_bank" type="button" class="btn-sm btn-info" style="width: 80%; display: none;">Agregar Banco</button></td>
+                    
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Cuenta</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.TextBoxFor(m => m.Cuenta
+                                                                  , new { @class = "form-control input-sm" })</td>
+                    <td style="text-align: right;"><b>CLABE</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.TextBoxFor(m => m.Clabe
+                                                      , new { @class = "form-control input-sm" })</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    @*Detalles de Factura*@
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                @if (Model.Files.Count > 0)
+                {
+                    foreach (var item in @Model.Files)
+                    {
+                        <tr>                        
+                            <td style="text-align: left; width: 25%;">
+                                <div class="row">
+                                    <div class="col-xs-9">
+                                        <br />
+                                        <button type="button" class="btn btn-info"
+                                                onclick="ShowForma(@item.id);">
+                                            Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger"
+                                                onclick="DelForma(@item.id);">
+                                            eliminar Cotización <i class="glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align: right;"></td>
+                            <td style="text-align: left;"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+
+
+
+                }
+
+
+
+
+                @Html.HiddenFor(m => m.FolioFactura, new { id = "FolioFactura" })
+                @if (!string.IsNullOrEmpty(@Model.FolioFactura))
+                {
+
+                    @*<tr>
+                        <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">
+                            <div class="row">
+                                <div class="col-xs-9">
+                                    <button type="button" class="btn btn-info"
+                                            onclick="ShowForma();">
+                                        Visualizar Cotización <i class="glyphicon glyphicon-eye-open"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: left;"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>*@
+
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" id="NewValue" value="1" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Adjuntar documento</b>&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="2" style="text-align: left; width: 25%;">
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <input type="file" id="file_1" accept="application/pdf,application" />
+                                </div>
+                                <div class="col-xs-3">
+                                    <input id="btnUpload_1" value="Cargar" type="button"
+                                           class=" btn btn-default" style="width:100%;" onclick="UpForma(1);" />
+                                </div>
+                                <div id="Gif_1" class="col-xs-1" style="display: none;">
+                                    <img src="~/Content/Images/div_load.gif" style="width: 25px; height: 20px;" />
+                                </div>
+                                <div id="Ok_1" class="col-xs-1" style="display: none;">
+                                    <i style="font-size: 20px" class="glyphicon glyphicon-ok"></i>
+                                </div>
+                            </div>
+                            <div class="row" id="ExtraElement">
+                            </div>
+                            <div class="row">
+                                <input type="button" class="btn btn-info" style="width:40%;margin-left:3% !important;display:none;" value="Agregar nuevo archivo" onclick="Add()" id="AddFile" />
+                            </div>
+                        </td>
+                        <td style="text-align: left;"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="6">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; width: 10%;"><b></b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 23%;">@Html.DisplayFor(m => m.FolioFactura)</td>
+                    <td style="text-align: right;"></td>
+                    <td style="text-align: left;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><br /><b>No. Folio Factura</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">
+                        <br />@Html.TextBoxFor(m => m.NumRecibo
+                      , new { @class = "form-control input-sm" })
+                    </td>
+                    <td style="text-align: right;"></td>
+                    <td style="text-align: left;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    @*Observaciones*@
+    @*<div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Observaciones</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 30%;"> @Html.TextAreaFor(m => m.Observaciones
+                                                                   , new{@class="form-control input-sm"})</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>*@
+
+    <div id="btnformapago" class="row small">
+        <div class="col-md-6"></div>
+        <div class="form-group col-md-3">
+            <br/>
+            <button id="btnguardar" type="button" class="btn btn-success" style="width: 100%" onclick="GuardaFormaPago();">
+                <b>Guardar</b><i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div id="Gifload" class="row small" style="display: none;">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: center"><img src="~/Content/Images/procesando.gif" style="width: 100px; height: 80px;"/></td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+}
+</div>

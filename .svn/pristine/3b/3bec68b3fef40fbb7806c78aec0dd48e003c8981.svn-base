@@ -1,0 +1,499 @@
+﻿@model PentaFinances.Models.SolicitudesDetalles
+@{
+    ViewBag.Title = "LevantamientoSolicitudes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+
+    var depto = '@ViewBag.Depto';
+    var validarcampos = ["CampanaId", "DepartamentoId", "DetalledeSolicitud", "Unidad"];
+    var msjerror = ["Campaña", "Departamento", "Detalle de Solicitud", "Unidad"];
+    $(document).ready(function () {
+        //START DOCUMENT
+
+        $("#NombreProveedorSugerido").attr("disabled", "disabled");
+
+        //---------------------------------
+        $("#PosibleProveedor").change(function() {
+            var opc = $("#PosibleProveedor").val();
+
+            if (opc === "true") {
+                $("#NombreProveedorSugerido").removeAttr("disabled");
+            }
+
+            if (opc === "0") {
+                $("#NombreProveedorSugerido").attr("disabled","disabled");
+            }
+
+            if (opc === "") {
+                $("#NombreProveedorSugerido").attr("disabled", "disabled");
+            }
+        });
+        //---------------------------------
+        jQuery('input[type=file]').change(function () {
+        var filename = jQuery(this).val().split('\\').pop();
+        var idname = jQuery(this).attr('id');
+        console.log(jQuery(this));
+        jQuery('span.' + idname).next().find('span').html(filename);
+        $('#Comprobante').val(filename);
+
+        var fileUpload = $("#cargar-archivo").get(0);
+            var files = fileUpload.files;
+            var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+
+                fileData.append(files[i].name, files[i]);
+
+        }
+            fileData.append("Folio", $("#Folio").val());
+            $.ajax({
+                url: '@Url.Action("Comprobante","Docs")',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (res) {
+                    if (res === 'Error') {
+                        alert("El archivo cargado es invalido");
+                        return;
+                    }
+
+
+                },
+                error: function (err) {
+                    //$btn.button('reset');
+                    alert(err.statusText);
+                }
+            }).complete(function () {
+                console.log("Complete");
+                //$btn.button('reset');
+            });;
+    });
+        //---------------------------------
+        $("#id_Recurrente").change(function () {
+            debugger;
+            if ($('#id_Recurrente').is(':checked')) {
+
+                $("#demo").css('display', 'block');
+                $("#ProveedorR").val("");
+                $("#DescripcionR").val("");
+                $("#Precio").val("");
+                $("#rdpamxm").prop('checked', false);
+                $("#rdpausd").prop('checked', false);
+
+                $("#btn_recurrente").click();
+            } else {
+                $("#demo").css('display', 'none');
+                $("#ProveedorR").val("");
+                $("#DescripcionR").val("");
+                $("#Precio").val("");
+                $("#rdpamxm").prop('checked', false);
+                $("#rdpausd").prop('checked', false);
+            }
+        });
+        //---------------------------------
+        $("#id_factura").change(function () {
+            if ($('#id_factura').is(':checked')) {
+
+                $("#div_factura").css('display', 'block');
+                $("#CostoTotalFActura").val("");
+
+            } else {
+                $("#div_factura").css('display', 'none');
+            }
+        });
+    }); //END DOCUMENT
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function validanum(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla == 8) {
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros
+        patron = /[0-9]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function ValidarCampos() {
+        debugger;
+        for (var i = 0; i < validarcampos.length; i++) {
+            var TipoDato = typeof $("#" + validarcampos[i]).val();
+            if (TipoDato == "string") {
+
+                var b = $("#" + validarcampos[i]).val();
+                if ($("#" + validarcampos[i]).val().length === 0) {
+                    $("#" + validarcampos[i]).css("border-color", "red");
+                    $("#" + validarcampos[i]).focus();
+                    alert("El Campo " + msjerror[i] + " es Obligatorio");
+                    return;
+                } else {
+
+                    $("#" + validarcampos[i]).css("border-color", "#ccc");
+                    $("#" + validarcampos[i]).css("border-color", "initial");
+                }
+
+            }
+            
+
+       }
+
+        if ($("#TipoProd").is(":checked") || $("#TipoServ").is(":checked")) {
+                //$("#" + validarcampos[i]).css("border-color", "#ccc");
+                //$("#" + validarcampos[i]).css("border-color", "initial");
+        }
+        else {
+            $("#div_tipoSol").css("background-color", "lightgrey");
+            $("#div_tipoSol").focus();
+            
+            alert("EL TIPO DE SOLICITUD (PRODUCTO/SERVICIO) ES OBLIGATORIO");
+            return;
+            }
+
+
+        //VALIDACIÓN CAJA CHICA (RRHH)
+        if(depto==="RRHH"){
+            //alert(depto);
+            if ($('#cajasi').is(':checked') || $('#cajano').is(':checked')) {
+
+                $("#cajasi").css("border-color", "#ccc");
+                $("#cajasi").css("border-color", "#ccc");
+            } else {//ELSE VALIDACIÓN CAJA CHICA (RRHH)
+                $("#cajasi").css("border-color", "red");
+                $("#cajasi").focus();
+                alert("Es Obligatorio Seleccionar Si o No Caja Chica");
+                return;
+            }
+        }
+
+        //DATOS RECURRENTE
+        //==========================================
+        if ($("#Recurrente_TEMP").is(':checked')) {
+            var valprecio = $("#Precio").val();
+
+            if ($("#ProveedorR").val() == "") {
+                $("#ProveedorR").css("border-color", "red");
+                $("#ProveedorR").focus();
+                alert("El Nombre del Proveedor es Obligatorio");
+                return;
+            } else {
+                $("#ProveedorR").css("border", "none");
+            }
+
+            if ($("#DescripcionR").val() == "") {
+                $("#DescripcionR").css("border-color", "red");
+                $("#DescripcionR").focus();
+                alert("La Descripción del Proveedor es Obligatoria");
+                return;
+            } else {
+                $("#DescripcionR").css("border", "none");
+            }
+
+
+            if (Number(valprecio) == 0 || valprecio == "") {
+                $("#Precio").css("border-color", "red");
+                $("#Precio").focus();
+                alert("El Precio debe ser mayor a 0");
+                return;
+            } else {
+                $("#Precio").css("border", "none");
+            }
+
+            if ($("#rdpamxm").is(":not(':checked')") && $("#rdpausd").is(":not(':checked')")) {
+                $("#rdpamxm").focus();
+                alert("Debe seleccionar un Tipo de Moneda");
+                return;
+            }
+
+            //if ($("#TiempoEntrega").val() === "") {
+            //    $("#TiempoEntrega").css("border-color", "red");
+            //    $("#TiempoEntrega").focus();
+            //    alert("El campo de Tiempo de Entrega es Obligatorio");
+            //    return;
+            //} else {
+            //    $("#TiempoEntrega").css("border", "none");
+            //}
+
+            //if ($("#PermiteCredito_TEMP").prop("checked")) {
+            //    var tmpcreda = $("#TiempoCredito").val();
+            //    if ($("#TiempoCredito").val() !== "" && Number(tmpcreda) !== 0) {
+
+            //    } else {
+            //        if ($("#TiempoCredito").val() === "") {
+            //            $("#TiempoCredito").css("border-color", "red");
+            //            $("#TiempoCredito").focus();
+            //            alert("Indicar Tiempo de Crédito");
+            //            return;
+            //        }
+            //        if (Number(tmpcreda) == 0) {
+            //            $("#TiempoCredito").css("border-color", "red");
+            //            $("#TiempoCredito").focus();
+            //            alert("El Tiempo de Crédito tiene que ser mayor a 0");
+            //            return;
+            //        }
+            //    }
+            //}
+
+        }
+        //==========================================
+         //DATOS FACTURA
+        if ($("#id_factura").is(':checked')) {
+            if ($("#CostoTotal").val() == "" || $("#CostoTotal").val() <= "0") {
+                $("#CostoTotal").css("border-color", "red");
+                $("#CostoTotal").focus();
+                alert("El costo total es Obligatorio");
+                return;
+            } else {
+                $("#CostoTotal").css("border", "none");
+            }
+        }
+
+       $("#Gifload").css("display", "block");
+       $("#divguarda").css("display", "none");
+       $('#formSolicitud').submit();
+
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // JUST NUMBERS AND  POINT
+    var nav4 = window.Event ? true : false;
+    function valida(evt) {
+        // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
+        var key = nav4 ? evt.which : evt.keyCode;
+        return (key <= 13 || (key >= 48 && key <= 57) || key === 46);
+    }
+   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+</script>
+
+<head>
+
+    <link href="~/Content/CSS/CargaDocumentos.css" rel="stylesheet" />
+    <link href="~/Content/CSS/Alerta.css" rel="stylesheet" />
+    <link href="~/Content/CSS/Levantamiento.css" rel="stylesheet" />
+</head>
+
+
+
+<div class="login-box">
+
+    @using (Html.BeginForm("GuardaSolicitud", "Compras", FormMethod.Post, new { id = "formSolicitud" }))
+    {
+        @Html.HiddenFor(m => m.Solicitante)
+        @Html.HiddenFor(m => m.EmailSolicitante)
+        @Html.HiddenFor(m => m.DepartamentoId)
+        @Html.HiddenFor(m => m.UsuarioFinal)
+        @Html.HiddenFor(m => m.EmailUsuarioFinal)
+        if (ViewBag.EncuestaPendientes == 1)
+        {
+            <div class="notice_box_red " style="top:100px">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21,22a.99893.99893,0,0,1-.707-.293L16.58594,18H5a3.00328,3.00328,0,0,1-3-3V5A3.00328,3.00328,0,0,1,5,2H19a3.00328,3.00328,0,0,1,3,3V21a1,1,0,0,1-1,1Z"></path>
+                    <path class="uim-primary" d="M12,11a.99974.99974,0,0,1-1-1V7a1,1,0,0,1,2,0v3A.99974.99974,0,0,1,12,11Z"></path>
+                    <circle cx="12" cy="13" r="1" class="uim-primary"></circle>
+                </svg>
+                <h4>¡Aviso!</h4>
+                <p>
+                    Encuestas pendientes de ser atendidas.
+                    <br />
+                    Folio(s):<br />
+                    @foreach (var folio in ViewBag.Folios)
+                    {
+                        @folio <br />
+                    }
+
+                </p>
+            </div>
+
+        }
+        else
+        {
+            @*------------------DATOS SOLICITANTE---------------------*@
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>SOLICITUD DE COMPRA</h2>
+
+                    <table class="table" style="width: 100%;">
+                        <tr>
+                            <td style=" width: 16%"><b>DEPARTAMENT</b>&nbsp;&nbsp;</td>
+                            <td style=" width: 16%">@ViewBag.Depto</td>
+                            <td style=" width: 16%;"><b>SOLICITANTE</b></td>
+                            <td style=" width: 16%;">@Html.DisplayFor(m => m.Solicitante)</td>
+                            <td style="text-align:center; width: 16%;"><b>CORREO </b></td>
+                            <td style=" width: 16%">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            @*-------------------------------------------------------------*@
+<div>
+    <div class="user-box" style="text-align:center;" id="div_tipoSol">
+        <text>PRODUCTO</text>
+        @Html.RadioButtonFor(m => m.TipoSolicitud, "PRODUCTO",
+              new { id = "TipoProd", style = "display: inline-block;" })
+        &nbsp;&nbsp;&nbsp;
+        <text>SERVICIO</text>
+        @Html.RadioButtonFor(m => m.TipoSolicitud, "SERVICIO",
+     new { id = "TipoServ", style = "display: inline-block;" })
+    </div>
+    <div class="user-box">
+        <label style=" color: #f30379; font-size: 12px;">CAMPAÑA</label><br />
+        @Html.DropDownListFor(m => m.CampanaId, (SelectList)@ViewBag.ListaCampanas, "SELECCIONE"
+     , new { @style = " color: black;font-size: 12px;", @class = "cajatexto" })
+    </div>
+    @*--------------------------------------------*@
+    <div class="user-box">
+        @Html.TextBoxFor(m => m.DetalledeSolicitud
+                , new { @class = "cajatexto" })
+        <label>DETALLE SOLICITUD</label>
+
+    </div>
+    @*--------------------------------------------*@
+
+    @if (Model.DepartamentoId == 2)
+    {
+        <div class="user-box">
+            SI @Html.RadioButtonFor(m => m.CajaChica, true, new { id = "cajasi" })
+            NO @Html.RadioButtonFor(m => m.CajaChica, false, new { id = "cajano" })
+            <label style=" color: #f30379; font-size: 12px;">CAJA CHICA</label><br /><br />
+
+        </div>
+    }
+    else { }
+    @*--------------------------------------------*@
+    <div class="user-box">
+        @Html.TextBoxFor(m => m.Unidad, new
+   {
+       @class = "cajatexto",
+       onkeypress = "return validanum(event)"
+   })
+        <label>UNIDAD</label>
+    </div>
+
+    @*--------------------------------------------*@
+    <div class="user-box">
+        @Html.TextBoxFor(m => m.Marca, new { @class = "cajatexto" })
+        <label>MARCA</label>
+    </div>
+
+    @*--------------------------------------------*@
+    <div class="user-box">
+        <label style=" color: #f30379; font-size: 12px;">PROVEEDOR SUGERIDO</label><br />
+        @Html.DropDownListFor(m => m.PosibleProveedor, (SelectList)@ViewBag.ListaSiNo, "SELECCIONE",
+     new { @style = " color: black;font-size: 12px;", @class = "cajatexto" })
+    </div>
+
+    @*--------------------------------------------*@
+    <div class="user-box">
+        <label style=" color: #f30379; font-size: 12px;">NOMBRE PROVEEDOR SUGERIDO</label><br />
+        @Html.TextBoxFor(m => m.NombreProveedorSugerido, new { @class = "cajatexto" })
+    </div>
+    @*--------------------------------------------*@
+    <div class="user-box">
+        @Html.TextBoxFor(m => m.Observaciones, new { @class = "cajatexto" })
+        <label>OBSERVACIONES</label>
+    </div>
+    @*--------------------------------------------*@
+    <div class="col-xs-5" align="left">
+        <span class="cargar-archivo">
+            <input type="file" name="#cargar-archivo" id="cargar-archivo" accept=".pdf">
+            @Html.HiddenFor(m => m.Comprobante)
+        </span>
+        <label for="cargar-archivo" style="background-color: dimgrey; color: white; border-radius: 3px 3px; width: 100%; font-size: 12px; ">
+            <span>CARGAR ESTADO DE CUENTA</span>
+        </label>
+    </div>
+    @*--------------------------------------------*@
+    <div class="col-xs-7" style="text-align:right">
+        <label style=" color: #f30379; font-size: 12px;">RECURRENTE</label>
+        @Html.CheckBoxFor(m => m.Recurrente_TEMP, new { @id = "id_Recurrente" })
+    </div>
+    <div class="col-xs-7" style="text-align:right">
+        <label style=" color: #f30379; font-size: 12px;">FACTURA</label>
+        @Html.CheckBoxFor(m => m.Factura, new { @id = "id_factura" })
+    </div>
+    @*--------------------------------------------*@
+    <div id="demo" class=" small collapse" style="text-align:right;">
+        <br />
+        <div class="col-xs-5">
+        </div>
+        <div class="col-xs-7">
+            <div class="user-box">
+                @Html.TextBoxFor(m => m.ProveedorR
+       , new { @class = "cajatexto" })
+                <label>PROVEEDOR</label>
+            </div>
+            <div class="user-box">
+                @Html.TextBoxFor(m => m.DescripcionR
+   , new { @class = "cajatexto" })
+                <label>DESCRIPCIÓN</label>
+            </div>
+            <div class="user-box">
+                @Html.TextBoxFor(m => m.Precio
+   , new { @class = "cajatexto", onkeypress = "return valida(event)" })
+                <b>MXN</b> @Html.RadioButtonFor(m => m.TipoMoneda, "MXN",
+new { id = "rdpamxm", style = "display: inline-block;" })
+                <b>USD</b> @Html.RadioButtonFor(m => m.TipoMoneda, "USD",
+new { id = "rdpausd", style = "display: inline-block;" })
+                <label>SUBTOTAL</label>
+            </div>
+
+        </div>
+    </div>
+
+    @*--------------------------------------------*@
+    <div id="div_factura" class=" small collapse" style="text-align:right;">
+        <br />
+        <div class="col-xs-5">
+        </div>
+        <div class="col-xs-7">
+            <div class="user-box">
+                @Html.TextBoxFor(m => m.NoFactura
+       , new { @class = "cajatexto" })
+                <label>NÚMERO DE FACTURA</label>
+            </div>
+            <div class="user-box">
+                @Html.TextBoxFor(m => m.CostoTotalFactura
+       , new { @class = "cajatexto", type="number" })
+                <label>COSTO TOTAL</label>
+            </div>
+            <div class="user-box">
+                <b>MXN</b> @Html.RadioButtonFor(m => m.TipoMonedaFactura, "MXN",
+new { style = "display: inline-block;" })
+                <b>USD</b> @Html.RadioButtonFor(m => m.TipoMonedaFactura, "USD",
+new { style = "display: inline-block;"})
+            </div>
+
+
+        </div>
+    </div>
+
+    @*--------------------------------------------*@
+    <div id="divguarda" class="row small" style="text-align:right">
+        <button id="btnguardar" type="button" class="btn " style="width: 20%" onclick="ValidarCampos();">
+            <b>Enviar</b><i class="glyphicon glyphicon-chevron-right"></i>
+        </button>
+
+    </div>
+</div>
+        }
+    }
+</div>

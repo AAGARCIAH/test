@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "Ingreso";
+}
+
+
+<script type="text/javascript">
+    //Variables Generales
+
+    var mont = '@Request["mes"]';
+    var anio = '@Request["an"]';
+    var pag =  '@Request["pagina"]';
+
+    $(document).ready(function () {
+
+        if (pag == "1") {
+            $("#ingresosgenerales").css("display", "block");
+            $("#indicadoresespeciales").css("display", "none");
+            $("#estacionesespecializadas").css("display", "none");
+            $("#indicadores").css("border-bottom", "2px solid #035398");
+            $("#especificos").css("border-bottom", "0px");
+            $("#estaciones").css("border-bottom", "0px");
+        }
+
+        if (pag == "2") {
+            $("#ingresosgenerales").css("display", "none");
+            $("#indicadoresespeciales").css("display", "block");
+            $("#estacionesespecializadas").css("display", "none");
+            $("#indicadores").css("border-bottom", "0px");
+            $("#especificos").css("border-bottom", "2px solid #035398");
+            $("#estaciones").css("border-bottom", "0px");
+        }
+
+        if (pag == "3") {
+            $("#ingresosgenerales").css("display", "none");
+            $("#indicadoresespeciales").css("display", "none");
+            $("#estacionesespecializadas").css("display", "block");
+            $("#indicadores").css("border-bottom", "0px");
+            $("#especificos").css("border-bottom", "0px");
+            $("#estaciones").css("border-bottom", "2px solid #035398");
+        }
+
+
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#indicadores").click(function() {
+            $("#ingresosgenerales").css("display","block");
+            $("#indicadoresespeciales").css("display", "none");
+            $("#estacionesespecializadas").css("display", "none");
+            $("#indicadores").css("border-bottom", "2px solid #035398");
+            $("#especificos").css("border-bottom", "0px");
+            $("#estaciones").css("border-bottom", "0px");
+            window.location = '../Finances/Ingreso?pagina=1';
+        });
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#especificos").click(function () {
+            $("#ingresosgenerales").css("display", "none");
+            $("#indicadoresespeciales").css("display", "block");
+            $("#estacionesespecializadas").css("display", "none");
+            $("#indicadores").css("border-bottom", "0px");
+            $("#especificos").css("border-bottom", "2px solid #035398");
+            $("#estaciones").css("border-bottom", "0px");
+            window.location = '../Finances/Ingreso?pagina=2';
+        });
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#estaciones").click(function () {
+            $("#ingresosgenerales").css("display", "none");
+            $("#indicadoresespeciales").css("display", "none");
+            $("#estacionesespecializadas").css("display", "block");
+            $("#indicadores").css("border-bottom", "0px");
+            $("#especificos").css("border-bottom", "0px");
+            $("#estaciones").css("border-bottom", "2px solid #035398");
+            window.location = '../Finances/Ingreso?pagina=3';
+        });
+
+        $("#mes").change(function () {
+            var an = $("#year").val();
+            var mes = $("#mes").val();
+            window.location = '../Finances/Ingreso?mes=' + mes + '&an=' + an + '&pagina=1';
+
+
+        });
+
+        $("#year").change(function () {
+            var an = $("#year").val();
+            var mes = $("#mes").val();
+            window.location = '../Finances/Ingreso?mes=' + mes + '&an=' + an + '&pagina=1';
+         });
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#mesind").change(function () {
+            var an = $("#yearind").val();
+            var mes = $("#mesind").val();
+            window.location = '../Finances/Ingreso?mes=' + mes + '&an=' + an + '&pagina=2';
+
+
+        });
+
+        $("#yearind").change(function () {
+            var an = $("#yearind").val();
+            var mes = $("#mesind").val();
+            window.location = '../Finances/Ingreso?mes=' + mes + '&an=' + an + '&pagina=2';
+        });
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#mesest").change(function () {
+            var an = $("#yearest").val();
+            var mes = $("#mesest").val();
+            window.location = '../Finances/Ingreso?mes=' + mes + '&an=' + an + '&pagina=3';
+
+
+        });
+
+        $("#yearest").change(function () {
+            var an = $("#yearest").val();
+            var mes = $("#mesest").val();
+            window.location = '../Finances/Ingreso?mes=' + mes + '&an=' + an + '&pagina=3';
+        });
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        //AsignaFecha();
+        //END DOCUMENT READY
+    });
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    
+    function setIngresos() {
+
+        $("#ingresosForm").submit();
+        
+       
+    }
+
+    function setEspecificos() {
+
+        $("#especificosForm").submit();
+
+
+    }
+
+    function setEspecializados() {
+
+        $("#estespecializadasForm").submit();
+
+
+    }
+
+   function AsignaFecha() {
+        var fecha = new Date();
+        if (mont == null) {
+            var mesactual = fecha.getMonth() + 1;
+            $("#mes").val(mesactual);
+            $("#mesind").val(mesactual);
+            $("#mesest").val(mesactual);
+        }
+        else {
+            $("#mes").val(mont);
+            $("#mesind").val(mont);
+            $("#mesest").val(mont);
+        }
+
+        if (anio == null) {
+            var anoactual = fecha.getFullYear();
+            $("#year").val(anoactual);
+            $("#yearind").val(anoactual);
+            $("#yearest").val(anoactual);
+        }
+        else {
+            $("#year").val(anio);
+            $("#yearind").val(anio);
+            $("#yearest").val(anio);
+
+        }
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</script>
+<div style="margin-top: 45px;">
+    <div style="width: 100%; float: left;">
+        <div>
+            @*<div class="col-md-12" style="background-color: #035398; background-color: rgba(3, 83, 152, 0.9);">
+                <h5 style="color: white;">Ingreso</h5>
+            </div>*@
+            @*<div class="col-md-12" style="border-bottom: 1px solid #424242;">*@
+            <div class="col-md-12" style="background-color: #035398; ">
+                <div class="col-md-3">
+                    <button type="button" id="indicadores" class="btn btn-default btn-block menuBtn">Indicadores Generales</button>
+                </div>
+                <div class="col-md-3">
+                     <button type="button" id="especificos" class="btn btn-default btn-block menuBtn">Indicadores Específicos</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" id="estaciones" class="btn btn-default btn-block menuBtn">Estaciones Especializadas</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="ingresosgenerales" style="display: block;">
+               @using (Html.BeginForm("_IngresosGenerales", "Finances", FormMethod.Post, new { target = "ingresosForm" }))
+                {
+                     @Html.Action("_IngresosGenerales", "Finances")
+                }
+            </div>
+            <div id="indicadoresespeciales" style="display: none;">
+                @using (Html.BeginForm("_IndicadoresEspecificos", "Finances", FormMethod.Post, new { target = "especificosForm" }))
+                 {
+                @Html.Action("_IndicadoresEspecificos", "Finances")
+                 }
+            </div>
+            <div id="estacionesespecializadas" style="display: none;">
+                @using (Html.BeginForm("_EstacionesEspecializadas", "Finances", FormMethod.Post, new { target = "estespecializadasForm" }))
+                {
+                @Html.Action("_EstacionesEspecializadas", "Finances")
+                }
+            </div>
+        </div>
+
+       @* <div>
+           <iframe name="iframe_facturaBi"; id="iframefactura" style="width:100%"></iframe>
+        </div>*@
+
+    </div>
+</div>

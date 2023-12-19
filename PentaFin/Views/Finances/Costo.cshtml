@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "Costo";
+}
+
+<script type="text/javascript">
+    //Variables Generales
+
+    var mont = '@Request["mes"]';
+    var anio = '@Request["an"]';
+    var pag =  '@Request["pagina"]';
+
+   
+    $(document).ready(function () {
+
+       
+       if (pag == "1") {
+
+               //$("#per_cantidad").css("display", "none");
+                $("#costos_directos").css("display", "block");
+                $("#costos_indirectos").css("display", "none");
+                //$("#personalcantidad").css("border-bottom", "0px");
+                $("#directos").css("border-bottom", "2px solid #035398");
+                $("#indirectos").css("border-bottom", "0px");
+             }
+
+        if (pag == "2") {
+
+                
+                $("#costos_directos").css("display", "none");
+                $("#costos_indirectos").css("display", "block");
+                
+                $("#directos").css("border-bottom", "0px");
+                $("#indirectos").css("border-bottom", "2px solid #035398");
+           }
+        
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    
+
+
+            $("#personalcantidad").click(function () {
+                $("#per_cantidad").css("display", "block");
+                $("#costos_directos").css("display", "none");
+                $("#costos_indirectos").css("display", "none");
+                $("#personalcantidad").css("border-bottom", "2px solid #035398");
+                $("#directos").css("border-bottom", "0px");
+                $("#indirectos").css("border-bottom", "0px");
+
+                @* var url= '@Url.Action("_IngresosGenerales", "Finances")';
+            document.getElementById('iframefactura').src = url*@
+            });
+        
+        
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+       
+        $("#directos").click(function () {
+          
+                $("#per_cantidad").css("display", "none");
+                $("#costos_directos").css("display", "block");
+                $("#costos_indirectos").css("display", "none");
+                $("#personalcantidad").css("border-bottom", "0px");
+                $("#directos").css("border-bottom", "2px solid #035398");
+                $("#indirectos").css("border-bottom", "0px");
+                window.location = '../Finances/Costo?pagina=1';
+                            
+
+            });
+        
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      
+        $("#indirectos").click(function () {
+           
+                $("#per_cantidad").css("display", "none");
+                $("#costos_directos").css("display", "none");
+                $("#costos_indirectos").css("display", "block");
+                $("#personalcantidad").css("border-bottom", "0px");
+                $("#directos").css("border-bottom", "0px");
+                $("#indirectos").css("border-bottom", "2px solid #035398");
+                window.location = '../Finances/Costo?pagina=2';
+             });
+        
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        $("#mes").change(function () {
+            var an = $("#year").val();
+            var mes = $("#mes").val();
+            window.location = '../Finances/Costo?mes=' + mes + '&an=' + an + '&pagina=1';
+
+           
+        });
+
+        $("#year").change(function () {
+            var an = $("#year").val();
+            var mes = $("#mes").val();
+            window.location = '../Finances/Costo?mes=' + mes + '&an=' + an + '&pagina=1';
+
+
+        });
+
+        $("#mes1").change(function () {
+            var an = $("#year1").val();
+            var mes = $("#mes1").val();
+            window.location = '../Finances/Costo?mes=' + mes + '&an=' + an + '&pagina=2';
+
+
+        });
+
+        $("#year1").change(function () {
+            var an = $("#year1").val();
+            var mes = $("#mes1").val();
+            window.location = '../Finances/Costo?mes=' + mes + '&an=' + an + '&pagina=2';
+
+
+        });
+
+        //AsignaFecha();
+                //END DOCUMENT READY
+
+            
+    });
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function setCostos() {
+        
+        $("#costosForm").submit().target = '_self';
+      
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    function setCostosInd() {
+
+        $("#costosIndForm").submit().target = '_self';
+
+    }
+
+    function valida() {
+
+        if (pag == null) {
+            alert("Esta Vacio")
+            pag = 1;
+            alert("Se asigna valor " + pag);
+        }
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    function AsignaFecha() {
+        var fecha = new Date();
+        if (mont == null) {
+            var mesactual = fecha.getMonth() + 1;
+            alert("El mes actual es: " + mesactual);
+            $("#mes").val(mesactual);
+            $("#mes1").val(mesactual);
+        }
+        else {
+            $("#mes").val(mont);
+        }
+
+        if (anio == null) {
+            var anoactual = fecha.getFullYear();
+            alert("El año actual es: " + anoactual);
+            $("#year").val(anoactual);
+            $("#year1").val(anoactual);
+        }
+        else {
+            alert("El año seleccionado es: " + anio);
+            $("#year").val(anio);
+           
+        }
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</script>
+
+<style type="text/css">
+    .celda {
+        height: 25px;
+        font-size: 10px;
+        width: 100%;
+    }
+    .incelda {
+        width: 120px;
+        height: 45px;
+    }
+    .descrip {
+        border-bottom: 1px solid #424242;
+        width: 150px;
+        height: 45px;
+        margin-top: 1px;
+    }
+
+    .innerCelda {
+        padding: 1px;
+    }
+    input[type=text] {
+        padding: 0px;
+    }
+    .contenedor {
+        width: 95%;
+        margin-left: 2.5%;
+        max-height: 650px;
+        overflow-y: auto;
+        border-bottom: 2px solid #424242;
+        border-left: 2px solid #424242;
+        font-size: 12px;margin-top: 35px;
+    }
+    .menuBtn {
+        border-radius: 0px;
+        color: white;
+        border: 0px;
+        background-color: #035398;
+        background-color: rgba(3, 83, 152, 0.9);
+    }
+</style>
+
+<div style="margin-top: 45px;">
+    <div style="width: 100%; float: left;">
+        <div>
+            @*<div class="col-md-12" style="background-color: #035398; background-color: rgba(3, 83, 152, 0.9);">
+                <h5 style="color: white;">Ingreso</h5>
+            </div>*@
+            <div class="col-md-12" style="border-bottom: 1px solid #424242;">
+            <div class="col-md-12" style="background-color: #035398; ">
+                @*<div class="col-md-3">
+                    <button type="button" id="personalcantidad" class="btn btn-default btn-block menuBtn">Ingresos</button>
+                </div>*@
+                <div class="col-md-3">
+                     <button type="button" id="directos" class="btn btn-default btn-block menuBtn">Costos Directos</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" id="indirectos" class="btn btn-default btn-block menuBtn">Costos Indirectos</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            @*<div id="per_cantidad" style="display: block;">
+               @using (Html.BeginForm("Costo", "Finances", FormMethod.Post, new { target = "persForm" }))
+                {
+                     @Html.Action("_PersonalCantidad", "Finances")
+                }
+            </div>*@
+            <div id="costos_directos">
+                @using (Html.BeginForm("_CostosDirectos", "Finances", FormMethod.Post, new { target = "costosForm" }))
+                {
+                   @Html.Action("_CostosDirectos", "Finances") 
+                }                
+            </div>
+            <div id="costos_indirectos" style="display: none;">
+                 @using (Html.BeginForm("_CostosIndirectos", "Finances", FormMethod.Post, new { target = "costosIndForm" }))
+                {
+                   @Html.Action("_CostosIndirectos", "Finances") 
+                }                
+            </div>
+        </div>
+     </div>
+  </div>
+</div>

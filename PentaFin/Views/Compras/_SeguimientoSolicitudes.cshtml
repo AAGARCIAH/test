@@ -1,0 +1,268 @@
+﻿@model PentaFinances.Models.SeguimientoSolicitudesDetalles
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //START DOCUMENT
+
+        //$("#btnguardar").prop('disabled', true);
+
+        @*$('#provee').click(function() {
+            var url = '@Url.Action("_AgregarProveedores", "Compras", new { folio = @Model.Folio })';
+
+            window.open(url, 'popup_window', 'status=1,width=850,height=550,scrollbars=1');
+        });*@
+
+        @*var solicitudestado = '@Model.EstadoSolicitudId';
+
+        if (solicitudestado === "2" || solicitudestado>"3") {
+            $("#aceptasolicitud").css("display", "block");
+            $("#rechazasolicitud").css("display", "none");
+            $("#btnguardar").removeAttr("disabled");
+        }
+
+        if (solicitudestado === "3") {
+            $("#aceptasolicitud").css("display", "none");
+            $("#rechazasolicitud").css("display", "block");
+            $("#btnguardar").removeAttr("disabled");
+
+        }*@
+
+
+        $("#EstadoSolicitudId").change(function () {
+            var estado = $("#EstadoSolicitudId").val();
+            //alert(estado);
+            //$("#aceptasolicitud").css("display", "none");
+            $("#rechazasolicitud").css("display", "none");
+            $("#btnguardar").prop('disabled', true);
+
+            if (estado === "2") {
+                //$("#aceptasolicitud").css("display", "block");
+                $("#rechazasolicitud").css("display", "none");
+                $("#btnguardar").removeAttr("disabled");
+            }
+
+            if (estado === "3") {
+                //$("#aceptasolicitud").css("display", "none");
+                $("#rechazasolicitud").css("display", "block");
+                $("#btnguardar").removeAttr("disabled");
+                
+            }
+            //alert(estado);
+        });
+
+
+    }); //END DOCUMENT
+
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    function GuardaSeguimiento() {
+        var formseg = $("#formSeguimiento");
+
+        $.ajax({
+            url: '../Compras/GuardaSeguimiento',
+            type: "POST",
+            data: formseg.serialize(),
+            success: function(res) {
+                alert("Exito");
+
+                //$("#okvalidamovi").css("display", "block");
+                //$("#okvalidamovi").fadeOut(2000);
+                //$("#modalMovi").modal('toggle');
+
+
+            },
+            error: function(err) {
+                alert(err);
+
+            }
+        });
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+</script>
+
+<div class="container-fluid">
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "formSeguimiento" }))
+{
+    @Html.HiddenFor(m => m.Folio)
+    @Html.HiddenFor(m => m.Solicitante)
+    @Html.HiddenFor(m => m.EmailSolicitante)
+    @Html.HiddenFor(m => m.CampanaId)
+    @Html.HiddenFor(m => m.DepartamentoId)
+    @Html.HiddenFor(m => m.UsuarioFinal)
+    @Html.HiddenFor(m => m.EmailUsuarioFinal)
+    @Html.HiddenFor(m => m.DetalledeSolicitud)
+    @Html.HiddenFor(m => m.Unidad)
+    @Html.HiddenFor(m => m.Marca)
+    @Html.HiddenFor(m => m.Modelo)
+    @Html.HiddenFor(m => m.ObjetivodeSolicitud)
+    @Html.HiddenFor(m => m.Impacto)
+    @Html.HiddenFor(m => m.PosibleProveedor)
+    @Html.HiddenFor(m => m.NombreProveedorSugerido)
+    //@Html.HiddenFor(m => m.EstadoSolicitudId)
+    //@Html.HiddenFor(m => m.MotivoRechazo)
+    @Html.HiddenFor(m => m.Observaciones)
+    @Html.HiddenFor(m => m.Estatus)
+    @Html.HiddenFor(m => m.FechaRegistro)
+    //Datos De Registro
+    @Html.HiddenFor(m => m.UsuarioUltimaActualizacion)
+    @Html.HiddenFor(m => m.FechaUltimaActualizacion)
+    //Actualización CajaChica
+    @Html.HiddenFor(m => m.CajaChica)
+
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new { style = "display: inline-block" })
+            <br/>
+            <br/>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 10%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.Solicitante)</td>
+                    <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+                    <td style="text-align: right; width: 10%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@ViewBag.Campana</td>
+                    @*<td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.CampanaId)</td>*@
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@ViewBag.Depto</td>
+                    @*<td style="text-align: left;">@Html.DisplayFor(m => m.Departamento)</td>*@
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.UsuarioFinal)</td>
+                    <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.EmailUsuarioFinal)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Detalle de la Solicitud</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m => m.DetalledeSolicitud)</td>
+                    <td style="text-align: right; width: 10%;"></td>
+                    <td style="text-align: left; width: 23%;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><br/><b>Unidad</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"><br/>@Html.DisplayFor(m => m.Unidad)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><b>Marca</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.Marca)</td>
+                    <td style="text-align: right;"><b>Modelo</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.Modelo)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><br/><b>Objetivo de la Solicitud</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"><br/>@Html.DisplayFor(m => m.ObjetivodeSolicitud)</td>
+                </tr>
+
+                @if (Model.PosibleProveedor)
+                {
+                    <tr>
+                        <td style="text-align: right;"><br/><b>Se cuenta con Proveedor</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;"><br/>Sí</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td style="text-align: right;"><br/><b>Se cuenta con Proveedor</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;"><br/>No</td>
+                    </tr>
+                }
+
+               @* <tr>
+                    <td style="text-align: right;"><b>Nombre del proveedor sugerido</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.NombreProveedorSugerido)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><br/><b>Estado de Solicitud</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"><br/>@Html.DropDownListFor(m => m.EstadoSolicitudId, (SelectList)@ViewBag.EstadoSolicitado, "SELECCIONE"
+                                                           , new { style = "width: 90%;", @class = "form-control input-sm" })</td>
+                </tr>*@
+
+            </table>
+        </div>
+    </div>
+    
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 24%; text-align: right;"><b>Nombre del proveedor sugerido</b>&nbsp;&nbsp;</td>
+                    <td style="width: 76%; text-align: left;">@Html.DisplayFor(m => m.NombreProveedorSugerido)</td>
+                </tr>
+            </table>
+            
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 20%; text-align: right;"><br/><b>Seguimiento de Solicitud</b>&nbsp;&nbsp;</td>
+                    <td style="width: 50%; text-align: left;"><br/>@Html.DropDownListFor(m => m.EstadoSolicitudId, (SelectList)@ViewBag.EstadoSolicitado, "SELECCIONE"
+                                                                       , new { style = "width: 90%;", @class = "form-control input-sm" })</td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    
+   
+    <div id="aceptasolicitud" class="row small" style="display:none">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        @*@Html.ActionLink("Editar Proveedores", "_AgregarProveedores", "Compras", new { @folio = @Model.Folio }, new{target="_blank"})*@
+                        <a id="provee" href="#">Editar Proveedores</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div id="rechazasolicitud" class="row small" style="display:none">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Motivo de Rechazo</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.TextAreaFor(m => m.MotivoRechazo
+                                                                   , new { @class = "form-control input-sm" })</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+        <div class="row small">
+            <div class="col-md-6"></div>
+            <div class="form-group col-md-3">
+                <button id="btnguardar" type="button" class="btn btn-success" style="width: 100%" onclick="GuardaSeguimiento();">
+                    <b>Guardar</b><i class="glyphicon glyphicon-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+}
+    </div>

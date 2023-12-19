@@ -1,0 +1,168 @@
+﻿@model PentaFinances.Models.ComprasRealizadasDetalles
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //START DOCUMENT
+    }); //END DOCUMENT
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+</script>
+
+<div class="container-fluid">
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new{style="display: inline-block"})
+            <br/>
+            <br/>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 10%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.Solicitante)</td>
+                    <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+                    <td style="text-align: right; width: 10%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.Campana)</td>
+                </tr>
+                
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.Departamento)</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.UsuarioFinal)</td>
+                    <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.EmailUsuarioFinal)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Detalle de la Solicitud</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.DisplayFor(m=> m.DetalledeSolicitud)</td>
+                    <td style="text-align: right; width: 10%;"></td>
+                    <td style="text-align: left; width: 23%;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><b>Proveedor Asignado</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"> @Html.DisplayFor(m=> m.ProveedorAsignado)</td>
+                    <td style="text-align: right;"></td>
+                    <td style="text-align: left;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    @*Detalles de Pago*@
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Forma de Pago</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.DropDownListFor(m => m.FormaPago, (SelectList) @ViewBag.ListaFormaPago,"SELECCIONE"
+                                                                  , new {style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})</td>
+                    <td style="text-align: right; width: 10%;"></td>
+                    <td style="text-align: left; width: 25%;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><br/><b>Razón Social</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"><br/>@Html.TextBoxFor(m => m.RazonSocial
+                    , new{@class="form-control input-sm"})</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right;"><b>Crédito</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"> @Html.TextBoxFor(m => m.Credito
+                    , new{@class="form-control input-sm"})</td>
+                    <td style="text-align: right;"><b>Tiempo</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"> @Html.TextBoxFor(m => m.Tiempo
+                    , new{@class="form-control input-sm"})</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Banco</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"> @Html.TextBoxFor(m => m.Banco
+                    , new{@class="form-control input-sm"})</td>
+                </tr>
+                
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Cuenta</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;">@Html.TextBoxFor(m=>m.Cuenta
+                    , new{@class="form-control input-sm"})</td>
+                    <td style="text-align: right;"><b>CLABE</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.TextBoxFor(m=>m.Clabe
+                    , new{@class="form-control input-sm"})</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    @*Detalles de Factura*@
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 20%;"><b>Factura Folio</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 25%;"><input type="file" id="foliofact"></td>
+                    <td style="text-align: right; width: 10%;"></td>
+                    <td style="text-align: left; width: 23%;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><br/><b>Recibo No.</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"><br/>@Html.TextBoxFor(m=> m.NumRecibo
+                    , new{@class="form-control input-sm"})</td>
+                    <td style="text-align: right;"></td>
+                    <td style="text-align: left;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+   
+    @*Observaciones*@
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 15%;"><b>Observaciones</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 30%;"> @Html.TextAreaFor(m => m.Observaciones
+                                                                   , new{@class="form-control input-sm"})</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="row small">
+        <div class="col-md-6"></div>
+        <div class="form-group col-md-3">
+            <button id="btnguardar" type="button" class="btn btn-success" style="width: 100%" onclick="GuardaSeguimiento();">
+                <b>Solicitar Pago</b><i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+</div>

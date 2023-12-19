@@ -1,0 +1,298 @@
+﻿@model PentaFinances.ViewModels.ConsultaFolioDetallesVm
+
+@{
+    ViewBag.Title = "_CancelarFolio";
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //START DOCUMENT
+
+        //$("#btnasigna").removeAttr("onclick");
+
+        $("#AsignadoA").change(function() {
+            if (this.checked) {
+                $("#AsignadoB").removeAttr('checked');
+                $("#AsignadoC").removeAttr('checked');
+            }
+        });
+
+        $("#AsignadoB").change(function() {
+            if (this.checked) {
+                $("#AsignadoA").removeAttr('checked');
+                $("#AsignadoC").removeAttr('checked');
+            }
+        });
+
+        $("#AsignadoC").change(function() {
+            if (this.checked) {
+                $("#AsignadoB").removeAttr('checked');
+                $("#AsignadoA").removeAttr('checked');
+            }
+        });
+
+        $("#btnmotivo").click(function() {
+            //alert("Mensaje");
+            $("#botonesar").css("display", "none");
+            $("#motivo").css("display", "block");
+        });
+
+        $("#btncancelar").click(function() {
+            //alert("Mensaje");
+            $("#botonesar").css("display", "block");
+            $("#motivo").css("display", "none");
+        });
+    }); //END DOCUMENT
+
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    //function MotivoRechazo() {
+    //    alert("Mensaje");
+    //    $("#botonesar").css("display", "none");
+    //    $("#motivo").css("display", "block");
+    //    //$("#botonesar").css("display", "none");
+    //}
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    function CancelarFolio() {
+        var form = $("#formCancelar");
+
+        $.ajax({
+            url: '../Compras/SaveCancelaFolio',
+            type: "POST",
+            data: form.serialize(),
+            success: function(res) {
+                alert("Exito");
+
+                $("#cancelar").css("display", "none");
+                $("#cancelok").css("display", "block");
+                //$("#okvalidamovi").css("display", "block");
+                //$("#okvalidamovi").fadeOut(2000);
+                //$("#modalMovi").modal('toggle');
+
+
+            },
+            error: function(err) {
+                alert(err);
+
+            }
+        });
+    }
+
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    function ShowCotizacion(tipo) {
+        var folio = $("#Folio").val();
+
+        $.ajax({
+            url: "@Url.Action("GetCotizacion", "Docs")",
+            type: "POST",
+            data: {
+                folio: folio,
+                tipo: tipo
+            },
+            success: function (data) {
+                if (data === 'Error') {
+                    $("#errorTxt").text('Archivo no encontrado, contacte con su administrador');
+
+                } else {
+
+                    window.open(data, 'popup_window', 'status=1,width=700,height=500,scrollbars=1');
+                    //$("#modViewEvidencia").modal("show");
+                }
+
+            }
+        });
+    }
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+   
+</script>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "formCancelar" }))
+    {
+        @Html.HiddenFor(m => m.Folio)
+        @Html.HiddenFor(m => m.Solicitante)
+        @Html.HiddenFor(m => m.EmailSolicitante)
+        @Html.HiddenFor(m => m.CampanaId)
+        @Html.HiddenFor(m => m.DepartamentoId)
+        @Html.HiddenFor(m => m.UsuarioFinal)
+        @Html.HiddenFor(m => m.EmailUsuarioFinal)
+        @Html.HiddenFor(m => m.DetalledeSolicitud)
+        @Html.HiddenFor(m => m.Unidad)
+        @Html.HiddenFor(m => m.Marca)
+        @Html.HiddenFor(m => m.Modelo)
+        @Html.HiddenFor(m => m.ObjetivodeSolicitud)
+        @Html.HiddenFor(m => m.Impacto)
+        @Html.HiddenFor(m => m.PosibleProveedor)
+        @Html.HiddenFor(m => m.NombreProveedorSugerido)
+        //@Html.HiddenFor(m => m.EstadoSolicitudId)
+        //@Html.HiddenFor(m => m.MotivoRechazo)
+        @Html.HiddenFor(m => m.Observaciones)
+        @Html.HiddenFor(m => m.Estatus)
+        @Html.HiddenFor(m => m.FechaRegistro)
+        //Datos De Registro
+        @*Html.HiddenFor(m => m.UsuarioUltimaActualizacion)
+        @Html.HiddenFor(m => m.FechaUltimaActualizacion)*@
+        
+        <div class="row small">
+            <div class="form-group col-md-12">
+                @*<label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new { style = "display: inline-block" })
+            <br/>
+            <br/>*@
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 5%;"><b>Folio</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 10%;">@Html.DisplayFor(m => m.Folio)</td>
+                        <td style="text-align: right; width: 8%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 22%;">@Html.DisplayFor(m => m.Solicitante)</td>
+                        <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 25%;">@Html.DisplayFor(m => m.EmailSolicitante)</td>
+                        <td style="text-align: right; width: 5%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 10%;">@Html.DisplayFor(m => m.Campana)</td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;">@Html.DisplayFor(m => m.UsuarioFinal)</td>
+                        <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;">@Html.DisplayFor(m => m.EmailUsuarioFinal)</td>
+                        <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left;">@Html.DisplayFor(m => m.Departamento)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Detalle de la Solicitud</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.DetalledeSolicitud)</td>
+                        <td></td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+        
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Unidad</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.Unidad)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Marca</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.Marca)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Modelo</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;">@Html.DisplayFor(m => m.Modelo)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><br/><b>Objetivo de Solicitud</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"><br/> @Html.DisplayFor(m => m.ObjetivodeSolicitud)</td>
+                        <td></td>
+                    </tr>
+                    
+                   @* <tr>
+                        <td style="text-align: right; width: 20%;"><b>Motivo</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;">@Html.DisplayFor(m => m.Impacto)</td>
+                        <td></td>
+                    </tr>*@
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><br /><b>Observaciones</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"><br /> @Html.DisplayFor(m => m.Observaciones)</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Proveedor Asignado</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.ProveedorAsignado)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Subtotal</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.Precio)&nbsp;&nbsp;
+                            <b>@Html.DisplayFor(m => m.TipoMoneda)</b>
+                        </td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Monto I.V.A.</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;">@Html.DisplayFor(m => m.Iva)</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        
+        <div class="row small">
+            <div class="form-group col-md-10 col-md-offset-1">
+                <table style="width: 100%;">
+                   <tr>
+                        <td style="text-align: right; width: 20%;"><br/><b>Forma de Pago</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"><br/> @Html.DisplayFor(m => m.FormaPago)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Razón Social</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.RazonSocial)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Banco</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.Banco)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>Cuenta</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.Cuenta)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>CLABE</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.Clabe)</td>
+                        <td></td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="text-align: right; width: 20%;"><b>No. Folio Factura</b>&nbsp;&nbsp;</td>
+                        <td style="text-align: left; width: 50%;"> @Html.DisplayFor(m => m.NumRecibo)</td>
+                        <td></td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        
+        <div class="row small">
+            <div class="form-group col-md-12">
+                <h3>Estado de Solicitud: <small>@Html.DisplayFor(m => m.EstadoSolicitud)</small></h3>
+            </div>
+        </div>
+    }
+</div>

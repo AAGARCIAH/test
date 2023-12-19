@@ -1,0 +1,636 @@
+﻿@model List<PentaFinances.Dtos.CostoDto>
+
+@{
+    ViewBag.Title = "_PersonalCantidad";
+}
+
+  <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="~/Scripts/jquery-1.9.1.js"></script>
+  <script src="~/Scripts/jquery-ui.js"></script>
+  <script src="~/Scripts/year-select.js"></script>
+
+ <script>
+  $( function() {
+     
+      var fecha = new Date();
+      var year = fecha.getFullYear();
+      $('.yearselect').yearselect({
+          order: 'desc',
+          start: 1990,
+          end: year,
+          selected: year
+      });
+
+  });
+
+  </script>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">Mes</label><br />
+        @Html.DropDownList("MesDropDownList",(SelectList)@ViewBag.Meses, "Seleccione Mes" , new {@class="form-control"})</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">A&ntilde;o</label><br />
+       <input class="yearselect form-control"></div>
+    
+</div>
+
+<div class="contenedor">
+    <table style="margin-left: 10px;">
+        @if (Model.Count > 0)
+        {
+            <tr>
+                <td style="vertical-align: top">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="incelda">
+                                    <label style="font-weight: bold;">
+                                        Metrica/Cliente
+                                    </label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Agente CDMX</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Agente Morelia</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Agente SD</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Agente CAC</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Campo</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>BO</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Validador</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Supervisor CDMX</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Supervisor Morelia</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Supervisor Mesa de Ayuda</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Coordinador</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Gerente CDMX</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Gerente Morelia</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Subdirector</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Estaciones CDMX</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Estaciones Morelia</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Estaciones Venezuela</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Agente por Supervisor</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Agente por Estación</label>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                @foreach (var indicador in Model)
+                {
+                            
+                    <td style="vertical-align: top;">
+                        <table>
+                            <tr>
+                                <td style="background: #D8D8D8; text-align: center; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <label style="font-size: 10px; font-weight: bold;">
+                                            @Html.DisplayFor(m => indicador.Campana.nombreCampana)
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCDMX.Bi,
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCDMX.Op,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">CI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCDMX.Ci,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Re<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCDMX.Re,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteMorelia.Bi,
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteMorelia.Op,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">CI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteMorelia.Ci,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                 <td class="innerCelda">Re<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteMorelia.Re,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteSD.Bi,
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteSD.Op,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">CI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteSD.Ci,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Re<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteSD.Re,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCAC.Bi,
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCAC.Op,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">CI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCAC.Ci,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Re<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteCAC.Re,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Campo.Bi,
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Campo.Op,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">CI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Campo.Ci,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Re<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Campo.Re,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.BO.Bi,
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.BO.Op,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">CI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.BO.Ci,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Re<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.BO.Re,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Validador.Bi,
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Validador.Op,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">CI<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Validador.Ci,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Re<br/>
+                                                    @Html.TextBoxFor(m => indicador.Costos.Validador.Re,
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                <div class="inceldarealcont">
+                                    <table>
+                                        <tr class="innerCelda">
+                                            <td>BI<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorCDMX.Bi,
+                                                    new {@class = "celda form-control", ReadOnly="true"})
+                                            </td>
+                                            <td class="innerCelda">OP<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorCDMX.Op,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda">CI<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorCDMX.Ci,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                             <td class="innerCelda">Re<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorCDMX.Re,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                <div class="inceldarealcont">
+                                    <table>
+                                        <tr class="innerCelda">
+                                            <td>BI<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMorelia.Bi,
+                                                    new {@class = "celda form-control", ReadOnly="true"})
+                                            </td>
+                                            <td class="innerCelda">OP<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMorelia.Op,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda">CI<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMorelia.Ci,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda">Re<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMorelia.Re,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                <div class="inceldarealcont">
+                                    <table>
+                                        <tr class="innerCelda">
+                                            <td>BI<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMesaAyuda.Bi,
+                                                    new {@class = "celda form-control", ReadOnly="true"})
+                                            </td>
+                                            <td class="innerCelda">OP<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMesaAyuda.Op,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda">CI<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMesaAyuda.Ci,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                             <td class="innerCelda">Re<br/>
+                                                @Html.TextBoxFor(m => indicador.Costos.SupervisorMesaAyuda.Re,
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                             <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Coordinador.Bi,
+                                                                    new { @class = "celda form-control" , ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Coordinador.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Coordinador.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Coordinador.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteCDMX.Bi,
+                                                                    new { @class = "celda form-control" , ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteCDMX.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteCDMX.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteCDMX.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteMorelia.Bi,
+                                                                    new { @class = "celda form-control" , ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteMorelia.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteMorelia.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.GerenteMorelia.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Subdirector.Bi,
+                                                                    new { @class = "celda form-control", ReadOnly="true" })
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Subdirector.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Subdirector.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.Subdirector.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesCDMX.Bi,
+                                                                    new { @class = "celda form-control", ReadOnly="true" })
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesCDMX.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesCDMX.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesCDMX.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesMorelia.Bi,
+                                                                    new { @class = "celda form-control", ReadOnly="true" })
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesMorelia.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesMorelia.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesMorelia.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesVenezuela.Bi,
+                                                                    new { @class = "celda form-control" , ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesVenezuela.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesVenezuela.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.EstacionesVenezuela.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporSupervisor.Bi,
+                                                                    new { @class = "celda form-control", ReadOnly="true" })
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporSupervisor.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporSupervisor.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporSupervisor.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>BI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporEstacion.Bi,
+                                                                    new { @class = "celda form-control" , ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">OP<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporEstacion.Op,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">CI<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporEstacion.Ci,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Re<br />
+                                                    @Html.TextBoxFor(m => indicador.Costos.AgenteporEstacion.Re,
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- END OF THE TABLE -->
+                        </table>
+                    </td>
+                        }
+            </tr>
+                }
+
+    </table>
+</div>
+<div class="col-md-12">
+    <div class="col-md-2 col-md-offset-10">
+          <button type="button" class="btn btn-success btn-block" style="border-radius: 0px;">Guardar</button>
+    </div>
+</div>

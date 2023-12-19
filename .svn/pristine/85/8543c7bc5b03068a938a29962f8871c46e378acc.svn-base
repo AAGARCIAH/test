@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "IngresoTotal";
+}
+
+<script type="text/javascript">
+    //Variables Generales
+
+    var mont = '@Request["mes"]';
+    var anio = '@Request["an"]';
+    var pag =  '@Request["pagina"]';
+
+    $(document).ready(function () {
+
+        if (pag==null){
+            alert("Esta Vacio")
+            pag = 1;
+            alert("Se asigna valor "+ pag);
+        }
+
+        
+        if (pag == "1") {
+
+                $("#ingresos_totales").css("display", "block");
+                $("#ing_totales").css("border-bottom", "2px solid #035398");
+               
+             }
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    
+
+
+                $("#ing_totales").click(function () {
+                $("#ingresos_totales").css("display", "block");
+                $("#ing_totales").css("border-bottom", "2px solid #035398");
+                window.location = '../Finances/IngresoTotal?pagina=1';
+
+                @* var url= '@Url.Action("_IngresosGenerales", "Finances")';
+            document.getElementById('iframefactura').src = url*@
+            });
+        
+        
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+       
+       
+        $("#mes").change(function () {
+            var an = $("#year").val();
+            var mes = $("#mes").val();
+            window.location = '../Finances/IngresoTotal?mes=' + mes +'&an='+an + '&pagina=1';
+
+           
+        });
+
+        $("#year").change(function () {
+            var an = $("#year").val();
+            var mes = $("#mes").val();
+            window.location = '../Finances/IngresoTotal?mes=' + mes + '&an=' + an + '&pagina=1';
+
+
+        });
+
+     
+       //END DOCUMENT READY
+
+            
+    });
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function setIngresosTotales() {
+        
+        $("#ingresosTotalesForm").submit();
+      
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+   
+    function AsignaFecha() {
+        var fecha = new Date();
+        if (mont == null) {
+            var mesactual = fecha.getMonth() + 1;
+            alert("El mes actual es: " + mesactual);
+            $("#mes").val(mesactual);
+        }
+        else {
+            $("#mes").val(mont);
+        }
+
+        if (anio == null) {
+            var anoactual = fecha.getFullYear();
+            alert("El año actual es: " + anoactual);
+            $("#year").val(anoactual);
+        }
+        else {
+            alert("El año seleccionado es: " + anio);
+            $("#year").val(anio);
+           
+        }
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</script>
+
+<style type="text/css">
+    .celda {
+        height: 25px;
+        font-size: 10px;
+        width: 100%;
+    }
+    .incelda {
+        width: 120px;
+        height: 45px;
+    }
+    .descrip {
+        border-bottom: 1px solid #424242;
+        width: 150px;
+        height: 45px;
+        margin-top: 1px;
+    }
+
+    .innerCelda {
+        padding: 1px;
+    }
+    input[type=text] {
+        padding: 0px;
+    }
+    .contenedor {
+        width: 95%;
+        margin-left: 2.5%;
+        max-height: 650px;
+        overflow-y: auto;
+        border-bottom: 2px solid #424242;
+        border-left: 2px solid #424242;
+        font-size: 12px;margin-top: 35px;
+    }
+    .menuBtn {
+        border-radius: 0px;
+        color: white;
+        border: 0px;
+        background-color: #035398;
+        background-color: rgba(3, 83, 152, 0.9);
+    }
+</style>
+
+<div style="margin-top: 45px;">
+    <div style="width: 100%; float: left;">
+        <div>
+            @*<div class="col-md-12" style="background-color: #035398; background-color: rgba(3, 83, 152, 0.9);">
+                <h5 style="color: white;">Ingreso</h5>
+            </div>*@
+            @*<div class="col-md-12" style="border-bottom: 1px solid #424242;">*@
+            <div class="col-md-12" style="background-color: #035398; ">
+                <div class="col-md-3">
+                    <button type="button" id="ing_totales" class="btn btn-default btn-block menuBtn">Ingresos Totales</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="ingresos_totales" style="display: block;">
+               @using (Html.BeginForm("_IngresosTotales", "Finances", FormMethod.Post, new { target = "ingresosTotalesForm" }))
+                {
+                     @Html.Action("_IngresosTotales", "Finances")
+                }
+            </div>
+        </div>
+    </div>
+</div>

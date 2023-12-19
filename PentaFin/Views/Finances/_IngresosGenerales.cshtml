@@ -1,0 +1,717 @@
+﻿@model List<PentaFinances.Dtos.IngresosDto>
+@{
+    ViewBag.Title = "_IngresosGenerales";
+}
+
+  <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="~/Scripts/jquery-1.9.1.js"></script>
+  <script src="~/Scripts/jquery-ui.js"></script>
+  <script src="~/Scripts/year-select.js"></script>
+
+<script>
+     $(document).ready(function() {
+
+     });//END DOCUMENT
+ </script>
+ 
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">Mes</label><br />
+        @Html.DropDownList("MesDropDownList",(SelectList)@ViewBag.Meses, new {@class="form-control", id="mes"})</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">A&ntilde;o</label><br />
+       @Html.DropDownList("AnioDropDownList", (SelectList)@ViewBag.Anios, new { @class = "form-control", id="year" })</div>
+    
+</div>
+
+<div id="contenedor" class="contenedor">
+    <table style="margin-left: 10px;">
+        @if (Model.Count > 0)
+         {
+             <tr >
+             <td style="vertical-align: top;">
+                 <table>
+                     <tr>
+                         <td>
+                             <div class="incelda">
+                                 <label style="font-weight: bold;">
+                                     Metrica/Cliente
+                                 </label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Días de Servicio</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Horas de Servicio</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamadas ACD</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamadas IVR</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamadas de Entrada</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamadas Contestadas</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamadas Facturables</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamadas de Salida</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Chat</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>SMS</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Email</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Nivel de Servicio</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Abandono</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>ASA</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>AHT</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>SPH</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Minutos de Entrada</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Minutos de Salida Fijo</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Minutos de Salida Celular</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Ocupación</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Adherencia</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Ausentismo</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Rotación</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Horas Conexión</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Horas Pagadas</label>
+                             </div>
+                         </td>
+                     </tr>
+                 </table>
+             </td>
+
+             @for (int i = 0;i < Model.Count; i++)
+             {
+
+                 <td style="vertical-align: top;">
+                 <table>
+                 <tr>
+                     <td style="background: #D8D8D8; text-align: center; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda">
+                             <label style="font-size: 10px; font-weight: bold;">
+                                 @Html.DisplayFor(m => Model[i].Campana.nombreCampana)
+                                 @Html.HiddenFor(m => Model[i].Campana.nombreCampana)
+                                 @Html.HiddenFor(m => Model[i].Campana.idCampana)
+                             </label>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.DiasServicio.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.DiasServicio.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.DiasServicio.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasServicio.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasServicio.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasServicio.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasAcd.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasAcd.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasAcd.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasIvr.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasIvr.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasIvr.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasEntrada.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasEntrada.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasEntrada.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasContestadas.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasContestadas.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasContestadas.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasFacturables.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasFacturables.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasFacturables.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasSalida.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasSalida.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.LlamadasSalida.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Chat.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Chat.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Chat.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Sms.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Sms.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Sms.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Email.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Email.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Email.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.NivelServicio.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.NivelServicio.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.NivelServicio.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Abandono.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Abandono.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Abandono.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Asa.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Asa.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Asa.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Aht.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Aht.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Aht.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Sph.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Sph.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Sph.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosEntrada.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosEntrada.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosEntrada.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosSalidaFijo.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosSalidaFijo.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosSalidaFijo.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosSalidaCelular.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosSalidaCelular.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.MinutosSalidaCelular.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Ocupacion.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Ocupacion.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Ocupacion.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Adherencia.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Adherencia.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Adherencia.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Ausentismo.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Ausentismo.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Ausentismo.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Rotacion.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Rotacion.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.Rotacion.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasConexion.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasConexion.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasConexion.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="inceldaindicadores" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasPagadas.Bi,"{0:N4}",
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasPagadas.Op,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda" style="border-right:groove">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Ingreso.HorasPagadas.Ci,"{0:N4}",
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <!-- END OF THE TABLE -->
+                 </table>
+                 </td>
+             }
+             </tr>
+         
+    }
+</table>
+</div>
+<div class="col-md-12">
+    <div class="col-md-2 col-md-offset-10">
+        <button type="submit" id="btnIngresos" formtarget="_self" class="btn btn-success btn-block" style="border-radius: 0px;">Guardar</button>
+    </div>
+</div>
+           

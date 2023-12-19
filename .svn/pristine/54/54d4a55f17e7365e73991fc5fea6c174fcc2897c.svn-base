@@ -1,0 +1,169 @@
+﻿@model PentaFinances.Models.EncuestaSatPentaFinances
+@{
+    ViewBag.Title = "EncuestaSat";
+    Layout = "~/Views/Shared/_Layout_Encuesta.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var user = '@ViewBag.user'
+         var estatus = '@ViewBag.Estatus'
+        if ( user == "True" || estatus == "True") {
+
+
+            $('#CumplioExpectativas1').attr("disabled", true);
+            $('#CumplioExpectativas2').attr("disabled", true);
+            $('#CumplioExpectativas3').attr("disabled", true);
+            $('#CumplioExpectativas4').attr("disabled", true);
+            $('#CumplioExpectativas5').attr("disabled", true);
+
+            $('#TiempoDeRespuesta1').attr("disabled", true);
+            $('#TiempoDeRespuesta2').attr("disabled", true);
+            $('#TiempoDeRespuesta3').attr("disabled", true);
+            $('#TiempoDeRespuesta4').attr("disabled", true);
+            $('#TiempoDeRespuesta5').attr("disabled", true);
+
+            $('#TiempoDeEntrega1').attr("disabled", true);
+            $('#TiempoDeEntrega2').attr("disabled", true);
+            $('#TiempoDeEntrega3').attr("disabled", true);
+            $('#TiempoDeEntrega4').attr("disabled", true);
+            $('#TiempoDeEntrega5').attr("disabled", true);
+
+            $('#Comentarios').attr("disabled", true);
+            $('#TipoProd').attr("disabled", true);
+            $('#TipoServ').attr("disabled", true);
+
+            $('#enviar').css('display', 'none');
+        }
+        else {
+            $('#CumplioExpectativas1').attr("disabled", false);
+            $('#CumplioExpectativas2').attr("disabled", false);
+            $('#CumplioExpectativas3').attr("disabled", false);
+            $('#CumplioExpectativas4').attr("disabled", false);
+            $('#CumplioExpectativas5').attr("disabled", false);
+
+            $('#TiempoDeRespuesta1').attr("disabled", false);
+            $('#TiempoDeRespuesta2').attr("disabled", false);
+            $('#TiempoDeRespuesta3').attr("disabled", false);
+            $('#TiempoDeRespuesta4').attr("disabled", false);
+            $('#TiempoDeRespuesta5').attr("disabled", false);
+
+            $('#TiempoDeEntrega1').attr("disabled", false);
+            $('#TiempoDeEntrega2').attr("disabled", false);
+            $('#TiempoDeEntrega3').attr("disabled", false);
+            $('#TiempoDeEntrega4').attr("disabled", false);
+            $('#TiempoDeEntrega5').attr("disabled", false);
+
+            $('#Comentarios').attr("disabled", false);
+
+            $('#enviar').css('display', 'block');
+        }
+    });
+
+    let radiosbutton = [
+        "TiempoDeRespuesta",
+        "CumplioExpectativas",
+        "TiempoDeEntrega"
+    ];
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function Guardar() {
+
+        for (i = 0; i < radiosbutton.length; i++) {
+            if ($(" input[name=" + radiosbutton[i] + "]").is(':checked')) {
+
+            } else {
+
+                alert("Contestar pregunta " + (i + 1));
+                return;
+            }
+        }//Cierre ciclo for
+        $('#idformulario').submit();
+    }
+
+</script>
+
+<link href="~/Content/CSS/Levantamiento.css" rel="stylesheet" />
+
+<body>
+    @using (Html.BeginForm("SaveEncuestaSat", "Compras", FormMethod.Post, new { id = "idformulario" }))
+    {
+        <div class=" encuesta login-box" style="zoom: 80%;">
+            <div style="background-color: #454545; ">
+                <h2>Encuesta de Satisfacción</h2>
+            </div>
+
+            <div>
+                <div>
+                    <label style="font-size:15px; font-weight:bold">Folio:</label>
+                    <label style="font-size:15px;"> @Html.DisplayFor(m => m.Folio)</label> <br />
+                    <label style="font-size:15px; font-weight:bold">Detalle de la compra: </label>
+                    <label style="font-size:15px;"> @ViewBag.DetalleCompra </label><br />
+                    <label style="font-size:15px; font-weight:bold">Proveedor: </label>
+                    <label style="font-size:15px;"> @ViewBag.Proveedor </label><br />
+                    <label style="font-size:15px; font-weight:bold">Servicio: </label>
+                    <label style="font-size:15px;"> @ViewBag.Tipo </label><br />
+                   
+                </div>
+                <label style="font-size:15px; font-weight:bold">Instrucciones:</label>
+                Seleccione la respuesta de acuerdo a cada pregunta
+                <br /><br />
+
+                @Html.HiddenFor(m => m.Folio)
+                @Html.HiddenFor(m => m.UserFinance)
+
+            <div>
+                <div class="form">
+                    <label for="">1. ¿El tiempo de respuesta por el área de compras fue adecuado?</label><br />
+                    @Html.RadioButtonFor(m => m.TiempoDeRespuesta, "5", new { @class = "", id = "TiempoDeRespuesta5" })
+                    <name class="">Excelente</name> <br />
+                    @Html.RadioButtonFor(m => m.TiempoDeRespuesta, "2", new { @class = "", id = "TiempoDeRespuesta2" })
+                    <name class="">Mala</name> <br />
+
+                </div>
+                <hr />
+                <div class="col-lg-15">
+                    <div class="form-inline" style="width: 420px;">
+                        <label for="">2. ¿Cómo califica la calidad?</label><br />
+
+                        @Html.RadioButtonFor(m => m.CumplioExpectativas, "5", new { @class = "", id = "CumplioExpectativas5" })
+                        <name class="">Excelente</name> <br />
+                        @Html.RadioButtonFor(m => m.CumplioExpectativas, "2", new { @class = "", id = "CumplioExpectativas2" })
+                        <name class="">  </name>Mala<br />
+                    </div>
+
+                </div>
+                
+                <hr />
+
+                <div class="col-lg-14">
+                    <div>
+                        <label for="">3. ¿El tiempo de entrega fue adecuado?</label><br />
+                        @Html.RadioButtonFor(m => m.TiempoDeEntrega, "5", new { @class = "", id = "TiempoDeEntrega5" })
+                        <name class="">Excelente</name><br />
+                        @Html.RadioButtonFor(m => m.TiempoDeEntrega, "2", new { @class = "", id = "TiempoDeEntrega2" })
+                        <name class="">  </name>Mala<br />
+                    </div>
+
+                    <hr />
+
+                    <div>
+                        <label for="">4. Comentarios</label><br />
+                        @Html.TextAreaFor(m => m.Comentarios, new { @style = "width:400px; height:100px" })
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-bottom: 100px;">
+                    <div class="col-md-12">
+                        <button id="enviar" type="button" class="btn" onclick="Guardar();" style="float: right;">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    }
+</body>

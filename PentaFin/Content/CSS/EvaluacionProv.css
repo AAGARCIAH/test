@@ -1,0 +1,327 @@
+﻿
+.prov {
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 300px;
+    border: none;
+    border-bottom: 1px solid #757575;
+}
+
+.switch {
+    position: absolute;
+    width: 150px;
+    height: 26px;
+    text-align: center;
+    background: #00bc9c;
+    transition: all 0.2s ease;
+    border-radius: 25px;
+}
+
+    .switch span {
+        position: absolute;
+        width: 20px;
+        height: 4px;
+        top: 50%;
+        left: 50%;
+        margin: -2px 0px 0px -4px;
+        background: #fff;
+        display: block;
+        transform: rotate(-45deg);
+        transition: all 0.2s ease;
+    }
+
+        .switch span:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            margin-top: -8px;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+
+input[type=radio] {
+    display: none;
+}
+
+.switch label {
+    cursor: pointer;
+    color: rgba(0,0,0,0.2);
+    width: 60px;
+    line-height: 22px;
+    transition: all 0.2s ease;
+}
+
+label[for=yes] {
+    position: absolute;
+    left: 0px;
+    height: 20px;
+}
+
+label[for=no] {
+    position: absolute;
+    right: 0px;
+}
+
+#no:checked ~ .switch {
+    background: #eb4f37;
+}
+
+    #no:checked ~ .switch span {
+        background: #fff;
+        margin-left: -8px;
+    }
+
+        #no:checked ~ .switch span:after {
+            background: #fff;
+            height: 20px;
+            margin-top: -8px;
+            margin-left: 8px;
+        }
+
+#yes:checked ~ .switch label[for=yes] {
+    color: #fff;
+}
+
+#no:checked ~ .switch label[for=no] {
+    color: #fff;
+}
+
+/*---------------------------------------*/
+
+.switch2 {
+    position: absolute;
+    width: 150px;
+    height: 26px;
+    text-align: center;
+    background: #00bc9c;
+    transition: all 0.2s ease;
+    border-radius: 25px;
+}
+
+    .switch2 span {
+        position: absolute;
+        width: 20px;
+        height: 4px;
+        top: 50%;
+        left: 50%;
+        margin: -2px 0px 0px -4px;
+        background: #fff;
+        display: block;
+        transform: rotate(-45deg);
+        transition: all 0.2s ease;
+    }
+
+        .switch2 span:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            margin-top: -8px;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+
+.switch2 label {
+    cursor: pointer;
+    color: rgba(0,0,0,0.2);
+    width: 80px;
+    line-height: 25px;
+    transition: all 0.2s ease;
+}
+
+label[for=yes2] {
+    position: absolute;
+    left: 0px;
+    height: 20px;
+}
+
+label[for=no2] {
+    position: absolute;
+    right: 0px;
+}
+
+#no2:checked ~ .switch2 {
+    background: #eb4f37;
+}
+
+    #no2:checked ~ .switch2 span {
+        background: #fff;
+        margin-left: -8px;
+    }
+
+        #no2:checked ~ .switch2 span:after {
+            background: #fff;
+            height: 20px;
+            margin-top: -8px;
+            margin-left: 8px;
+        }
+
+#yes2:checked ~ .switch2 label[for=yes2] {
+    color: #fff;
+}
+
+#no2:checked ~ .switch2 label[for=no2] {
+    color: #fff;
+}
+
+/*---------------------------------------*/
+
+.switch3{
+    position: absolute;
+    width: 150px;
+    height: 26px;
+    text-align: center;
+    background: #00bc9c;
+    transition: all 0.2s ease;
+    border-radius: 25px;
+}
+
+    .switch3 span {
+        position: absolute;
+        width: 20px;
+        height: 4px;
+        top: 50%;
+        left: 50%;
+        margin: -2px 0px 0px -4px;
+        background: #fff;
+        display: block;
+        transform: rotate(-45deg);
+        transition: all 0.2s ease;
+    }
+
+        .switch3 span:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            margin-top: -8px;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+
+    .switch3 label {
+        cursor: pointer;
+        color: rgba(0,0,0,0.2);
+        width: 80px;
+        line-height: 25px;
+        transition: all 0.2s ease;
+    }
+
+label[for=yes3] {
+    position: absolute;
+    left: 0px;
+    height: 20px;
+}
+
+label[for=no3] {
+    position: absolute;
+    right: 0px;
+}
+
+#no3:checked ~ .switch3 {
+    background: #eb4f37;
+}
+
+    #no3:checked ~ .switch3 span {
+        background: #fff;
+        margin-left: -8px;
+    }
+
+        #no3:checked ~ .switch3 span:after {
+            background: #fff;
+            height: 20px;
+            margin-top: -8px;
+            margin-left: 8px;
+        }
+
+#yes3:checked ~ .switch2 label[for=yes3] {
+    color: #fff;
+}
+
+#no3:checked ~ .switch3 label[for=no3] {
+    color: #fff;
+}
+
+/*---------------------------------------*/
+
+.switch4 {
+    position: absolute;
+    width: 150px;
+    height: 26px;
+    text-align: center;
+    background: #00bc9c;
+    transition: all 0.2s ease;
+    border-radius: 25px;
+}
+
+    .switch4 span {
+        position: absolute;
+        width: 20px;
+        height: 4px;
+        top: 50%;
+        left: 50%;
+        margin: -2px 0px 0px -4px;
+        background: #fff;
+        display: block;
+        transform: rotate(-45deg);
+        transition: all 0.2s ease;
+    }
+
+        .switch4 span:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            margin-top: -8px;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+
+    .switch4 label {
+        cursor: pointer;
+        color: rgba(0,0,0,0.2);
+        width: 80px;
+        line-height: 25px;
+        transition: all 0.2s ease;
+    }
+
+label[for=yes4] {
+    position: absolute;
+    left: 0px;
+    height: 20px;
+}
+
+label[for=no4] {
+    position: absolute;
+    right: 0px;
+}
+
+#no4:checked ~ .switch4 {
+    background: #eb4f37;
+}
+
+    #no4:checked ~ .switch4 span {
+        background: #fff;
+        margin-left: -8px;
+    }
+
+        #no4:checked ~ .switch4 span:after {
+            background: #fff;
+            height: 20px;
+            margin-top: -8px;
+            margin-left: 8px;
+        }
+
+#yes4:checked ~ .switch4 label[for=yes4] {
+    color: #fff;
+}
+
+#no4:checked ~ .switch4 label[for=no4] {
+    color: #fff;
+}

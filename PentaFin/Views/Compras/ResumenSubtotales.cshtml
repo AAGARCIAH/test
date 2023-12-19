@@ -1,0 +1,251 @@
+﻿@{
+    ViewBag.Title = "ResumenSubtotales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/Chart.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //START DOCUMENT
+        
+        //var arreglo = ["Red", "Green", "Yellow", "Grey", "Dark Grey"];
+        //var campanas = [];
+        //var colores = [];
+        //var subtotales = [];
+
+        //var totalmxn = "";
+        //var totalusd = "";
+
+        GetSubtotalesMes();
+
+        $("#Mes").change(function () {
+            GetSubtotalesMes();
+        });
+        
+        $("#Anio").change(function () {
+            GetSubtotalesMes();
+        });
+        /*
+        $.ajax({
+            url: '../Compras/GetCampanas',
+            type: "POST",
+            data: 1,
+            success: function (res) {
+
+                var head = "<tr>" +
+                        "<th></th>" +
+                        "<th>Campaña</th>" +
+                        "<th>Subtotal</th>" +
+                        "<th></th>" +
+                        "</tr>" +
+                        "</thead>";
+                $('#table').append(head);
+                $('#table2').append(head);
+
+                $.each(res, function (index) {
+                    campanas.push(res[index].Campana);
+                    colores.push(res[index].Color);
+                    subtotales.push(res[index].Subtotal);
+
+                    totalmxn = res[index].TotalMXN;
+                    totalusd = res[index].TotalUSD;
+                    
+                    var fila = "<tr>" +
+                            "<td></td>" +
+                            "<td>" + res[index].Campana + "</td>" +
+                            "<td>" + res[index].Subtotal + "</td>" +
+                            "<td></td>" +
+                            "</tr>";
+                    $('#table').append(fila);
+
+                    var fila2 = "<tr>" +
+                            "<td></td>" +
+                            "<td>" + res[index].Campana + "</td>" +
+                            "<td>" + res[index].SubtotalUSD + "</td>" +
+                            "<td></td>" +
+                            "</tr>";
+                    $('#table2').append(fila2);
+                });
+
+                $("#totmxn").text(totalmxn);
+                $("#totusd").text(totalusd);
+
+                },
+            error: function (err) {
+                //alert(err);
+            }
+        });*/
+
+    }); //END DOCUMENT
+
+    //FUNCIONES
+
+    function GetSubtotalesMes() {
+
+        var mes = $("#Mes").val();
+        var anio = $("#Anio").val();
+        //alert(mes);
+        //alert(anio);
+
+        $('#table').empty();
+        $('#table2').empty();
+
+        $('#tbltotmxn').empty();
+        $('#tbltotusd').empty();
+
+        var campanas = [];
+        var colores = [];
+        var subtotales = [];
+
+        var totalmxn = "";
+        var totalusd = "";
+
+        if (mes === '') {
+            $("#Mes").css("border-color", "red");
+            $("#Mes").focus();
+            alert("Seleccione Mes");
+            return;
+        } else {
+            $("#Mes").css("border-color", "#ccc");
+            $("#Mes").css("border-color", "#ccc");
+        }
+
+        if (anio === '') {
+            $("#Anio").css("border-color", "red");
+            $("#Anio").focus();
+            alert("Seleccione Año");
+            return;
+        } else {
+            $("#Anio").css("border-color", "#ccc");
+            $("#Anio").css("border-color", "#ccc");
+        }
+
+        $.ajax({
+            url: '../Compras/GetCampanas',
+            type: "POST",
+            data: {
+                nmes: mes,
+                nanio: anio
+            },
+            success: function (res) {
+
+                var titulomxn = "<caption>Subtotales en MXN</caption>";
+                var titulousd = "<caption>Subtotales en USD</caption>";
+
+                $('#table').append(titulomxn);
+                $('#table2').append(titulousd);
+
+                var head = "<tr>" +
+                        "<th></th>" +
+                        "<th>Campaña</th>" +
+                        "<th>Subtotal</th>" +
+                        "<th></th>" +
+                        "</tr>" +
+                        "</thead>";
+                $('#table').append(head);
+                $('#table2').append(head);
+
+                $.each(res, function (index) {
+                    campanas.push(res[index].Campana);
+                    colores.push(res[index].Color);
+                    subtotales.push(res[index].Subtotal);
+
+                    totalmxn = res[index].TotalMXN;
+                    totalusd = res[index].TotalUSD;
+
+                    var fila = "<tr>" +
+                            "<td></td>" +
+                            "<td>" + res[index].Campana + "</td>" +
+                            "<td>" + res[index].Subtotal + "</td>" +
+                            "<td></td>" +
+                            "</tr>";
+                    $('#table').append(fila);
+
+                    var fila2 = "<tr>" +
+                            "<td></td>" +
+                            "<td>" + res[index].Campana + "</td>" +
+                            "<td>" + res[index].SubtotalUSD + "</td>" +
+                            "<td></td>" +
+                            "</tr>";
+                    $('#table2').append(fila2);
+                });
+
+                $("#totmxn").text(totalmxn);
+                $("#totusd").text(totalusd);
+
+                var filatotmxn = "<tr>"+
+                    "<td style='width:50%; text-align:right; font-size:20px;'><b>Total</b></td>"+
+                    "<td style='width:50%; text-align:center; font-size:20px;'>"+totalmxn+"</td>"+
+                    "</tr>";
+
+                var filatotusd = "<tr>" +
+                    "<td style='width:50%; text-align:right; font-size:20px;'><b>Total</b></td>" +
+                    "<td style='width:50%; text-align:center; font-size:20px;'>" + totalusd + "</td>" +
+                    "</tr>";
+
+                $('#tbltotmxn').append(filatotmxn);
+                $('#tbltotusd').append(filatotusd);
+
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+</script>
+
+<div class="container-fluid" style="margin-top: 60px;">
+    
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4"><h2>Resumen Subtotales</h2></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <strong>Mes</strong>@Html.DropDownList("Mes", (SelectList)ViewBag.ListaMeses,"SELECCIONE MES"
+             , new {@class="form-control" })</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <strong>Año</strong>@Html.DropDownList("Anio", (SelectList)ViewBag.ListaAnios,"SELECCIONE AÑO"
+             , new {@class="form-control" })</div>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <table id="table" class="table table-hover">
+                <caption>Subtotales en MXN</caption>
+            </table>
+        </div>
+
+       <div class="col-md-2"></div>
+       <div class="col-md-4">
+            <table id="table2" class="table table-hover">
+                <caption>Subtotales en USD</caption>
+            </table>
+        </div>
+
+        <div class="col-md-1"></div>
+    </div>
+
+    <div class="row" style="margin-bottom:50px;">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <table id="tbltotmxn" style="width:100%;">
+            </table>
+        </div>
+
+       <div class="col-md-2"></div>
+       <div class="col-md-4">
+            <table id="tbltotusd" style="width:100%;">
+            </table>
+        </div>
+
+        <div class="col-md-1"></div>
+</div>

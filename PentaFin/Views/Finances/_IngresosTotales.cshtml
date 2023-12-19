@@ -1,0 +1,96 @@
+﻿@model List<PentaFinances.Dtos.IngresoTotDto>
+@{
+    ViewBag.Title = "_IngresosTotales";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">Mes</label><br />
+        @Html.DropDownList("MesDropDownList", (SelectList)@ViewBag.Meses, new { @class = "form-control", id="mes" })</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">A&ntilde;o</label><br />
+       @*<input id="year", class="yearselect form-control"/>*@
+        @Html.DropDownList("AnioDropDownList", (SelectList)@ViewBag.Anios, new { @class = "form-control", id="year" })
+    </div>
+</div>
+<br/>
+<div class="contenedor_ingtotales">
+    <table style="margin-left: 10px;">
+        @if (Model.Count > 0)
+        {
+            <tr>
+                <td style="vertical-align: top">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="incelda">
+                                    <label style="font-weight: bold;">
+                                        @*Ingreso*@
+                                    </label>
+                                </div>
+                                <div class="descrip" style="text-align: center;">
+                                    <label style="font-size: 14px; font-weight: bold;"><br/>Ingresos:</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+               @for (int i = 0; i < Model.Count; i++)
+                {
+                            
+                    <td style="vertical-align: top;">
+                        <table>
+                            <tr>
+                                <td style="background: #D8D8D8; text-align: center; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                         <label style="font-size: 14px; font-weight: bold;">
+                                             Ingresos Totales
+                                         </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td><b>Presupuesto</b><br/>
+                                                    @Html.TextBoxFor(m => Model[i].IngresosTotales.IngresosTotales.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda"><b>Forecast</b><br/>
+                                                    @Html.TextBoxFor(m => Model[i].IngresosTotales.IngresosTotales.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda"><b>Cierre</b><br/>
+                                                    @Html.TextBoxFor(m => Model[i].IngresosTotales.IngresosTotales.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda"><b>Real Contable</b><br/>
+                                                    @Html.TextBoxFor(m => Model[i].IngresosTotales.IngresosTotales.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                           
+                           
+                            <!-- END OF THE TABLE -->
+                        </table>
+                    </td>
+                        }
+            </tr>
+                }
+
+    </table>
+</div>
+
+<br/>
+<div class="col-md-12">
+      <div class="col-md-2 col-md-offset-5">
+          <button type="submit" formtarget="_self" class="btn btn-success btn-block" style="border-radius: 0px; font-weight: bold;">Guardar</button>
+    </div>
+</div>

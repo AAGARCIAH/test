@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("scripts", required: false)
+    <!-- CSS AREA -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <!-- JS AREA -->
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    @*<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+        <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+</head>
+<body>
+
+    <style type="text/css">
+        .btn:hover {
+            border-bottom: 1px white solid;
+        }
+
+        h4, h5 {
+            margin-left: 5px;
+        }
+
+        .colorPrin {
+            background-color: #BE0000
+        }
+
+        .colorHead {
+            background-color: #BE0000;
+            border: 1px solid black;
+        }
+
+        .colorCont {
+            background-color: #848484;
+            border: 1px solid black;
+        }
+
+        label {
+            font-weight: normal;
+        }
+
+        .textb {
+            border-radius: 0px;
+            border: 0px;
+            border-bottom: 1px gray solid;
+            border-left: 1px gray solid;
+            height: 25px;
+            width: 100%;
+            background-color: white;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+        }
+
+        .labelBold {
+            font-weight: bold;
+        }
+
+        .Notas {
+            border: 0px;
+            height: 20px;
+            width: 10%;
+            background-color: white;
+        }
+
+        .NotaFinal {
+            border: 0px;
+            height: 20px;
+            width: 12%;
+            color: white;
+            background-color: #BE0000;
+        }
+
+        .Previo {
+            border: 0px;
+            height: 20px;
+            width: 15%;
+            color: white;
+            background-color: #848484;
+        }
+
+        .Contenido {
+            border-bottom: 1px gray solid;
+            border-left: 1px gray solid;
+            padding: 0;
+            overflow: scroll;
+            overflow-x: hidden;
+            height: 150px;
+            /*-webkit-overflow-scrolling: touch;*/
+        }
+    </style>
+
+
+    <style type="text/css">
+        .celda {
+            height: 25px;
+            font-size: 10px;
+            width: 100%;
+        }
+
+        .incelda {
+            width: 120px;
+            height: 45px;
+        }
+
+        .inceldaindicadores {
+            width: 260px;
+            height: 45px;
+        }
+
+        .inceldarealcont {
+            width: 355px;
+            height: 45px;
+        }
+
+        .descrip {
+            border-bottom: 1px solid #424242;
+            width: 150px;
+            height: 45px;
+            margin-top: 1px;
+        }
+
+        .innerCelda {
+            padding: 1px;
+        }
+
+        input[type=text] {
+            padding: 0px;
+        }
+
+        .contenedor {
+            width: 95%;
+            margin-left: 2.5%;
+            max-height: 650px;
+            overflow-y: auto;
+            border-bottom: 2px solid #424242;
+            border-left: 2px solid #424242;
+            font-size: 12px;
+            margin-top: 35px;
+        }
+
+        .contenedor_ingtotales {
+            width: 88%;
+            margin: 0 auto;
+            /*margin-left: 2.5%;*/
+            max-height: 400px;
+            overflow-y: auto;
+            /*border-bottom: 2px solid #424242;
+        border-left: 2px solid #424242;*/
+            font-size: 12px;
+            margin-top: 35px;
+        }
+
+        .menuBtn {
+            border-radius: 0px;
+            color: white;
+            border: 0px;
+            background-color: #035398;
+            background-color: rgba(3, 83, 152, 0.9);
+        }
+    </style>
+
+    @RenderBody()
+
+
+</body>
+</html>

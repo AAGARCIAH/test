@@ -1,0 +1,278 @@
+﻿@model PentaFinances.Models.EvaluacionProveedores
+@{
+    ViewBag.Title = "EvaluacionProveedores";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btn_save").click(function () {
+
+            if ($("#proveedor").val() == "") {
+                $("#proveedor").css("border-color", "red");
+                $("#proveedor").focus();
+                return;
+            }
+            if ($("#Mes").val() == "") {
+                $("#Mes").css("border-color", "red");
+                $("#Mes").focus();
+                return;
+            }
+            if ($("#Anio").val() == "") {
+                $("#Anio").css("border-color", "red");
+                $("#Anio").focus();
+                return;
+            }
+            $("#frmCRM").submit();
+
+        });
+        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#Anio").change(function () {
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("_SearchEvaluacion", "Compras")',
+                dataType: 'json',
+                data: {
+                    proveedor: $("#proveedor").val(),
+                    mes: $("#Mes").val(),
+                    anio: $("#Anio").val()
+                },
+                success: function (result)
+                {
+                    $("#btn_save").css("display", "none");
+                    if (result != null) {
+                        if (result.Requisitos == false) {
+
+                            $("input[type='radio'][name='Requisitos'][id='no']").prop('checked', true);
+                        } else {
+                            $("input[type='radio'][name='Requisitos'][id='yes']").prop('checked', true);
+                        }
+                        //-----------
+                        if (result.Precio == false) {
+
+                            $("input[type='radio'][name='Precio'][id='no2']").prop('checked', true);
+                        } else {
+                            $("input[type='radio'][name='Precio'][id='yes2']").prop('checked', true);
+                        }
+                        //-----------
+                        if (result.Condiciones == false) {
+
+                            $("input[type='radio'][name='Condiciones'][id='no3']").prop('checked', true);
+                        } else {
+                            $("input[type='radio'][name='Condiciones'][id='yes3']").prop('checked', true);
+                        }
+                        //-----------
+                        if (result.Disponibilidad == false) {
+
+                            $("input[type='radio'][name='Disponibilidad'][id='no4']").prop('checked', true);
+                        } else {
+                            $("input[type='radio'][name='Disponibilidad'][id='yes4']").prop('checked', true);
+                        }
+
+                    }
+                },
+                error: function () {
+
+                    $("#btn_save").css("display", "table-row");
+                }
+            });
+        });
+        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $("#btn_report").click(function () {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Reporte", "Compras")',
+                dataType: 'json',
+                data: {
+
+                },
+                success: function (result)
+                {
+
+                    window.location.href = "../Content/test.xlsx";
+                    document.getElementById("loading").style.display = "none"
+                },
+                error: function () {
+
+                }
+            });
+        });
+         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    });//LLAVES DE CIERRE DOCUMENT READY
+
+
+    function ConsultaProveedores() {
+        var ano = $("#Anio").val();
+        var mes = $("#Mes").val();
+
+        $("#proveedor").empty();
+
+
+          $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GET_Proveedores", "Compras")',
+            dataType: 'json',
+              data: { Anio: ano, Mes: mes },
+            success: function (result) {
+                $("#proveedor").append('<option value="">SELECCIONE</option>');
+                $.each(result,
+                    function (i, group) {
+                        $("#IdProveedor").append('<option value="' + group.IdProveedor + '">' + group.Proveedor + '</option>');
+                    });
+            },
+            error: function () { }
+        });
+
+
+    }
+</script>
+<link href="~/Content/CSS/Tablas.css" rel="stylesheet" />
+<link href="~/Content/CSS/EvaluacionProv.css" rel="stylesheet" />
+<br />
+<br />
+<div class="container-fluid container " style="margin-top: 60px;margin-left:10%; align-content:center;">
+    @using (Html.BeginForm("SaveEvaluacionProveedores", "Compras", FormMethod.Post, new { id = "frmCRM" }))
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <h2 class="tittle">EVALUACIÓN PROVEEDORES</h2>
+            </div>
+        </div>
+        <hr />
+        <div class="col-lg-3 user-box">
+            <label style=" color: #f30379; font-size: 15px;">AÑO</label><br />
+            @Html.DropDownListFor(m => m.Anio, new List<SelectListItem> {
+                                         new SelectListItem() {Text = "2023", Value="2023"},
+                                         new SelectListItem() {Text = "2024", Value="2024"},
+                                         new SelectListItem() {Text = "2025", Value="2025"},
+                                         new SelectListItem() {Text = "2026", Value="2026"},
+                                         new SelectListItem() {Text = "2027", Value="2027"},
+                                         new SelectListItem() {Text = "2028", Value="2028"},
+                                         new SelectListItem() {Text = "2029", Value="2029" },
+                                         new SelectListItem() {Text = "2030", Value="2020"},}, "SELECCIONE",
+                                          new { @class = "cajatexto", @style = "max-width:80% !important;text-align:left" })
+        </div>
+        <div class="col-lg-3 user-box">
+            <label style=" color: #f30379; font-size: 15px;">MES</label><br />
+            @Html.DropDownListFor(m => m.Mes, new List<SelectListItem> {
+                                         new SelectListItem() {Text = "ENERO", Value="1"},
+                                         new SelectListItem() {Text = "FEBRERO", Value="2"},
+                                         new SelectListItem() {Text = "MARZO", Value="3"},
+                                         new SelectListItem() {Text = "ABRIL", Value="4"},
+                                         new SelectListItem() {Text = "MAYO", Value="5"},
+                                         new SelectListItem() {Text = "JUNIO", Value="6"},
+                                         new SelectListItem() { Text = "JULIO", Value = "7" },
+                                         new SelectListItem() {Text = "AGOSTO", Value="8"},
+                                         new SelectListItem() {Text = "SEPTIEMBRE", Value="9"},
+                                         new SelectListItem() {Text = "OCTUBRE", Value="10"},
+                                         new SelectListItem() {Text = "NOVIEMBRE", Value="11"},
+                                         new SelectListItem() {Text = "DICIEMBRE", Value="12"}, }, "SELECCIONE",
+                                          new { @class = "cajatexto", @style = "max-width:80% !important;text-align:left", onchange = "ConsultaProveedores();" })
+
+        </div>
+
+
+        <div class="col-lg-3 user-box">
+            <label style=" color: #f30379; font-size: 15px;">
+                PROVEEDOR
+            </label><br />
+            @Html.DropDownListFor(x => x.IdProveedor, (SelectList)@ViewBag.proveedores, "SELECCIONE", new { @class = "cajatexto", style = "width: 80%;" })
+
+        </div>
+        <br /> <br /> <br />
+        <br />
+        <table class="table table-sm table-prov" style="width:80%;">
+            <thead>
+                <tr>
+                    <th style="width:40%;">RUBRO</th>
+                    <th style="width:40%;">CUMPLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>REQUISITOS FISCALES, LEGALES, Y CV DEL PROVEEDOR</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.Requisitos, true, new { id = "yes", name = "requi", @checked = true })
+                        @Html.RadioButtonFor(m => m.Requisitos, false, new { id = "no", name = "requi" })
+                        @*<input type="radio"  id="yes" checked />
+                            <input type="radio"  id="no" />*@
+                        <div class="switch">
+                            <label for="yes">SI</label>
+                            <label for="no">NO</label>
+                            <span></span>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>PRECIO MÁS BAJO*</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.Precio, true, new { id = "yes2", name = "precio", @checked = true })
+                        @Html.RadioButtonFor(m => m.Precio, false, new { id = "no2", name = "precio" })
+                        @*<input type="radio" name="precio" id="yes2" checked />
+                            <input type="radio" name="precio" id="no2" />*@
+                        <div class="switch2">
+                            <label for="yes2">SI</label>
+                            <label for="no2">NO</label>
+                            <span></span>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>CONDICIONES COMERCIALES, (CRÉDITO 30 DÍAS)</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.Condiciones, true, new { id = "yes3", name = "condiciones", @checked = true })
+                        @Html.RadioButtonFor(m => m.Condiciones, false, new { id = "no3", name = "condiciones" })
+                        @*<input type="radio" name="condiciones" id="yes3" checked />
+                            <input type="radio" name="condiciones" id="no3" />*@
+                        <div class="switch3">
+                            <label for="yes3">SI</label>
+                            <label for="no3">NO</label>
+                            <span></span>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DISPONIBILIDAD DEL PRODCUTO Y/O SERVICIO </td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.Disponibilidad, true, new { id = "yes4", name = "disponibilidad", @checked = true })
+                        @Html.RadioButtonFor(m => m.Disponibilidad, false, new { id = "no4", name = "disponibilidad" })
+                        @*<input type="radio" name="disponibilidad" id="yes4" checked />
+                            <input type="radio" name="disponibilidad" id="no4" />*@
+                        <div class="switch4">
+                            <label for="yes4">SI</label>
+                            <label for="no4">NO</label>
+                            <span></span>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>TIEMPO DE ENTREGA</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>ATENCIÓN AL CLIENTE (NIVEL DE SERVICIO)</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <div id="divguarda" class="row small " style="text-align:right">
+                            <button id="btn_save" type="button" class="btn " style="width: 20%">
+                                <b>GUARDAR</b><i class="glyphicon glyphicon-chevron-right"></i>
+                            </button>
+
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br /><br />
+    }
+</div>

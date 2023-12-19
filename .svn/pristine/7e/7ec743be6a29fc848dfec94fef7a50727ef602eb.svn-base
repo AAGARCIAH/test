@@ -1,0 +1,521 @@
+﻿@model List<PentaFinances.Dtos.PrecioDto>
+@{
+    ViewBag.Title = "_Precios";
+}
+
+ <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="~/Scripts/jquery-1.9.1.js"></script>
+  <script src="~/Scripts/jquery-ui.js"></script>
+  <script src="~/Scripts/year-select.js"></script>
+
+  <script>
+  $( function() {
+     
+      var fecha = new Date();
+      var year = fecha.getFullYear();
+      $('.yearselect').yearselect({
+          order: 'desc',
+          start: 1990,
+          end: year,
+          selected: year
+      });
+
+  });
+
+  </script>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">Mes</label><br />
+        @Html.DropDownList("MesDropDownList",(SelectList)@ViewBag.Meses, "Seleccione Mes" , new {@class="form-control"})</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">A&ntilde;o</label><br />
+       <input class="yearselect form-control"></div>
+    
+</div>
+
+<div id="contenedor" class="contenedor">
+    <table style="margin-left: 10px;">
+        @if (Model.Count > 0)
+         {
+             <tr >
+             <td style="vertical-align: top;">
+                 <table>
+                     <tr>
+                         <td>
+                             <div class="incelda">
+                                 <label style="font-weight: bold;">
+                                     Metrica/Cliente
+                                 </label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Fijo</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Persona</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Estación Especializada</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Hora</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Minuto</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamada de Entrada</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Llamada de Salida</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Chat</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>SMS</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Email</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Venta</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Ticket de Venta</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Minutos de Entrada</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Minutos de Salida Fijo</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Minutos de Salida Celular</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Kiosco Virtual</label>
+                             </div>
+                             <div class="descrip">
+                                 <label>Servicio de Impresión y Escáner</label>
+                             </div>
+                         </td>
+                     </tr>
+                 </table>
+             </td>
+
+             @for (int i = 0;i < Model.Count; i++)
+             {
+
+                 <td style="vertical-align: top;">
+                 <table>
+                 <tr>
+                     <td style="background: #D8D8D8; text-align: center; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda">
+                             <label style="font-size: 10px; font-weight: bold;">
+                                 @Html.DisplayFor(m => Model[i].Campana.nombreCampana)
+                                 @Html.HiddenFor(m => Model[i].Campana.nombreCampana)
+                                 @Html.HiddenFor(m => Model[i].Campana.idCampana)
+                             </label>
+                         </div>
+                     </td>
+                 </tr>
+                 
+                     <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Fijo.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Fijo.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Fijo.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Persona.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Persona.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Persona.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.EstacionEspecializada.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.EstacionEspecializada.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.EstacionEspecializada.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Hora.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Hora.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Hora.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Minuto.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Minuto.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Minuto.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.LlamadaEntrada.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.LlamadaEntrada.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.LlamadaEntrada.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.LlamadaSalida.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.LlamadaSalida.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.LlamadaSalida.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Chat.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Chat.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Chat.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.SMS.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.SMS.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.SMS.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Email.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Email.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Email.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Venta.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Venta.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.Venta.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.TicketVenta.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.TicketVenta.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.TicketVenta.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosEntrada.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosEntrada.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosEntrada.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosSalidaFijo.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosSalidaFijo.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosSalidaFijo.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosSalidaCelular.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosSalidaCelular.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.MinutosSalidaCelular.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.KioscoVirtual.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.KioscoVirtual.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.KioscoVirtual.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+                 <tr>
+                     <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                         <div class="incelda" style="">
+                             <table>
+                                 <tr class="innerCelda">
+                                     <td>BI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.ServicioImpresiónyEscaner.Bi,
+                                             new {@class = "celda form-control", ReadOnly="true"})
+                                     </td>
+                                     <td class="innerCelda">OP<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.ServicioImpresiónyEscaner.Op,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                     <td class="innerCelda">CI<br/>
+                                         @Html.TextBoxFor(m => Model[i].Precios.ServicioImpresiónyEscaner.Ci,
+                                             new {@class = "celda form-control"})
+                                     </td>
+                                 </tr>
+                             </table>
+                         </div>
+                     </td>
+
+                 </tr>
+             <!-- END OF THE TABLE -->
+             </table>
+           </td>
+        }
+      </tr>
+         
+    }
+</table>
+</div>
+<div class="col-md-12">
+    <div class="col-md-2 col-md-offset-10">
+        <button type="submit" id="btnIngresos" class="btn btn-success btn-block" style="border-radius: 0px;">Guardar</button>
+    </div>
+</div>

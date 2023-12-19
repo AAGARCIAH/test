@@ -1,0 +1,401 @@
+﻿@model List<PentaFinances.Dtos.CostosDirectosDto>
+@{
+    ViewBag.Title = "_CostosDirectos";
+}
+
+
+  <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="~/Scripts/jquery-1.9.1.js"></script>
+  <script src="~/Scripts/jquery-ui.js"></script>
+  <script src="~/Scripts/year-select.js"></script>
+
+ <script>
+
+     $(document).ready(function() {
+         //START OF DOC READY
+         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ 
+      });//END DOCUMENT
+  </script>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">Mes</label><br />
+        @Html.DropDownList("MesDropDownList", (SelectList)@ViewBag.Meses, new { @class = "form-control", id="mes" })</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3"><label style="font-weight:bold; font-size:16px">A&ntilde;o</label><br />
+       @*<input id="year", class="yearselect form-control"/>*@
+        @Html.DropDownList("AnioDropDownList", (SelectList)@ViewBag.Anios, "Seleccione Año", new { @class = "form-control", id="year" })
+    </div>
+</div>
+
+<div class="contenedor">
+    <table style="margin-left: 10px;">
+        @if (Model.Count > 0)
+        {
+            <tr>
+                <td style="vertical-align: top">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="incelda">
+                                    <label style="font-weight: bold;">
+                                        Costos Totales
+                                    </label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Gerencial</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Operación</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Nómina Especial</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Renta de Equipo de Cómputo</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Servicios de Outsourcing</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Servicios Maquilados</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Seguros y Fianzas /Cuotas y suscripciones</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Directo</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Otros</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Licencias</label>
+                                </div>
+                                <div class="descrip">
+                                    <label>Aplicativo de Citas SNE</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+               @for (int i = 0; i < Model.Count; i++)
+                {
+                            
+                    <td style="vertical-align: top;">
+                        <table>
+                            <tr>
+                                <td style="background: #D8D8D8; text-align: center; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                         <label style="font-size: 10px; font-weight: bold;">
+                                           @Html.DisplayFor(m => Model[i].Campana.nombreCampana)
+                                           @Html.HiddenFor(m => Model[i].Campana.nombreCampana)
+                                           @Html.HiddenFor(m => Model[i].Campana.idCampana)
+                                         </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Gerencial.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Gerencial.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Cierre<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Gerencial.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Gerencial.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Operacion.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Operacion.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Cierre<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Operacion.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                 <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.Operacion.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.NominaEspecial.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.NominaEspecial.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Cierre<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.NominaEspecial.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.NominaEspecial.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.RentaEquipoComputo.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.RentaEquipoComputo.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Cierre<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.RentaEquipoComputo.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.RentaEquipoComputo.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosOutsourcing.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosOutsourcing.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Cierre<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosOutsourcing.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosOutsourcing.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosMaquilados.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosMaquilados.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Cierre<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosMaquilados.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.ServiciosMaquilados.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.SegurosyFianzasCuotas_Suscripciones.Pt,"{0:N4}",
+                                                        new {@class = "celda form-control", ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.SegurosyFianzasCuotas_Suscripciones.Fr,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda">Cierre<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.SegurosyFianzasCuotas_Suscripciones.Ci,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                                <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.SegurosyFianzasCuotas_Suscripciones.Re,"{0:N4}",
+                                                        new {@class = "celda form-control"})
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                <div class="inceldarealcont">
+                                    <table>
+                                        <tr class="innerCelda">
+                                            <td>Presupuesto<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Directo.Pt,"{0:N4}",
+                                                    new {@class = "celda form-control", ReadOnly="true"})
+                                            </td>
+                                            <td class="innerCelda">Forecast<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Directo.Fr,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda">Cierre<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Directo.Ci,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                             <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Directo.Re,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                <div class="inceldarealcont">
+                                    <table>
+                                        <tr class="innerCelda">
+                                            <td>Presupuesto<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Otros.Pt,"{0:N4}",
+                                                    new {@class = "celda form-control", ReadOnly="true"})
+                                            </td>
+                                            <td class="innerCelda">Forecast<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Otros.Fr,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda">Cierre<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Otros.Ci,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Otros.Re,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                <div class="inceldarealcont">
+                                    <table>
+                                        <tr class="innerCelda">
+                                            <td>Presupuesto<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Licencias.Pt,"{0:N4}",
+                                                    new {@class = "celda form-control", ReadOnly="true"})
+                                            </td>
+                                            <td class="innerCelda">Forecast<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Licencias.Fr,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                            <td class="innerCelda">Cierre<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Licencias.Ci,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                             <td class="innerCelda" style="border-right:groove">Real Contable<br/>
+                                                @Html.TextBoxFor(m => Model[i].CostosDirectos.Licencias.Re,"{0:N4}",
+                                                    new {@class = "celda form-control"})
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                         <tr>
+                             <td style="border-bottom: 1px solid black; padding-left: 5px; padding-right: 5px;">
+                                    <div class="inceldarealcont">
+                                        <table>
+                                            <tr class="innerCelda">
+                                                <td>Presupuesto<br />
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.AplicativoCitasSNE.Pt,"{0:N4}",
+                                                                    new { @class = "celda form-control" , ReadOnly="true"})
+                                                </td>
+                                                <td class="innerCelda">Forecast<br />
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.AplicativoCitasSNE.Fr,"{0:N4}",
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda">Cierre<br />
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.AplicativoCitasSNE.Ci,"{0:N4}",
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                                <td class="innerCelda" style="border-right:groove">Real Contable<br />
+                                                    @Html.TextBoxFor(m => Model[i].CostosDirectos.AplicativoCitasSNE.Re,"{0:N4}",
+                                                                    new { @class = "celda form-control" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                           
+                            <!-- END OF THE TABLE -->
+                        </table>
+                    </td>
+                        } <!-- END FOR-->
+            </tr>
+                } <!-- END IF-->
+      </table> <!-- END OF THE TABLE ALL CONTAINER -->
+</div>
+
+<br/>
+<div class="col-md-12">
+      <div class="col-md-2 col-md-offset-5">
+        <button type="submit" formtarget="_self"  class="btn btn-success btn-block" style="border-radius: 0px;">Guardar</button>
+    </div>
+</div>

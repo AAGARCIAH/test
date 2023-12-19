@@ -1,0 +1,41 @@
+﻿
+@font-face {
+    font-family: 'open-sans.light';
+    src: url('../fonts/open-sans.light.ttf') format('truetype');
+}
+
+.navLetra {
+    font-family: 'open-sans.light';
+}
+input[type="file"]#cargar-archivo{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+label[for="cargar-archivo"] {
+    font-size: 30px;
+    font-weight: 300;
+    color: #fff;
+    background-color: #e8d0b3;
+    display: inline-block;
+    transition: all .5s;
+    cursor: pointer;
+    padding: 5px 10px !important;
+    text-transform: uppercase;
+    width: min-content;
+    text-align: center;
+}
+/*.carga {
+    overflow: hidden;
+    z-index: -1;
+    font-size: 12px;
+    font-weight: 600;
+    color: black;
+    background-color: #e8d0b3;
+    display: inline-block;
+    border: 0px;
+}*/

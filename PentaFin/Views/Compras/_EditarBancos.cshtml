@@ -1,0 +1,27 @@
+﻿@model PentaFinances.Models.CatalogoBancos
+
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10">
+            <div class="col-md-2">
+                <label style="display: inline-block;"><b>Banco</b></label>
+            </div>
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.Id, (SelectList) @ViewBag.ListaBancos, "SELECCIONE"
+                    , new {style = "width: 70%; display: inline-block;", @class = "form-control input-sm"})
+            </div>
+           </div>
+    </div>
+    
+    <div class="col-md-12">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10">
+            <label style="display: inline-block;"><b>Nombre</b></label>
+            @Html.TextBoxFor(m => m.Banco
+                , new { style = "width: 70%; display: inline-block;", @class = "form-control input-sm" })
+        </div>
+    </div>
+</div>

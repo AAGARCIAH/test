@@ -1,0 +1,119 @@
+﻿@model PentaFinances.Models.EncuestaSolicitanteProveedorDetalles
+
+@{
+    ViewBag.Title = "EncuestaSolicitanteProveedor";
+}
+
+<style type="text/css">
+
+</style>
+
+<div class="container-fluid">
+    
+    <div class="row small" style="margin-top: 50px;">
+        <div class="col-md-10 col-md-offset-1">
+            <h3>Encuesta Solicitante-Proveedor</h3>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row small">
+        <div class="form-group col-md-10 col-md-offset-1">
+            <label><b>Folio</b>&nbsp;&nbsp;</label>@Html.DisplayFor(m => m.Folio, new {style = "display: inline-block"})
+            <br/>
+            <br/>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: right; width: 10%;"><b>Solicitante</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;"></td>
+                    <td style="text-align: right; width: 15%;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;"></td>
+                    <td style="text-align: right; width: 10%;"><b>Campaña</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left; width: 19%;">@Html.DisplayFor(m => m.Campana)</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: right;"><b>Departamento</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;">@Html.DisplayFor(m => m.Departamento)</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><b>Usuario Final</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: right;"><b>Correo Electrónico</b>&nbsp;&nbsp;</td>
+                    <td style="text-align: left;"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <hr/>
+        </div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table" style="width: 100%">
+            <tr>
+                <td style="width: 30%">
+                    <label><b>¿El bien o servicio es lo que necesitaba?</b></label>
+                </td>
+                <td style="width: 30%">
+                    @Html.DropDownListFor(m => m.BienServicioEsloqueNecesitaba, (SelectList) @ViewBag.ListaSiNo, "SELECCIONE"
+                        , new {@class = "form-control", style = "width: 50%; display: inline-block"})
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label><b>¿Como califica al proveedor?</b></label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.CalificacionProveedor, (SelectList) @ViewBag.Calificacion, "SELECCIONE"
+                        , new {@class = "form-control", style = "width: 50%; display: inline-block"})
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label><b>¿Continuarías con este proveedor?</b></label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.ContinuariasconProveedor, (SelectList) @ViewBag.ListaSiNo, "SELECCIONE"
+                        , new {@class = "form-control", style = "width: 50%; display: inline-block"})
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label><b>¿Como califícas el tiempo de respuesta?</b></label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.ComoCalificacriasTiempoRespuesta, (SelectList) @ViewBag.Calificacion, "SELECCIONE"
+                        , new {@class = "form-control", style = "width: 50%; display: inline-block"})
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label><b>Observaciones</b></label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.Observaciones, (SelectList) @ViewBag.ListaSiNo, "SELECCIONE"
+                        , new {@class = "form-control", style = "width: 50%; display: inline-block"})
+                    <br/><br/>
+                    @Html.TextAreaFor(m => m.ComentariosObservaciones
+                        , new {@class = "form-control", style = "width: 100%; display: inline-block"})
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+</div>

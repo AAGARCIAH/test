@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Gastos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .is-invalid {
+        border-color: red;
+        outline-color: red;
+    }
+</style>
+
+@*CHARGIN SCRIPTS*@
+<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.es.min.js"></script>
+
+<link href="~/Content/CSS/Levantamiento.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        //START DOCUMENT
+
+        $(function () {
+            $(".datepicker").datepicker({ format: 'dd/mm/yyyy', language: "es", autoclose: true });
+        });
+        $('.input-daterange').datepicker({
+            format: 'dd/mm/yyyy', language: "es", autoclose: true
+        });
+
+        $("#btnGenerarReporte").click(function () {
+            var fechaI = $("#fechaIni").val();
+            var fechaF = $("#fechaFin").val();
+            var soli = $("#solicitante").val();
+            var camp = $("#campana").val();
+
+            $("#divImgDescarga").empty();
+
+            if (fechaI === "" || fechaF === "") {
+                $("#fechaIni, #fechaFin").addClass('is-invalid');
+                return false;
+            }
+            $("#fechaIni, #fechaFin").removeClass('is-invalid');
+
+            $.ajax({
+                url: "@Url.Action("GetReporteGastos")",
+                type: "POST",
+                data: { fechaInicio: fechaI, fechaFin: fechaF, solicita: soli, campana: camp },
+                success: function (result) {
+                   window.open("../Content/Gastos.csv");
+                }
+            });
+        });
+
+
+        $(document).ajaxStart(function () {
+            $('#loading-image').show();
+        }).ajaxStop(function () {
+            $('#loading-image').hide();
+        });
+
+    }); //END DOCUMENT
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</script>
+
+<div class=" login-box" style="margin-top: 60px;">
+    <h2>REPORTE DE GASTOS</h2>
+
+
+        <div class="form user-box">
+            <div class="form-group">
+                <br />
+                <label style=" color: #f30379;">RANGO DE FECHAS</label><br />
+                <div class="input-daterange input-group" id="datepicker">
+                    <input id="fechaIni" type="text" class="form-control" name="start" />
+                    <span class="input-group-addon">a</span>
+                    <input id="fechaFin" type="text" class="form-control " name="end" />
+                </div>
+            </div>
+        </div>
+
+    <div class="form user-box ">
+        <div class="form-group">
+            <br />
+            <label style=" color: #f30379;">SOLICITANTE</label><br />
+            @Html.DropDownList("solicitante", (SelectList)@ViewBag.Solicitantes, "SELECCIONE"
+                , new { @class = "cajatexto", style = "width:100%;" })
+        </div>
+    </div>
+
+
+    <div class="form user-box ">
+        <div class="form-group">
+            <br />
+            <label style=" color: #f30379;">CAMPAÑA</label><br />
+            @Html.DropDownList("campana", (SelectList)@ViewBag.Campanas, "SELECCIONE"
+                , new { @class = "cajatexto", style = "width:100%;" })
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-10"></div>
+
+        <div id="divguarda" class="row small" style="text-align:right">
+            <button id="btnGenerarReporte" type="button" class="btn ">
+                <b>GENERAR REPORTE </b><i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-2 col-md-offset-5">
+        <div id="divDescarga" style="width: 30%; float: left;">
+
+            <div id="divImgDescarga" style="margin: 20px;"></div>
+            <img id="loading-image" src="~/Content/Images/procesando.gif" style="width: 100px; height: 80px;" hidden />
+        </div>
+    </div>
+</div>
+
+</div>

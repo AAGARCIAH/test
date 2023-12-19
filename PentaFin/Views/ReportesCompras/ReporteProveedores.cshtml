@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "ReporteProveedores";
+}
+
+<style type="text/css">
+    .is-invalid {
+        border-color: red;
+        outline-color: red;
+    }
+</style>
+
+
+@*CHARGIN SCRIPTS*@
+<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.es.min.js"></script>
+
+<link href="~/Content/CSS/Levantamiento.css" rel="stylesheet" />
+<script type="text/javascript">
+    var anio;
+    $(document).ready(function () {
+        //START DOCUMENT
+
+        
+
+        $("#btnGenerarReporte").click(function () {
+            anio = $("#anio").val();
+
+             $("#divImgDescarga").empty();
+
+           
+
+            $.ajax({
+                url: '@Url.Action("GeneraReporteProveedores", "ReportesCompras")',
+                type: "POST",
+                data: { Anio: anio},
+                success: function (result) {
+
+                    if (result != "Generado") {
+                        alert(result);
+                        return;
+                    }
+                    
+
+                    //var callerFunction = function () {
+                    //    $('#loading-image').hide();
+                    //    window.open("../Content/Proveedores_" + anio + ".xlsx");
+                    //};
+                    //setTimeout(callerFunction, 5000);
+
+                    window.open("../Content/Proveedores_" + anio +".xlsx");
+                }
+            });
+        });
+
+
+        $(document).ajaxStart(function () {
+            $('#loading-image').show();
+        }).ajaxStop(function () {
+            $('#loading-image').hide();
+        });
+
+    }); //END DOCUMENT
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</script>
+
+<div class=" login-box" style="margin-top: 60px;">
+
+
+    <h2>REPORTE EVALUACIÓN DE PROVEEDORES</h2>
+
+    <div class="form user-box ">
+        <div class="form-group">
+            <br />
+            <label style=" color: #f30379;">AÑO</label><br />
+            @Html.DropDownList("anio", new SelectList(ViewBag.Años, "Value", "Text"), "SELECCIONE"
+                     , new { @class = "cajatexto", style = "width:100%;", id = "anio" })
+        </div>
+    </div>
+   
+
+    <div class="row">
+
+        <div id="divguarda" class="row small" style="text-align:right">
+            <button id="btnGenerarReporte" type="button" class="btn ">
+                <b>GENERAR REPORTE </b><i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2 col-md-offset-5">
+            <div id="divDescarga" style="width: 30%; float: left;">
+
+                <div id="divImgDescarga" style="margin: 20px;"></div>
+                <img id="loading-image" src="~/Content/Images/procesando.gif" style="width: 100px; height: 80px;" hidden />
+            </div>
+        </div>
+    </div>
+
+</div>
